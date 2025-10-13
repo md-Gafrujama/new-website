@@ -2,9 +2,8 @@
 import './globals.css';
 import { Quicksand } from 'next/font/google';
 
-import LowNav from '@/components/lowNav';
-
-import Footer from '@/components/Footer';
+import LayoutWrapper from '@/components/LayoutWrapper';
+import { AdminAuthProvider } from '@/context/AdminAuthContext';
 
 export const metadata = {
   title: 'Quore B2B Marketing',
@@ -25,17 +24,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={quicksand.variable}>
       <body className="min-h-screen flex flex-col">
-        <header>
-   
-          <LowNav />
-        </header>
-        
-        <main className="flex-grow">
-          {children}
-        
-        </main>
-        
-        <Footer />
+        <AdminAuthProvider>
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
+        </AdminAuthProvider>
       </body>
     </html>
   );

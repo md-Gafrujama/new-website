@@ -40,7 +40,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4 sm:px-6 lg:px-8 mt-13">
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
           {/* Header */}

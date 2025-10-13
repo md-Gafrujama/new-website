@@ -55,7 +55,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex items-center justify-center py-20">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading dashboard...</p>
@@ -66,7 +66,7 @@ const Dashboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="flex items-center justify-center py-20">
         <div className="text-center">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -86,41 +86,33 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Welcome, {adminProfile?.firstName || 'Admin'}! 🎉
-              </h1>
-              <p className="text-gray-600 mt-1">
-                You have successfully logged into the admin dashboard
+      <div className="mb-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Welcome, {adminProfile?.firstName || 'Admin'}! 🎉
+            </h1>
+            <p className="text-gray-600 mt-1">
+              You have successfully logged into the admin dashboard
+            </p>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="text-right">
+              <p className="text-sm font-medium text-gray-900">
+                {adminProfile?.firstName} {adminProfile?.lastName}
               </p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">
-                  {adminProfile?.firstName} {adminProfile?.lastName}
-                </p>
-                <p className="text-xs text-gray-500 capitalize">
-                  {adminProfile?.role} Account
-                </p>
-              </div>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors duration-200"
-              >
-                Logout
-              </button>
+              <p className="text-xs text-gray-500 capitalize">
+                {adminProfile?.role} Account
+              </p>
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Main Content */}
-      <main className="p-6">
+      <div>
         {/* Welcome Message */}
         <div className="mb-8">
           <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl p-8 text-white">
@@ -282,7 +274,7 @@ const Dashboard = () => {
             Visit Main Website
           </a>
         </div>
-      </main>
+      </div>
     </div>
   );
 };

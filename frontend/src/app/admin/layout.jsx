@@ -1,3 +1,5 @@
+import AdminLayoutWrapper from '@/components/admin/AdminLayoutWrapper';
+
 export const metadata = {
   title: 'Admin Panel - Quore B2B',
   description: 'Admin authentication and management',
@@ -5,5 +7,9 @@ export const metadata = {
 };
 
 export default function AdminLayout({ children }) {
-  return children;
+  return (
+    <AdminLayoutWrapper>
+      {children}
+    </AdminLayoutWrapper>
+  );
 }
