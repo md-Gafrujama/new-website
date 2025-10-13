@@ -6,6 +6,8 @@ require('dotenv').config();
 const connectDB = require('./config/database');
 const authRoutes = require('./routes/auth');
 const websiteRequestRoutes = require('./routes/websiteRequestRoutes'); // Add this line
+const mobileAppRequestRoutes = require('./routes/mobileAppRequestRoutes');
+const cloudHostingRoutes = require('./routes/cloudHostingRoutes');
 
 const app = express();
 
@@ -73,6 +75,10 @@ if (process.env.NODE_ENV === 'development') {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/website-requests', websiteRequestRoutes); // Add this line
+// Add this route registration with your other routes
+app.use('/api/mobile-app-requests', mobileAppRequestRoutes);
+// Add this route registration with your other routes
+app.use('/api/cloud-hosting-requests', cloudHostingRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -83,7 +89,9 @@ app.get('/', (req, res) => {
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
     services: [
-      'Website Design & Development'
+      'Website Design & Development',
+       'Mobile Application Development', // Add this line
+        'Cloud, Hosting & Maintenance'  // Add this line
     ],
     features: [
       'Email-based OTP authentication',
@@ -123,7 +131,9 @@ app.use('*', (req, res) => {
     timestamp: new Date().toISOString(),
     availableEndpoints: [
       '/api/auth/*',
-      '/api/website-requests/*'
+      '/api/website-requests/*',
+      '/api/mobile-app-requests/*',
+  '/api/cloud-hosting-requests/*'
     ]
   });
 });
