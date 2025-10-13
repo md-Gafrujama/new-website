@@ -8,6 +8,11 @@ const authRoutes = require('./routes/auth');
 const websiteRequestRoutes = require('./routes/websiteRequestRoutes'); // Add this line
 const mobileAppRequestRoutes = require('./routes/mobileAppRequestRoutes');
 const cloudHostingRoutes = require('./routes/cloudHostingRoutes');
+const crmSolutionRoutes = require('./routes/crmSolutionRoutes');
+const hrmsSolutionRoutes = require('./routes/hrmsSolutionRoutes');
+
+const aiContentRoutes = require('./routes/aiContentRoutes');
+
 
 const app = express();
 
@@ -79,6 +84,9 @@ app.use('/api/website-requests', websiteRequestRoutes); // Add this line
 app.use('/api/mobile-app-requests', mobileAppRequestRoutes);
 // Add this route registration with your other routes
 app.use('/api/cloud-hosting-requests', cloudHostingRoutes);
+app.use('/api/crm-solution-requests', crmSolutionRoutes);
+app.use('/api/hrms-solution-requests', hrmsSolutionRoutes);
+app.use('/api/ai-content-requests', aiContentRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -91,7 +99,10 @@ app.get('/', (req, res) => {
     services: [
       'Website Design & Development',
        'Mobile Application Development', // Add this line
-        'Cloud, Hosting & Maintenance'  // Add this line
+        'Cloud, Hosting & Maintenance',  // Add this line
+        'CRM Solutions',
+        'HRMS Solutions',
+      'AI Content Generation'
     ],
     features: [
       'Email-based OTP authentication',
@@ -133,7 +144,11 @@ app.use('*', (req, res) => {
       '/api/auth/*',
       '/api/website-requests/*',
       '/api/mobile-app-requests/*',
-  '/api/cloud-hosting-requests/*'
+  '/api/cloud-hosting-requests/*',
+  '/api/crm-solution-requests/*',
+  '/api/hrms-solution-requests/*',
+      '/api/health',
+      '/api/ai-content-requests/*'
     ]
   });
 });
