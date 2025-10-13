@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const connectDB = require('./config/database');
 const authRoutes = require('./routes/auth');
+const websiteRequestRoutes = require('./routes/websiteRequestRoutes'); // Add this line
 
 const app = express();
 
@@ -32,7 +33,7 @@ const corsOptions = {
   },
   credentials: process.env.CORS_CREDENTIALS === 'true',
   optionsSuccessStatus: 200,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'], // Add PATCH
   allowedHeaders: ['Content-Type', 'Authorization']
 };
 
@@ -71,21 +72,26 @@ if (process.env.NODE_ENV === 'development') {
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/website-requests', websiteRequestRoutes); // Add this line
 
 // Root endpoint
 app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: 'Admin Email Auth API Server',
+    message: 'Website Request API Server',
     version: '1.0.0',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development',
+    services: [
+      'Website Design & Development'
+    ],
     features: [
       'Email-based OTP authentication',
       'Two-factor authentication',
       'JWT token management',
       'Rate limiting protection',
-      'Account lockout protection'
+      'Account lockout protection',
+      'Website Design Form Processing'
     ]
   });
 });
@@ -102,7 +108,8 @@ app.get('/api/health', (req, res) => {
       total: `${Math.round(process.memoryUsage().heapTotal / 1024 / 1024)} MB`
     },
     environment: process.env.NODE_ENV || 'development',
-    nodeVersion: process.version
+    nodeVersion: process.version,
+    servicesActive: 1
   });
 });
 
@@ -113,7 +120,11 @@ app.use('*', (req, res) => {
     message: 'Route not found',
     path: req.originalUrl,
     method: req.method,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    availableEndpoints: [
+      '/api/auth/*',
+      '/api/website-requests/*'
+    ]
   });
 });
 
@@ -142,13 +153,15 @@ const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || '0.0.0.0';
 
 const server = app.listen(PORT, HOST, () => {
-  console.log(`\n🚀 Server Started Successfully!`);
+  console.log(`\n🚀 Website Request API Server Started Successfully!`);
   console.log(`📍 Address: http://${HOST === '0.0.0.0' ? 'localhost' : HOST}:${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`📧 Email Service: ${process.env.EMAIL_SERVICE || 'gmail'}`);
   console.log(`🔐 JWT Expiry: ${process.env.JWT_EXPIRE || '24h'}`);
   console.log(`⏰ OTP Expiry: ${process.env.OTP_EXPIRY_MINUTES || 5} minutes`);
-  console.log(`🔄 Started at: ${new Date().toISOString()}\n`);
+  console.log(`🔄 Started at: ${new Date().toISOString()}`);
+  console.log(`✅ Services Active: 1 (Website Requests)`);
+  console.log(`🎯 Ready to accept website requests!\n`);
 });
 
 // Graceful shutdown handlers
