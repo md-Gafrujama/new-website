@@ -112,6 +112,36 @@ class AdminAPI {
       method: 'POST',
     });
   }
+
+  // Get Website Requests
+  async getWebsiteRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/website-requests?${queryString}`);
+  }
+
+  // Get Mobile App Requests
+  async getMobileAppRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/mobile-app-requests?${queryString}`);
+  }
+
+  // Get Cloud Hosting Requests
+  async getCloudHostingRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/cloud-hosting-requests?${queryString}`);
+  }
+
+  // Get CRM Solution Requests
+  async getCrmSolutionRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/crm-solution-requests?${queryString}`);
+  }
+
+  // Get HRMS Solution Requests
+  async getHrmsSolutionRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/hrms-solution-requests?${queryString}`);
+  }
 }
 
 export default new AdminAPI();

@@ -50,6 +50,15 @@ const Sidebar = ({ isCollapsed, onToggleCollapse }) => {
       ],
     },
     {
+      label: "Client Leads",
+      icon: BuildingOfficeIcon,
+      iconSolid: BuildingOfficeIconSolid,
+      subItems: [
+        { title: "Leads", href: "/admin/client-leads" },
+        // { title: "", href: "/admin/company-overview/departments" },
+      ],
+    },
+    {
       label: "Settings",
       icon: Cog6ToothIcon,
       iconSolid: Cog6ToothIconSolid,
