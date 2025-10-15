@@ -151,59 +151,10 @@ mobileAppRequestSchema.index({ appType: 1 });
 mobileAppRequestSchema.index({ preferredFramework: 1 });
 mobileAppRequestSchema.index({ budgetRange: 1 });
 
-// Compound indexes
-mobileAppRequestSchema.index({ status: 1, submittedAt: -1 });
-mobileAppRequestSchema.index({ appType: 1, status: 1 });
-
 // Pre-save middleware
 mobileAppRequestSchema.pre('save', function(next) {
   this.updatedAt = new Date();
   next();
 });
-
-// Instance methods
-mobileAppRequestSchema.methods.getEstimatedCost = function() {
-  const baseCosts = {
-    '$2,000 - $5,000': 3500,
-    '$5,000 - $10,000': 7500,
-    '$10,000 - $25,000': 17500,
-    '$25,000 - $50,000': 37500,
-    '$50,000 - $100,000': 75000,
-    '$100,000+': 100000
-  };
-  return baseCosts[this.budgetRange] || 0;
-};
-
-mobileAppRequestSchema.methods.isComplexProject = function() {
-  const complexFeatures = ['AR/VR Features', 'Video Streaming', 'Analytics Integration', 'Biometric Authentication'];
-  return this.mainFeatures.some(feature => complexFeatures.includes(feature));
-};
-
-// Static methods
-mobileAppRequestSchema.statics.getDashboardStats = async function() {
-  const stats = await this.aggregate([
-    {
-      $group: {
-        _id: '$status',
-        count: { $sum: 1 }
-      }
-    }
-  ]);
-  
-  const result = {
-    pending: 0,
-    reviewed: 0,
-    'in-progress': 0,
-    completed: 0,
-    total: 0
-  };
-  
-  stats.forEach(stat => {
-    result[stat._id] = stat.count;
-    result.total += stat.count;
-  });
-  
-  return result;
-};
 
 module.exports = mongoose.model('MobileAppRequest', mobileAppRequestSchema);

@@ -1,23 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const {
+  submitMobileAppRequest,
+  getAllMobileAppRequests,
+  getMobileAppRequestById,
+  updateMobileAppRequestStatus
+} = require('../controllers/mobileAppRequestController');
 
-// Simple test route
-router.get('/', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Mobile app requests endpoint working',
-    timestamp: new Date().toISOString()
-  });
-});
+// Submit new mobile app request
+router.post('/', submitMobileAppRequest);
 
-// Test POST route
-router.post('/', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Mobile app request received (test mode)',
-    data: req.body,
-    timestamp: new Date().toISOString()
-  });
-});
+// Get all mobile app requests
+router.get('/', getAllMobileAppRequests);
+
+// Get specific mobile app request by ID
+router.get('/:id', getMobileAppRequestById);
+
+// Update mobile app request status
+router.patch('/:id/status', updateMobileAppRequestStatus);
 
 module.exports = router;

@@ -12,6 +12,13 @@ const crmSolutionRoutes = require('./routes/crmSolutionRoutes');
 const hrmsSolutionRoutes = require('./routes/hrmsSolutionRoutes');
 
 const aiContentRoutes = require('./routes/aiContentRoutes');
+const digitalMarketingRoutes = require('./routes/digitalMarketingRoutes');
+const ecommerceProjectRoutes = require('./routes/ecommerceProjectRoutes');
+const lmsRoutes = require('./routes/lmsRoutes');
+const healthcareRoutes = require('./routes/healthcareRoutes');
+
+
+
 
 
 const app = express();
@@ -87,8 +94,10 @@ app.use('/api/cloud-hosting-requests', cloudHostingRoutes);
 app.use('/api/crm-solution-requests', crmSolutionRoutes);
 app.use('/api/hrms-solution-requests', hrmsSolutionRoutes);
 app.use('/api/ai-content-requests', aiContentRoutes);
-
-// Root endpoint
+app.use('/api/digital-marketing-requests', digitalMarketingRoutes);
+app.use('/api/ecommerce-project-requests', ecommerceProjectRoutes);
+app.use('/api/lms-requests', lmsRoutes);
+app.use('/api/healthcare-requests', healthcareRoutes);
 app.get('/', (req, res) => {
   res.json({
     success: true,
@@ -102,7 +111,11 @@ app.get('/', (req, res) => {
         'Cloud, Hosting & Maintenance',  // Add this line
         'CRM Solutions',
         'HRMS Solutions',
-      'AI Content Generation'
+      'AI Content Generation',
+      'Digital Marketing',  // Add this
+      'E-commerce Project Development', // Add this line
+      'Learning Management Systems (LMS)',
+      'Healthcare Solutions'
     ],
     features: [
       'Email-based OTP authentication',
@@ -110,7 +123,18 @@ app.get('/', (req, res) => {
       'JWT token management',
       'Rate limiting protection',
       'Account lockout protection',
-      'Website Design Form Processing'
+      'Website Design Form Processing',
+      'Mobile App Request Form Processing', // Add this line
+        'Cloud & Hosting Request Form Processing', // Add this line
+        'CRM Solution Request Form Processing',
+        'HRMS Solution Request Form Processing',
+      'AI Content Request Form Processing',
+      'Digital Marketing Request Form Processing',
+      'E-commerce Project Request Form Processing', // Add this line
+      'LMS Request Form Processing',
+      'Healthcare Request Form Processing'
+      
+
     ]
   });
 });
@@ -148,7 +172,11 @@ app.use('*', (req, res) => {
   '/api/crm-solution-requests/*',
   '/api/hrms-solution-requests/*',
       '/api/health',
-      '/api/ai-content-requests/*'
+      '/api/ai-content-requests/*',
+      '/api/digital-marketing-requests/*',
+      '/api/ecommerce-project-requests/*'
+      ,'/api/lms-requests/*',
+      '/api/healthcare-requests/*'
     ]
   });
 });
