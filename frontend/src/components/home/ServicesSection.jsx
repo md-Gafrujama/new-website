@@ -39,7 +39,8 @@ const ServicesSection = () => {
             <div key={index} className="group h-full">
               <div className="relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-6 border border-gray-100 hover:border-[#00BFA6]/30 overflow-hidden h-full flex flex-col min-h-[700px]">
                 {/* Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-700`}></div>
+                <div className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none`}></div>
+
                 
                 {/* Service Icon */}
                 <div className="relative mb-6">
@@ -92,7 +93,7 @@ const ServicesSection = () => {
                   {/* Action Buttons */}
                   <div className="flex flex-col gap-4 mt-auto">
                     <Link
-                      href="/Contact-us"
+                      href={service.quoteLink}
                       className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
                     >
                       <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
@@ -103,7 +104,7 @@ const ServicesSection = () => {
                     <Link
                       href={service.link}
                       className="inline-flex items-center text-[#00BFA6] font-bold hover:text-[#0A2540] transition-colors group/link text-lg"
-                    >
+                     >
                       Learn More
                       <ChevronRightIcon className="w-5 h-5 ml-2 group-hover/link:translate-x-2 transition-transform duration-300" />
                     </Link>

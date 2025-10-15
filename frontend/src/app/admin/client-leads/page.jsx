@@ -11,6 +11,7 @@ export default function ClientLeadsPage() {
   const [cloudHostingRequests, setCloudHostingRequests] = useState([]);
   const [crmSolutionRequests, setCrmSolutionRequests] = useState([]);
   const [hrmsSolutionRequests, setHrmsSolutionRequests] = useState([]);
+  const [aiContentRequests, setAiContentRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -25,12 +26,13 @@ export default function ClientLeadsPage() {
     try {
       console.log('Fetching requests...');
 
-      const [websiteRes, mobileRes, cloudRes, crmRes, hrmsRes] = await Promise.all([
-        adminApi.getWebsiteRequests(),
-        adminApi.getMobileAppRequests(),
-        adminApi.getCloudHostingRequests(),
-        adminApi.getCrmSolutionRequests(),
-        adminApi.getHrmsSolutionRequests()
+      const [websiteRes, mobileRes, cloudRes, crmRes, hrmsRes, aiRes] = await Promise.all([
+        adminApi.getWebsiteRequests({ limit: 10000 }),
+        adminApi.getMobileAppRequests({ limit: 10000 }),
+        adminApi.getCloudHostingRequests({ limit: 10000 }),
+        adminApi.getCrmSolutionRequests({ limit: 10000 }),
+        adminApi.getHrmsSolutionRequests({ limit: 10000 }),
+        adminApi.getAiContentRequests({ limit: 10000 })
       ]);
 
       console.log('Website response:', websiteRes);
@@ -38,6 +40,7 @@ export default function ClientLeadsPage() {
       console.log('Cloud response:', cloudRes);
       console.log('CRM response:', crmRes);
       console.log('HRMS response:', hrmsRes);
+      console.log('AI Content response:', aiRes);
 
       if (websiteRes.success) {
         const requests = websiteRes.data?.data?.requests || [];
@@ -77,6 +80,14 @@ export default function ClientLeadsPage() {
       } else {
         console.error('Failed to fetch HRMS solution requests:', hrmsRes.error);
         setError(`Failed to fetch HRMS solution requests: ${hrmsRes.error}`);
+      }
+
+      if (aiRes.success) {
+        const requests = aiRes.data?.data?.requests || [];
+        setAiContentRequests(Array.isArray(requests) ? requests : []);
+      } else {
+        console.error('Failed to fetch AI content requests:', aiRes.error);
+        setError(`Failed to fetch AI content requests: ${aiRes.error}`);
       }
     } catch (err) {
       setError('Failed to fetch client leads data');
@@ -130,44 +141,23 @@ export default function ClientLeadsPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
+                <p className="text-sm text-gray-600"><strong>Business Name:</strong> {request.businessName}</p>
                 <p className="text-sm text-gray-600"><strong>Website Type:</strong> {request.websiteType}</p>
+                <p className="text-sm text-gray-600"><strong>Preferred Technology:</strong> {request.preferredTechnology}</p>
+                <p className="text-sm text-gray-600"><strong>Number of Pages:</strong> {request.numberOfPages}</p>
+                <p className="text-sm text-gray-600"><strong>Design Style:</strong> {request.designStyle}</p>
                 <p className="text-sm text-gray-600"><strong>Budget:</strong> {request.budgetRange}</p>
                 <p className="text-sm text-gray-600"><strong>Deadline:</strong> {request.projectDeadline ? new Date(request.projectDeadline).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : 'N/A'}</p>
-
-                {request.preferredTechnologies && request.preferredTechnologies.length > 0 && (
-                  <p className="text-sm text-gray-600"><strong>Preferred Technologies:</strong> {request.preferredTechnologies.join(', ')}</p>
-                )}
-                {request.currentWebsite && (
-                  <p className="text-sm text-gray-600"><strong>Current Website:</strong> {request.currentWebsite}</p>
-                )}
               </div>
               <div>
                 <p className="text-sm text-gray-600"><strong>Submitted:</strong> {formatDate(request.submittedAt)}</p>
                 <p className="text-sm text-gray-600"><strong>Updated:</strong> {request.updatedAt ? formatDate(request.updatedAt) : 'N/A'}</p>
-                {request.pagesRequired && (
-                  <p className="text-sm text-gray-600"><strong>Pages Required:</strong> {request.pagesRequired}</p>
-                )}
-                {request.domainName && (
-                  <p className="text-sm text-gray-600"><strong>Domain Name:</strong> {request.domainName}</p>
-                )}
               </div>
             </div>
-            {request.specificRequirements && (
+            {request.additionalRequirements && (
               <div className="mb-4">
-                <p className="text-sm text-gray-600"><strong>Specific Requirements:</strong></p>
-                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.specificRequirements}</p>
-              </div>
-            )}
-            {request.projectDescription && (
-              <div className="mb-4">
-                <p className="text-sm text-gray-600"><strong>Project Description:</strong></p>
-                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.projectDescription}</p>
-              </div>
-            )}
-            {request.targetAudience && (
-              <div className="mb-4">
-                <p className="text-sm text-gray-600"><strong>Target Audience:</strong></p>
-                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.targetAudience}</p>
+                <p className="text-sm text-gray-600"><strong>Additional Requirements:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.additionalRequirements}</p>
               </div>
             )}
           </div>
@@ -263,43 +253,42 @@ export default function ClientLeadsPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <p className="text-sm text-gray-600"><strong>Platform:</strong> {request.platformPreference}</p>
-                <p className="text-sm text-gray-600"><strong>Urgency:</strong> {request.urgencyLevel}</p>
+                <p className="text-sm text-gray-600"><strong>Current Hosting Provider:</strong> {request.currentHostingProvider}</p>
+                <p className="text-sm text-gray-600"><strong>Platform Preference:</strong> {request.platformPreference}</p>
                 <p className="text-sm text-gray-600"><strong>Services:</strong> {request.serviceType?.join(', ')}</p>
-                {request.budgetRange && (
-                  <p className="text-sm text-gray-600"><strong>Budget:</strong> {request.budgetRange}</p>
-                )}
-                {request.currentHosting && (
-                  <p className="text-sm text-gray-600"><strong>Current Hosting:</strong> {request.currentHosting}</p>
-                )}
+                <p className="text-sm text-gray-600"><strong>Storage Requirements:</strong> {request.storageRequirements}</p>
+                <p className="text-sm text-gray-600"><strong>Traffic Requirements:</strong> {request.trafficRequirements}</p>
+                <p className="text-sm text-gray-600"><strong>Budget:</strong> {request.budgetRange}</p>
+                <p className="text-sm text-gray-600"><strong>Timeline:</strong> {request.timeline}</p>
+                <p className="text-sm text-gray-600"><strong>Urgency Level:</strong> {request.urgencyLevel}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600"><strong>Submitted:</strong> {formatDate(request.submittedAt)}</p>
                 <p className="text-sm text-gray-600"><strong>Updated:</strong> {request.updatedAt ? formatDate(request.updatedAt) : 'N/A'}</p>
-                {request.expectedTraffic && (
-                  <p className="text-sm text-gray-600"><strong>Expected Traffic:</strong> {request.expectedTraffic}</p>
+                {request.operatingSystem && (
+                  <p className="text-sm text-gray-600"><strong>Operating System:</strong> {request.operatingSystem}</p>
                 )}
-                {request.timeline && (
-                  <p className="text-sm text-gray-600"><strong>Timeline:</strong> {request.timeline}</p>
+                {request.databaseNeeds && request.databaseNeeds.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Database Needs:</strong> {request.databaseNeeds.join(', ')}</p>
+                )}
+                {request.expectedUsers && (
+                  <p className="text-sm text-gray-600"><strong>Expected Users:</strong> {request.expectedUsers}</p>
+                )}
+                {request.businessType && (
+                  <p className="text-sm text-gray-600"><strong>Business Type:</strong> {request.businessType}</p>
                 )}
               </div>
             </div>
-            {request.specificRequirements && (
+            {request.securityBackupNeeds && request.securityBackupNeeds.length > 0 && (
               <div className="mb-4">
-                <p className="text-sm text-gray-600"><strong>Specific Requirements:</strong></p>
-                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.specificRequirements}</p>
+                <p className="text-sm text-gray-600"><strong>Security & Backup Needs:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.securityBackupNeeds.join(', ')}</p>
               </div>
             )}
-            {request.projectDescription && (
+            {request.additionalNotes && (
               <div className="mb-4">
-                <p className="text-sm text-gray-600"><strong>Project Description:</strong></p>
-                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.projectDescription}</p>
-              </div>
-            )}
-            {request.targetAudience && (
-              <div className="mb-4">
-                <p className="text-sm text-gray-600"><strong>Target Audience:</strong></p>
-                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.targetAudience}</p>
+                <p className="text-sm text-gray-600"><strong>Additional Notes:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.additionalNotes}</p>
               </div>
             )}
           </div>
@@ -329,43 +318,56 @@ export default function ClientLeadsPage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <p className="text-sm text-gray-600"><strong>CRM Type:</strong> {request.crmType}</p>
+                <p className="text-sm text-gray-600"><strong>Business Name:</strong> {request.businessName}</p>
+                <p className="text-sm text-gray-600"><strong>Team Size:</strong> {request.teamSize}</p>
+                <p className="text-sm text-gray-600"><strong>Current CRM Tool:</strong> {request.currentCrmTool}</p>
+                <p className="text-sm text-gray-600"><strong>Required Modules:</strong> {request.requiredModules?.join(', ')}</p>
                 <p className="text-sm text-gray-600"><strong>Budget:</strong> {request.budgetRange}</p>
                 <p className="text-sm text-gray-600"><strong>Timeline:</strong> {request.timeline}</p>
-                {request.currentCrm && (
-                  <p className="text-sm text-gray-600"><strong>Current CRM:</strong> {request.currentCrm}</p>
-                )}
-                {request.preferredFeatures && request.preferredFeatures.length > 0 && (
-                  <p className="text-sm text-gray-600"><strong>Preferred Features:</strong> {request.preferredFeatures.join(', ')}</p>
-                )}
+                <p className="text-sm text-gray-600"><strong>Priority:</strong> {request.priority}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600"><strong>Submitted:</strong> {formatDate(request.submittedAt)}</p>
                 <p className="text-sm text-gray-600"><strong>Updated:</strong> {request.updatedAt ? formatDate(request.updatedAt) : 'N/A'}</p>
-                {request.companySize && (
-                  <p className="text-sm text-gray-600"><strong>Company Size:</strong> {request.companySize}</p>
+                {request.expectedUsers && (
+                  <p className="text-sm text-gray-600"><strong>Expected Users:</strong> {request.expectedUsers}</p>
                 )}
-                {request.industry && (
-                  <p className="text-sm text-gray-600"><strong>Industry:</strong> {request.industry}</p>
+                {request.deploymentPreference && (
+                  <p className="text-sm text-gray-600"><strong>Deployment Preference:</strong> {request.deploymentPreference}</p>
+                )}
+                {request.businessType && (
+                  <p className="text-sm text-gray-600"><strong>Business Type:</strong> {request.businessType}</p>
                 )}
               </div>
             </div>
-            {request.specificRequirements && (
+            {request.integrationRequirements && request.integrationRequirements.length > 0 && (
               <div className="mb-4">
-                <p className="text-sm text-gray-600"><strong>Specific Requirements:</strong></p>
-                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.specificRequirements}</p>
+                <p className="text-sm text-gray-600"><strong>Integration Requirements:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.integrationRequirements.join(', ')}</p>
               </div>
             )}
-            {request.projectDescription && (
+            {request.customizationNeeds && (
               <div className="mb-4">
-                <p className="text-sm text-gray-600"><strong>Project Description:</strong></p>
-                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.projectDescription}</p>
+                <p className="text-sm text-gray-600"><strong>Customization Needs:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.customizationNeeds}</p>
               </div>
             )}
-            {request.targetAudience && (
+            {request.currentChallenges && request.currentChallenges.length > 0 && (
               <div className="mb-4">
-                <p className="text-sm text-gray-600"><strong>Target Audience:</strong></p>
-                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.targetAudience}</p>
+                <p className="text-sm text-gray-600"><strong>Current Challenges:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.currentChallenges.join(', ')}</p>
+              </div>
+            )}
+            {request.dataSecurityRequirements && request.dataSecurityRequirements.length > 0 && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Data Security Requirements:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.dataSecurityRequirements.join(', ')}</p>
+              </div>
+            )}
+            {request.additionalNotes && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Additional Notes:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.additionalNotes}</p>
               </div>
             )}
           </div>
@@ -438,6 +440,73 @@ export default function ClientLeadsPage() {
               <div className="mb-4">
                 <p className="text-sm text-gray-600"><strong>Customization Needed:</strong></p>
                 <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.customizationNeeded}</p>
+              </div>
+            )}
+            {request.additionalNotes && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Additional Notes:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.additionalNotes}</p>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+
+  const renderAiContentRequests = () => (
+    <div className="space-y-4">
+      {aiContentRequests.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">
+          No AI content requests found
+        </div>
+      ) : (
+        aiContentRequests.map((request) => (
+          <div key={request._id} className="bg-white rounded-lg shadow-md p-6 border">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">{request.fullName}</h3>
+                <p className="text-gray-600">{request.email}</p>
+                <p className="text-sm text-gray-500">{request.phone}</p>
+              </div>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
+                {request.status}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <p className="text-sm text-gray-600"><strong>Business Type:</strong> {request.businessType}</p>
+                <p className="text-sm text-gray-600"><strong>Industry:</strong> {request.industryVertical}</p>
+                <p className="text-sm text-gray-600"><strong>Content Type:</strong> {request.contentType?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Content Tone:</strong> {request.contentTone}</p>
+                <p className="text-sm text-gray-600"><strong>Languages:</strong> {request.languagesRequired?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>AI Tool:</strong> {request.aiToolPreference}</p>
+                <p className="text-sm text-gray-600"><strong>Volume:</strong> {request.contentVolumePerMonth}</p>
+                <p className="text-sm text-gray-600"><strong>Budget:</strong> {request.budgetRange}</p>
+                <p className="text-sm text-gray-600"><strong>Timeline:</strong> {request.timeline}</p>
+                <p className="text-sm text-gray-600"><strong>Priority:</strong> {request.priority}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600"><strong>Submitted:</strong> {formatDate(request.submittedAt)}</p>
+                <p className="text-sm text-gray-600"><strong>Updated:</strong> {request.updatedAt ? formatDate(request.updatedAt) : 'N/A'}</p>
+                {request.automationRequirements && request.automationRequirements.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Automation:</strong> {request.automationRequirements.join(', ')}</p>
+                )}
+                {request.contentGoals && request.contentGoals.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Goals:</strong> {request.contentGoals.join(', ')}</p>
+                )}
+                {request.seoRequirements && request.seoRequirements.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>SEO:</strong> {request.seoRequirements.join(', ')}</p>
+                )}
+                {request.competitorAnalysis && (
+                  <p className="text-sm text-gray-600"><strong>Competitor Analysis:</strong> Yes</p>
+                )}
+              </div>
+            </div>
+            {request.targetAudience && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Target Audience:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.targetAudience}</p>
               </div>
             )}
             {request.additionalNotes && (
@@ -540,6 +609,16 @@ export default function ClientLeadsPage() {
               >
                 HRMS Solutions ({hrmsSolutionRequests.length})
               </button>
+              <button
+                onClick={() => setActiveTab('ai')}
+                className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === 'ai'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                AI Content ({aiContentRequests.length})
+              </button>
             </nav>
           </div>
         </div>
@@ -551,6 +630,7 @@ export default function ClientLeadsPage() {
           {activeTab === 'cloud' && renderCloudHostingRequests()}
           {activeTab === 'crm' && renderCrmSolutionRequests()}
           {activeTab === 'hrms' && renderHrmsSolutionRequests()}
+          {activeTab === 'ai' && renderAiContentRequests()}
         </div>
       </div>
     

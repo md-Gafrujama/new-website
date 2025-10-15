@@ -142,6 +142,12 @@ class AdminAPI {
     const queryString = new URLSearchParams(params).toString();
     return this.makeRequest(`/api/hrms-solution-requests?${queryString}`);
   }
+
+  // Get AI Content Requests
+  async getAiContentRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/ai-content-requests?${queryString}`);
+  }
 }
 
 export default new AdminAPI();
