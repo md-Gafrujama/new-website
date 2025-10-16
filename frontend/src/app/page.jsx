@@ -14,6 +14,7 @@ import CrmSolutionRequestForm from "../components/form/CrmSolutionRequestForm";
 import HrmsSolutionRequestForm from "../components/form/HrmsSolutionRequestForm";
 import MobileAppRequestForm from "../components/form/MobileAppRequestForm";
 import DigitalMarketingForm from "../components/form/DigitalMarketingForm";
+import HealthcareRequestForm from "../components/form/HealthcareRequestForm";
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -24,6 +25,7 @@ export default function HomePage() {
   const [isHrmsModalOpen, setIsHrmsModalOpen] = useState(false);
   const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
   const [isDigitalMarketingModalOpen, setIsDigitalMarketingModalOpen] = useState(false);
+  const [isHealthcareModalOpen, setIsHealthcareModalOpen] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -57,6 +59,10 @@ export default function HomePage() {
     setIsDigitalMarketingModalOpen(true);
   };
 
+  const handleHealthcareQuoteClick = () => {
+    setIsHealthcareModalOpen(true);
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -77,6 +83,7 @@ export default function HomePage() {
     setIsHrmsModalOpen(false);
   };
 
+  
   const handleCloseMobileModal = () => {
     setIsMobileModalOpen(false);
   };
@@ -85,13 +92,17 @@ export default function HomePage() {
     setIsDigitalMarketingModalOpen(false);
   };
 
+  const handleCloseHealthcareModal = () => {
+    setIsHealthcareModalOpen(false);
+  };
+
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] overflow-x-hidden">
       <HeroSection />
       <StatsSection />
       <ServicesSection onWebsiteQuoteClick={handleWebsiteQuoteClick} onCloudHostingQuoteClick={handleCloudQuoteClick} onMobileQuoteClick={handleMobileQuoteClick} onDigitalMarketingQuoteClick={handleDigitalMarketingQuoteClick} />
-      <SolutionsSection onAiQuoteClick={handleAiQuoteClick} onCrmQuoteClick={handleCrmQuoteClick} onHrmsQuoteClick={handleHrmsQuoteClick} />
+      <SolutionsSection onAiQuoteClick={handleAiQuoteClick} onCrmQuoteClick={handleCrmQuoteClick} onHrmsQuoteClick={handleHrmsQuoteClick} onHealthcareQuoteClick={handleHealthcareQuoteClick} />
       <WhyChooseUsSection />
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <WebsiteRequestForm onClose={handleCloseModal} />
@@ -113,6 +124,9 @@ export default function HomePage() {
       </Modal>
       <Modal isOpen={isDigitalMarketingModalOpen} onClose={handleCloseDigitalMarketingModal}>
         <DigitalMarketingForm onClose={handleCloseDigitalMarketingModal} />
+      </Modal>
+      <Modal isOpen={isHealthcareModalOpen} onClose={handleCloseHealthcareModal}>
+        <HealthcareRequestForm onClose={handleCloseHealthcareModal} />
       </Modal>
     </div>
   );
