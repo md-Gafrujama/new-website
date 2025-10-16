@@ -148,6 +148,20 @@ class AdminAPI {
     const queryString = new URLSearchParams(params).toString();
     return this.makeRequest(`/api/ai-content-requests?${queryString}`);
   }
+
+  // Get Digital Marketing Requests
+  async getDigitalMarketingRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/digital-marketing-requests?${queryString}`);
+  }
+
+  // Submit Digital Marketing Request
+  async submitDigitalMarketingRequest(data) {
+    return this.makeRequest('/api/digital-marketing-requests', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
 }
 
 export default new AdminAPI();

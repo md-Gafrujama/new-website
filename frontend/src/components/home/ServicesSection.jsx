@@ -13,7 +13,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { services } from "../../data/homeData";
 
-const ServicesSection = () => {
+const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobileQuoteClick, onDigitalMarketingQuoteClick }) => {
   return (
     <section className="py-24 bg-[#F5F7FA]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -92,14 +92,52 @@ const ServicesSection = () => {
                   
                   {/* Action Buttons */}
                   <div className="flex flex-col gap-4 mt-auto">
-                    <Link
-                      href={service.quoteLink}
-                      className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                    >
-                      <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                      Get Free Quote
-                      <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
-                    </Link>
+                    {service.name === "Website Design & Development" ? (
+                      <button
+                        onClick={onWebsiteQuoteClick}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </button>
+                    ) : service.name === "Cloud, Hosting, Maintenance & Support" ? (
+                      <button
+                        onClick={onCloudHostingQuoteClick}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </button>
+                    ) : service.name === "Mobile Application Development" ? (
+                      <button
+                        onClick={onMobileQuoteClick}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </button>
+                    ) : service.name === "Digital Marketing" ? (
+                      <button
+                        onClick={onDigitalMarketingQuoteClick}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </button>
+                    ) : (
+                      <Link
+                        href={service.quoteLink}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </Link>
+                    )}
                     
                     <Link
                       href={service.link}

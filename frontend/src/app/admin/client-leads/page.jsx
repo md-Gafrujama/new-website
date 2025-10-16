@@ -12,6 +12,7 @@ export default function ClientLeadsPage() {
   const [crmSolutionRequests, setCrmSolutionRequests] = useState([]);
   const [hrmsSolutionRequests, setHrmsSolutionRequests] = useState([]);
   const [aiContentRequests, setAiContentRequests] = useState([]);
+  const [digitalMarketingRequests, setDigitalMarketingRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -26,13 +27,14 @@ export default function ClientLeadsPage() {
     try {
       console.log('Fetching requests...');
 
-      const [websiteRes, mobileRes, cloudRes, crmRes, hrmsRes, aiRes] = await Promise.all([
+      const [websiteRes, mobileRes, cloudRes, crmRes, hrmsRes, aiRes, digitalRes] = await Promise.all([
         adminApi.getWebsiteRequests({ limit: 10000 }),
         adminApi.getMobileAppRequests({ limit: 10000 }),
         adminApi.getCloudHostingRequests({ limit: 10000 }),
         adminApi.getCrmSolutionRequests({ limit: 10000 }),
         adminApi.getHrmsSolutionRequests({ limit: 10000 }),
-        adminApi.getAiContentRequests({ limit: 10000 })
+        adminApi.getAiContentRequests({ limit: 10000 }),
+        adminApi.getDigitalMarketingRequests({ limit: 10000 })
       ]);
 
       console.log('Website response:', websiteRes);
@@ -41,6 +43,7 @@ export default function ClientLeadsPage() {
       console.log('CRM response:', crmRes);
       console.log('HRMS response:', hrmsRes);
       console.log('AI Content response:', aiRes);
+      console.log('Digital Marketing response:', digitalRes);
 
       if (websiteRes.success) {
         const requests = websiteRes.data?.data?.requests || [];
@@ -88,6 +91,14 @@ export default function ClientLeadsPage() {
       } else {
         console.error('Failed to fetch AI content requests:', aiRes.error);
         setError(`Failed to fetch AI content requests: ${aiRes.error}`);
+      }
+
+      if (digitalRes.success) {
+        const requests = digitalRes.data?.data?.requests || [];
+        setDigitalMarketingRequests(Array.isArray(requests) ? requests : []);
+      } else {
+        console.error('Failed to fetch digital marketing requests:', digitalRes.error);
+        setError(`Failed to fetch digital marketing requests: ${digitalRes.error}`);
       }
     } catch (err) {
       setError('Failed to fetch client leads data');
@@ -521,6 +532,71 @@ export default function ClientLeadsPage() {
     </div>
   );
 
+  const renderDigitalMarketingRequests = () => (
+    <div className="space-y-4">
+      {digitalMarketingRequests.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">
+          No digital marketing requests found
+        </div>
+      ) : (
+        digitalMarketingRequests.map((request) => (
+          <div key={request._id} className="bg-white rounded-lg shadow-md p-6 border">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">{request.fullName}</h3>
+                <p className="text-gray-600">{request.email}</p>
+                <p className="text-sm text-gray-500">{request.phone}</p>
+              </div>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
+                {request.status}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <p className="text-sm text-gray-600"><strong>Business Type:</strong> {request.businessType}</p>
+                <p className="text-sm text-gray-600"><strong>Industry:</strong> {request.industryVertical}</p>
+                <p className="text-sm text-gray-600"><strong>Marketing Type:</strong> {request.marketingType?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Target Region:</strong> {request.targetRegion}</p>
+                <p className="text-sm text-gray-600"><strong>Monthly Budget:</strong> {request.monthlyBudget}</p>
+                <p className="text-sm text-gray-600"><strong>Timeline:</strong> {request.timeline}</p>
+                <p className="text-sm text-gray-600"><strong>Urgency Level:</strong> {request.urgencyLevel}</p>
+                <p className="text-sm text-gray-600"><strong>Expected ROI:</strong> {request.expectedROI}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600"><strong>Submitted:</strong> {formatDate(request.submittedAt)}</p>
+                <p className="text-sm text-gray-600"><strong>Updated:</strong> {request.updatedAt ? formatDate(request.updatedAt) : 'N/A'}</p>
+                {request.campaignGoals && request.campaignGoals.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Campaign Goals:</strong> {request.campaignGoals.join(', ')}</p>
+                )}
+                {request.currentMarketingChallenges && request.currentMarketingChallenges.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Current Challenges:</strong> {request.currentMarketingChallenges.join(', ')}</p>
+                )}
+                {request.competitorAnalysis && (
+                  <p className="text-sm text-gray-600"><strong>Competitor Analysis:</strong> Yes</p>
+                )}
+                {request.hasExistingMarketingTeam && (
+                  <p className="text-sm text-gray-600"><strong>Existing Marketing Team:</strong> Yes</p>
+                )}
+              </div>
+            </div>
+            {request.targetAudience && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Target Audience:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.targetAudience}</p>
+              </div>
+            )}
+            {request.additionalNotes && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Additional Notes:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.additionalNotes}</p>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+
   if (loading) {
     return (
       // <AdminLayoutWrapper>
@@ -555,72 +631,21 @@ export default function ClientLeadsPage() {
           <p className="text-gray-600">Manage and view all client requests across different services</p>
         </div>
 
-        {/* Tabs */}
+        {/* Dropdown */}
         <div className="mb-6">
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8">
-              <button
-                onClick={() => setActiveTab('website')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'website'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Website Requests ({websiteRequests.length})
-              </button>
-              <button
-                onClick={() => setActiveTab('mobile')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'mobile'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Mobile Apps ({mobileAppRequests.length})
-              </button>
-              <button
-                onClick={() => setActiveTab('cloud')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'cloud'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Cloud Hosting ({cloudHostingRequests.length})
-              </button>
-              <button
-                onClick={() => setActiveTab('crm')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'crm'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                CRM Solutions ({crmSolutionRequests.length})
-              </button>
-              <button
-                onClick={() => setActiveTab('hrms')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'hrms'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                HRMS Solutions ({hrmsSolutionRequests.length})
-              </button>
-              <button
-                onClick={() => setActiveTab('ai')}
-                className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'ai'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                AI Content ({aiContentRequests.length})
-              </button>
-            </nav>
-          </div>
+          <select
+            value={activeTab}
+            onChange={(e) => setActiveTab(e.target.value)}
+            className="block w-full max-w-xs px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          >
+            <option value="website">Website Requests ({websiteRequests.length})</option>
+            <option value="mobile">Mobile Apps ({mobileAppRequests.length})</option>
+            <option value="cloud">Cloud Hosting ({cloudHostingRequests.length})</option>
+            <option value="crm">CRM Solutions ({crmSolutionRequests.length})</option>
+            <option value="hrms">HRMS Solutions ({hrmsSolutionRequests.length})</option>
+            <option value="ai">AI Content ({aiContentRequests.length})</option>
+            <option value="digital">Digital Marketing ({digitalMarketingRequests.length})</option>
+          </select>
         </div>
 
         {/* Content */}
@@ -631,6 +656,7 @@ export default function ClientLeadsPage() {
           {activeTab === 'crm' && renderCrmSolutionRequests()}
           {activeTab === 'hrms' && renderHrmsSolutionRequests()}
           {activeTab === 'ai' && renderAiContentRequests()}
+          {activeTab === 'digital' && renderDigitalMarketingRequests()}
         </div>
       </div>
     

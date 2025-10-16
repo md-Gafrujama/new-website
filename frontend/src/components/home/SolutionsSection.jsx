@@ -12,7 +12,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { solutions } from "../../data/homeData";
 
-const SolutionsSection = () => {
+const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick }) => {
   return (
     <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,22 +86,43 @@ const SolutionsSection = () => {
                   
                   {/* Action Buttons */}
                   <div className="flex flex-col gap-4 mt-auto">
-                    <Link
-                      href={
-                        solution.name === "CRM Solutions"
-                          ? "/forms/crm-solution-requests"
-                          : solution.name === "HRMS Solutions"
-                          ? "/forms/hrms-solution-requests"
-                          : solution.name === "AI Blog / Content Automation Solution"
-                          ? "/forms/ai-content-requests"
-                          : "/Contact-us"
-                      }
-                      className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                    >
-                      <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                      Get Free Quote
-                      <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
-                    </Link>
+                    {solution.name === "AI Blog / Content Automation Solution" ? (
+                      <button
+                        onClick={onAiQuoteClick}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </button>
+                    ) : solution.name === "CRM Solutions" ? (
+                      <button
+                        onClick={onCrmQuoteClick}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </button>
+                    ) : solution.name === "HRMS Solutions" ? (
+                      <button
+                        onClick={onHrmsQuoteClick}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </button>
+                    ) : (
+                      <Link
+                        href="/Contact-us"
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </Link>
+                    )}
                     
                     <Link
                       href={solution.link}
