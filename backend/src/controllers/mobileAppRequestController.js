@@ -185,10 +185,48 @@ const updateMobileAppRequestStatus = async (req, res) => {
     });
   }
 };
+const deleteMobileAppRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid request ID format',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    const request = await MobileAppRequest.findByIdAndDelete(id);
+
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: 'Mobile app request not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Mobile app request deleted successfully',
+      data: { id },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error deleting mobile app request:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete mobile app request',
+      timestamp: new Date().toISOString()
+    });
+  }
+};
 
 module.exports = {
   submitMobileAppRequest,
   getAllMobileAppRequests,
   getMobileAppRequestById,
-  updateMobileAppRequestStatus
+  updateMobileAppRequestStatus,
+   deleteMobileAppRequest
 };

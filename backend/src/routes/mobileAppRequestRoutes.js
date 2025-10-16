@@ -4,7 +4,8 @@ const {
   submitMobileAppRequest,
   getAllMobileAppRequests,
   getMobileAppRequestById,
-  updateMobileAppRequestStatus
+  updateMobileAppRequestStatus,
+   deleteMobileAppRequest
 } = require('../controllers/mobileAppRequestController');
 
 // Submit new mobile app request
@@ -19,4 +20,5 @@ router.get('/:id', getMobileAppRequestById);
 // Update mobile app request status
 router.patch('/:id/status', updateMobileAppRequestStatus);
 
+router.delete('/:id', deleteMobileAppRequest);
 module.exports = router;

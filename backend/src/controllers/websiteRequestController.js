@@ -4,7 +4,7 @@ const submitWebsiteRequest = async (req, res) => {
   try {
     const websiteRequest = new WebsiteRequest(req.body);
     await websiteRequest.save();
-    
+
     res.status(201).json({
       success: true,
       message: 'Website request submitted successfully',
@@ -16,13 +16,13 @@ const submitWebsiteRequest = async (req, res) => {
     });
   } catch (error) {
     console.error('Error submitting website request:', error);
-    
+
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => ({
         path: err.path,
         msg: err.message
       }));
-      
+
       return res.status(400).json({
         success: false,
         message: 'Validation failed',
@@ -30,10 +30,48 @@ const submitWebsiteRequest = async (req, res) => {
         timestamp: new Date().toISOString()
       });
     }
-    
+
     res.status(500).json({
       success: false,
       message: 'Failed to submit website request',
+      timestamp: new Date().toISOString()
+    });
+  }
+};
+
+const deleteWebsiteRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid request ID format',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    const request = await WebsiteRequest.findByIdAndDelete(id);
+
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: 'Website request not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Website request deleted successfully',
+      data: { id },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error deleting website request:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete website request',
       timestamp: new Date().toISOString()
     });
   }
@@ -90,8 +128,7 @@ const getAllWebsiteRequests = async (req, res) => {
 const getWebsiteRequestById = async (req, res) => {
   try {
     const { id } = req.params;
-    
-    // Validate MongoDB ObjectId
+
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return res.status(400).json({
         success: false,
@@ -99,9 +136,9 @@ const getWebsiteRequestById = async (req, res) => {
         timestamp: new Date().toISOString()
       });
     }
-    
+
     const request = await WebsiteRequest.findById(id);
-    
+
     if (!request) {
       return res.status(404).json({
         success: false,
@@ -109,7 +146,7 @@ const getWebsiteRequestById = async (req, res) => {
         timestamp: new Date().toISOString()
       });
     }
-    
+
     res.status(200).json({
       success: true,
       message: 'Website request retrieved successfully',
@@ -130,8 +167,7 @@ const updateWebsiteRequestStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    
-    // Validate MongoDB ObjectId
+
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return res.status(400).json({
         success: false,
@@ -139,7 +175,7 @@ const updateWebsiteRequestStatus = async (req, res) => {
         timestamp: new Date().toISOString()
       });
     }
-    
+
     const validStatuses = ['pending', 'reviewed', 'in-progress', 'completed'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({
@@ -148,7 +184,7 @@ const updateWebsiteRequestStatus = async (req, res) => {
         timestamp: new Date().toISOString()
       });
     }
-    
+
     const request = await WebsiteRequest.findByIdAndUpdate(
       id,
       { 
@@ -157,7 +193,7 @@ const updateWebsiteRequestStatus = async (req, res) => {
       },
       { new: true, runValidators: true }
     );
-    
+
     if (!request) {
       return res.status(404).json({
         success: false,
@@ -165,7 +201,7 @@ const updateWebsiteRequestStatus = async (req, res) => {
         timestamp: new Date().toISOString()
       });
     }
-    
+
     res.status(200).json({
       success: true,
       message: 'Website request status updated successfully',
@@ -186,9 +222,11 @@ const updateWebsiteRequestStatus = async (req, res) => {
   }
 };
 
+// ✅ Fixed export (includes deleteWebsiteRequest)
 module.exports = {
   submitWebsiteRequest,
   getAllWebsiteRequests,
   getWebsiteRequestById,
-  updateWebsiteRequestStatus
+  updateWebsiteRequestStatus,
+  deleteWebsiteRequest
 };
