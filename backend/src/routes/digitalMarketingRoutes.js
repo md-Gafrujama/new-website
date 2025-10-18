@@ -5,7 +5,8 @@ const {
   getAllDigitalMarketingRequests,
   getDigitalMarketingRequestById,
   updateDigitalMarketingRequestStatus,
-  getDigitalMarketingStatistics
+  getDigitalMarketingStatistics,
+  deleteDigitalMarketingRequest
 } = require('../controllers/digitalMarketingController');
 
 // Submit new digital marketing request
@@ -22,5 +23,8 @@ router.get('/:id', getDigitalMarketingRequestById);
 
 // Update digital marketing request status
 router.patch('/:id/status', updateDigitalMarketingRequestStatus);
+
+// Delete a digital marketing request
+router.delete('/:id', deleteDigitalMarketingRequest);
 
 module.exports = router;

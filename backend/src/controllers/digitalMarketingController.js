@@ -230,10 +230,55 @@ const getDigitalMarketingStatistics = async (req, res) => {
   }
 };
 
+const deleteDigitalMarketingRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate ObjectId
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid request ID format',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    // Attempt to delete the document
+    const deletedRequest = await DigitalMarketingRequest.findByIdAndDelete(id);
+
+    if (!deletedRequest) {
+      return res.status(404).json({
+        success: false,
+        message: 'Digital marketing request not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Digital marketing request deleted successfully',
+      data: {
+        id: deletedRequest._id,
+        deletedAt: new Date().toISOString()
+      },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error deleting digital marketing request:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete digital marketing request',
+      timestamp: new Date().toISOString()
+    });
+  }
+};
+
+
 module.exports = {
   submitDigitalMarketingRequest,
   getAllDigitalMarketingRequests,
   getDigitalMarketingRequestById,
   updateDigitalMarketingRequestStatus,
-  getDigitalMarketingStatistics
+  getDigitalMarketingStatistics,
+   deleteDigitalMarketingRequest
 };

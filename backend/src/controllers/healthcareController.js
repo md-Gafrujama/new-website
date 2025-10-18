@@ -21,13 +21,11 @@ const submitHealthcareRequest = async (req, res) => {
     });
   } catch (error) {
     console.error('Error submitting healthcare request:', error);
-    
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => ({
         path: err.path,
         msg: err.message
       }));
-      
       return res.status(400).json({
         success: false,
         message: 'Validation failed',
@@ -35,7 +33,6 @@ const submitHealthcareRequest = async (req, res) => {
         timestamp: new Date().toISOString()
       });
     }
-    
     res.status(500).json({
       success: false,
       message: 'Failed to submit healthcare request',
@@ -113,7 +110,6 @@ const getHealthcareRequestById = async (req, res) => {
     }
     
     const request = await HealthcareRequest.findById(id);
-    
     if (!request) {
       return res.status(404).json({
         success: false,
@@ -168,10 +164,7 @@ const updateHealthcareRequestStatus = async (req, res) => {
     
     const request = await HealthcareRequest.findByIdAndUpdate(
       id,
-      { 
-        status,
-        updatedAt: new Date()
-      },
+      { status, updatedAt: new Date() },
       { new: true, runValidators: true }
     );
     
@@ -203,9 +196,48 @@ const updateHealthcareRequestStatus = async (req, res) => {
   }
 };
 
+// ✅ NEW DELETE FUNCTION
+const deleteHealthcareRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid request ID format',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    const deleted = await HealthcareRequest.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        message: 'Healthcare request not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Healthcare request deleted successfully',
+      data: { id },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error deleting healthcare request:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete healthcare request',
+      timestamp: new Date().toISOString()
+    });
+  }
+};
+
 module.exports = {
   submitHealthcareRequest,
   getAllHealthcareRequests,
   getHealthcareRequestById,
-  updateHealthcareRequestStatus
+  updateHealthcareRequestStatus,
+  deleteHealthcareRequest
 };

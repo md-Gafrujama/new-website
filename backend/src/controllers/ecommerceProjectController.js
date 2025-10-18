@@ -199,9 +199,55 @@ const updateEcommerceProjectRequestStatus = async (req, res) => {
   }
 };
 
+
+const deleteEcommerceProjectRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate ObjectId
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid request ID format',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    // Try deleting the record
+    const deletedRequest = await EcommerceProjectRequest.findByIdAndDelete(id);
+
+    if (!deletedRequest) {
+      return res.status(404).json({
+        success: false,
+        message: 'E-commerce project request not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'E-commerce project request deleted successfully',
+      data: {
+        id: deletedRequest._id,
+        deletedAt: new Date().toISOString()
+      },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error deleting e-commerce project request:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete e-commerce project request',
+      timestamp: new Date().toISOString()
+    });
+  }
+};
+
+
 module.exports = {
   submitEcommerceProjectRequest,
   getAllEcommerceProjectRequests,
   getEcommerceProjectRequestById,
-  updateEcommerceProjectRequestStatus
+  updateEcommerceProjectRequestStatus,
+   deleteEcommerceProjectRequest
 };

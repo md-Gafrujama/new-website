@@ -4,12 +4,14 @@ const {
   submitHealthcareRequest,
   getAllHealthcareRequests,
   getHealthcareRequestById,
-  updateHealthcareRequestStatus
+  updateHealthcareRequestStatus,
+  deleteHealthcareRequest
 } = require('../controllers/healthcareController');
 
 router.post('/', submitHealthcareRequest);
 router.get('/', getAllHealthcareRequests);
 router.get('/:id', getHealthcareRequestById);
 router.patch('/:id/status', updateHealthcareRequestStatus);
+router.delete('/:id', deleteHealthcareRequest); // ✅ Added delete route
 
 module.exports = router;

@@ -18,21 +18,6 @@ const submitCloudHostingRequest = async (req, res) => {
     });
   } catch (error) {
     console.error('Error submitting cloud hosting request:', error);
-    
-    if (error.name === 'ValidationError') {
-      const validationErrors = Object.values(error.errors).map(err => ({
-        path: err.path,
-        msg: err.message
-      }));
-      
-      return res.status(400).json({
-        success: false,
-        message: 'Validation failed',
-        errors: validationErrors,
-        timestamp: new Date().toISOString()
-      });
-    }
-    
     res.status(500).json({
       success: false,
       message: 'Failed to submit cloud hosting request',
@@ -76,9 +61,7 @@ const getAllCloudHostingRequests = async (req, res) => {
         pagination: {
           currentPage: parseInt(page),
           totalPages: Math.ceil(total / limit),
-          totalRequests: total,
-          hasNextPage: page < Math.ceil(total / limit),
-          hasPrevPage: page > 1
+          totalRequests: total
         }
       },
       timestamp: new Date().toISOString()
@@ -97,16 +80,7 @@ const getCloudHostingRequestById = async (req, res) => {
   try {
     const { id } = req.params;
     
-    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid request ID format',
-        timestamp: new Date().toISOString()
-      });
-    }
-    
     const request = await CloudHostingRequest.findById(id);
-    
     if (!request) {
       return res.status(404).json({
         success: false,
@@ -118,12 +92,7 @@ const getCloudHostingRequestById = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Cloud hosting request retrieved successfully',
-      data: {
-        ...request.toObject(),
-        isHighPriority: request.isHighPriorityRequest(),
-        requiresComplexSetup: request.requiresComplexSetup(),
-        estimatedMonthlyCost: request.getEstimatedMonthlyCost()
-      },
+      data: request,
       timestamp: new Date().toISOString()
     });
   } catch (error) {
@@ -140,33 +109,13 @@ const updateCloudHostingRequestStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    
-    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid request ID format',
-        timestamp: new Date().toISOString()
-      });
-    }
-    
-    const validStatuses = ['pending', 'reviewed', 'in-progress', 'completed'];
-    if (!validStatuses.includes(status)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid status value. Must be one of: ' + validStatuses.join(', '),
-        timestamp: new Date().toISOString()
-      });
-    }
-    
+
     const request = await CloudHostingRequest.findByIdAndUpdate(
       id,
-      { 
-        status,
-        updatedAt: new Date()
-      },
-      { new: true, runValidators: true }
+      { status, updatedAt: new Date() },
+      { new: true }
     );
-    
+
     if (!request) {
       return res.status(404).json({
         success: false,
@@ -174,7 +123,7 @@ const updateCloudHostingRequestStatus = async (req, res) => {
         timestamp: new Date().toISOString()
       });
     }
-    
+
     res.status(200).json({
       success: true,
       message: 'Cloud hosting request status updated successfully',
@@ -206,11 +155,7 @@ const getCloudHostingStatistics = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Cloud hosting statistics retrieved successfully',
-      data: {
-        overview: dashboardStats,
-        platforms: platformStats,
-        urgencyLevels: urgencyStats
-      },
+      data: { overview: dashboardStats, platforms: platformStats, urgencyLevels: urgencyStats },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
@@ -223,10 +168,41 @@ const getCloudHostingStatistics = async (req, res) => {
   }
 };
 
+// 🧹 DELETE Cloud Hosting Request
+const deleteCloudHostingRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedRequest = await CloudHostingRequest.findByIdAndDelete(id);
+
+    if (!deletedRequest) {
+      return res.status(404).json({
+        success: false,
+        message: 'Cloud hosting request not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Cloud hosting request deleted successfully',
+      data: { id: deletedRequest._id },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error deleting cloud hosting request:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete cloud hosting request',
+      timestamp: new Date().toISOString()
+    });
+  }
+};
+
 module.exports = {
   submitCloudHostingRequest,
   getAllCloudHostingRequests,
   getCloudHostingRequestById,
   updateCloudHostingRequestStatus,
-  getCloudHostingStatistics
+  getCloudHostingStatistics,
+  deleteCloudHostingRequest
 };

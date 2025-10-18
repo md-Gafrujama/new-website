@@ -198,6 +198,44 @@ const updateCrmSolutionRequestStatus = async (req, res) => {
   }
 };
 
+const deleteCrmSolutionRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid request ID format',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    const deletedRequest = await CrmSolutionRequest.findByIdAndDelete(id);
+
+    if (!deletedRequest) {
+      return res.status(404).json({
+        success: false,
+        message: 'CRM solution request not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'CRM solution request deleted successfully',
+      data: { id },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error deleting CRM solution request:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete CRM solution request',
+      timestamp: new Date().toISOString()
+    });
+  }
+};
+
 const getCrmSolutionStatistics = async (req, res) => {
   try {
     const [dashboardStats, teamSizeStats, budgetStats, priorityStats] = await Promise.all([
@@ -233,5 +271,6 @@ module.exports = {
   getAllCrmSolutionRequests,
   getCrmSolutionRequestById,
   updateCrmSolutionRequestStatus,
+  deleteCrmSolutionRequest, // ✅ added
   getCrmSolutionStatistics
 };

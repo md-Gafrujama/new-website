@@ -191,9 +191,40 @@ const updateAiContentRequestStatus = async (req, res) => {
   }
 };
 
+// 🧹 DELETE AI Content Request
+const deleteAiContentRequest = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedRequest = await AiContentRequest.findByIdAndDelete(id);
+
+    if (!deletedRequest) {
+      return res.status(404).json({
+        success: false,
+        message: 'AI content request not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'AI content request deleted successfully',
+      data: { id: deletedRequest._id },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Error deleting AI content request:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete AI content request',
+      timestamp: new Date().toISOString()
+    });
+  }
+};
+
 module.exports = {
   submitAiContentRequest,
   getAllAiContentRequests,
   getAiContentRequestById,
-  updateAiContentRequestStatus
+  updateAiContentRequestStatus,
+  deleteAiContentRequest
 };

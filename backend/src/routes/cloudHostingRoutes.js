@@ -5,7 +5,8 @@ const {
   getAllCloudHostingRequests,
   getCloudHostingRequestById,
   updateCloudHostingRequestStatus,
-  getCloudHostingStatistics
+  getCloudHostingStatistics,
+  deleteCloudHostingRequest
 } = require('../controllers/cloudHostingController');
 
 // Submit new cloud hosting request
@@ -22,5 +23,8 @@ router.get('/:id', getCloudHostingRequestById);
 
 // Update cloud hosting request status
 router.patch('/:id/status', updateCloudHostingRequestStatus);
+
+// Delete a specific cloud hosting request
+router.delete('/:id', deleteCloudHostingRequest);
 
 module.exports = router;

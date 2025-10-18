@@ -5,6 +5,7 @@ const {
   getAllCrmSolutionRequests,
   getCrmSolutionRequestById,
   updateCrmSolutionRequestStatus,
+  deleteCrmSolutionRequest,
   getCrmSolutionStatistics
 } = require('../controllers/crmSolutionController');
 
@@ -22,5 +23,8 @@ router.get('/:id', getCrmSolutionRequestById);
 
 // Update CRM solution request status
 router.patch('/:id/status', updateCrmSolutionRequestStatus);
+
+// ✅ Delete CRM solution request
+router.delete('/:id', deleteCrmSolutionRequest);
 
 module.exports = router;
