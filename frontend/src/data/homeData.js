@@ -100,6 +100,36 @@ export const services = [
     color: "from-orange-500 to-red-500",
     stats: "200+ Campaigns",
   },
+
+  {
+  name: "SaaS Product Development",
+  image: "/images/service-saas.jpg",
+  link: "/Services/SaaS-Development",
+  quoteLink: "/Contact-us",
+  description: "We design, develop, and deploy scalable SaaS products tailored to your business model — from MVP to enterprise-ready applications.",
+  features: [
+    "Product Architecture & Design",
+    "User Management & Authentication",
+    "Subscription & Payment Integration",
+    "Cloud Deployment & Scalability"
+  ],
+  icon: CloudIcon,
+  color: "from-indigo-500 to-purple-500",
+  stats: "50+ SaaS Platforms Delivered",
+},
+
+{
+    name: "Cloud, Hosting, Maintenance & Support",
+    image: "/images/service5.jpg",
+    link: "/Services/Cloud-Hosting-Support",
+    quoteLink: "/forms/cloud-hosting-requests",
+    description: "Reliable cloud infrastructure and ongoing technical support services.",
+    features: ["Cloud Migration", "24/7 Support", "Server Management", "Security"],
+    icon: CloudIcon,
+    color: "from-indigo-500 to-blue-500",
+    stats: "99.9% Uptime",
+  },
+  
   {
     name: "Branding & Creative Design",
     image: "/images/service4.webp",
@@ -111,28 +141,8 @@ export const services = [
     color: "from-green-500 to-teal-500",
     stats: "250+ Brands Created",
   },
-  {
-    name: "Cloud, Hosting, Maintenance & Support",
-    image: "/images/service5.jpg",
-    link: "/Services/Cloud-Hosting-Support",
-    quoteLink: "/forms/cloud-hosting-requests",
-    description: "Reliable cloud infrastructure and ongoing technical support services.",
-    features: ["Cloud Migration", "24/7 Support", "Server Management", "Security"],
-    icon: CloudIcon,
-    color: "from-indigo-500 to-blue-500",
-    stats: "99.9% Uptime",
-  },
-  {
-    name: "Tech Consulting",
-    image: "/images/service6.jpg",
-    link: "/Services/Tech-Consulting",
-    quoteLink: "/Contact-us",
-    description: "Strategic technology guidance to help your business make informed decisions.",
-    features: ["Strategy Planning", "Technology Audit", "Implementation", "Training"],
-    icon: LightBulbIcon,
-    color: "from-yellow-500 to-orange-500",
-    stats: "100+ Consultations",
-  },
+  
+
 ];
 
 export const solutions = [
