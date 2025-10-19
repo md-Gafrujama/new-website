@@ -18,6 +18,8 @@ const digitalMarketingRoutes = require('./routes/digitalMarketingRoutes');
 const ecommerceProjectRoutes = require('./routes/ecommerceProjectRoutes');
 const lmsRoutes = require('./routes/lmsRoutes');
 const healthcareRoutes = require('./routes/healthcareRoutes');
+const brandingDesignRoutes = require('./routes/brandingDesignRoutes');
+
 
 const app = express();
 
@@ -91,6 +93,8 @@ app.use('/api/digital-marketing-requests', digitalMarketingRoutes);
 app.use('/api/ecommerce-project-requests', ecommerceProjectRoutes);
 app.use('/api/lms-requests', lmsRoutes);
 app.use('/api/healthcare-requests', healthcareRoutes);
+app.use('/api/branding-design-requests', brandingDesignRoutes);
+
 
 // Root API info
 app.get('/', (req, res) => {
@@ -127,7 +131,8 @@ app.get('/', (req, res) => {
       'Digital Marketing Request Form Processing',
       'E-commerce Project Request Form Processing',
       'LMS Request Form Processing',
-      'Healthcare Request Form Processing'
+      'Healthcare Request Form Processing',
+      'Branding & Design Request Form Processing'
     ]
   });
 });
@@ -169,7 +174,8 @@ app.use('*', (req, res) => {
       '/api/digital-marketing-requests/*',
       '/api/ecommerce-project-requests/*',
       '/api/lms-requests/*',
-      '/api/healthcare-requests/*'
+      '/api/healthcare-requests/*',
+      '/api/branding-design-requests/*'
     ]
   });
 });
