@@ -1,31 +1,29 @@
-const BrandingDesignRequest = require('../models/brandingDesignRequest'); // ✅ only one import
+const SaaSProductRequest = require('../models/SaaSProductRequest');
 
-// Submit a new branding design request
-const submitBrandingDesignRequest = async (req, res) => {
+const submitSaaSProductRequest = async (req, res) => {
   try {
-    const request = new BrandingDesignRequest(req.body);
-    await request.save();
+    const saasProductRequest = new SaaSProductRequest(req.body);
+    await saasProductRequest.save();
 
     res.status(201).json({
       success: true,
-      message: 'Branding & design request submitted successfully',
+      message: 'SaaS product request submitted successfully',
       data: {
-        id: request._id,
-        submittedAt: request.submittedAt,
-        urgencyLevel: request.urgencyLevel,
-        estimatedBudget: request.getEstimatedBudget(),
-        isHighValue: request.isHighValueProject(),
-        isUrgent: request.isUrgentRequest()
+        id: saasProductRequest._id,
+        submittedAt: saasProductRequest.submittedAt,
+        priority: saasProductRequest.priority
       },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Error submitting branding & design request:', error);
+    console.error('Error submitting SaaS product request:', error);
+
     if (error.name === 'ValidationError') {
       const validationErrors = Object.values(error.errors).map(err => ({
         path: err.path,
         msg: err.message
       }));
+
       return res.status(400).json({
         success: false,
         message: 'Validation failed',
@@ -33,45 +31,45 @@ const submitBrandingDesignRequest = async (req, res) => {
         timestamp: new Date().toISOString()
       });
     }
+
     res.status(500).json({
       success: false,
-      message: 'Failed to submit branding & design request',
+      message: 'Failed to submit SaaS product request',
       timestamp: new Date().toISOString()
     });
   }
 };
 
-// Get all branding design requests with filters, pagination, and sorting
-const getAllBrandingDesignRequests = async (req, res) => {
+const getAllSaaSProductRequests = async (req, res) => {
   try {
     const { 
       page = 1, 
       limit = 10, 
       status, 
-      designType,
+      preferredTechStack,
       budgetRange,
-      urgencyLevel,
+      priority,
       sortBy = 'submittedAt', 
       sortOrder = 'desc' 
     } = req.query;
 
     const query = {};
     if (status) query.status = status;
-    if (designType) query.designType = { $in: designType.split(',') };
+    if (preferredTechStack) query.preferredTechStack = preferredTechStack;
     if (budgetRange) query.budgetRange = budgetRange;
-    if (urgencyLevel) query.urgencyLevel = urgencyLevel;
+    if (priority) query.priority = priority;
 
-    const requests = await BrandingDesignRequest.find(query)
+    const requests = await SaaSProductRequest.find(query)
       .sort({ [sortBy]: sortOrder === 'desc' ? -1 : 1 })
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .exec();
 
-    const total = await BrandingDesignRequest.countDocuments(query);
+    const total = await SaaSProductRequest.countDocuments(query);
 
     res.status(200).json({
       success: true,
-      message: 'Branding & design requests retrieved successfully',
+      message: 'SaaS product requests retrieved successfully',
       data: {
         requests,
         pagination: {
@@ -85,19 +83,19 @@ const getAllBrandingDesignRequests = async (req, res) => {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Error fetching branding & design requests:', error);
+    console.error('Error fetching SaaS product requests:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch branding & design requests',
+      message: 'Failed to fetch SaaS product requests',
       timestamp: new Date().toISOString()
     });
   }
 };
 
-// Get a branding design request by ID
-const getBrandingDesignRequestById = async (req, res) => {
+const getSaaSProductRequestById = async (req, res) => {
   try {
     const { id } = req.params;
+
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return res.status(400).json({
         success: false,
@@ -106,39 +104,33 @@ const getBrandingDesignRequestById = async (req, res) => {
       });
     }
 
-    const request = await BrandingDesignRequest.findById(id);
+    const request = await SaaSProductRequest.findById(id);
+
     if (!request) {
       return res.status(404).json({
         success: false,
-        message: 'Branding & design request not found',
+        message: 'SaaS product request not found',
         timestamp: new Date().toISOString()
       });
     }
 
     res.status(200).json({
       success: true,
-      message: 'Branding & design request retrieved successfully',
-      data: {
-        ...request.toObject(),
-        estimatedBudget: request.getEstimatedBudget(),
-        isHighValueProject: request.isHighValueProject(),
-        isUrgentRequest: request.isUrgentRequest(),
-        isComplexRequest: request.isComplexRequest()
-      },
+      message: 'SaaS product request retrieved successfully',
+      data: request,
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Error fetching branding & design request:', error);
+    console.error('Error fetching SaaS product request:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch branding & design request',
+      message: 'Failed to fetch SaaS product request',
       timestamp: new Date().toISOString()
     });
   }
 };
 
-// Update request status
-const updateBrandingDesignRequestStatus = async (req, res) => {
+const updateSaaSProductRequestStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -160,7 +152,7 @@ const updateBrandingDesignRequestStatus = async (req, res) => {
       });
     }
 
-    const request = await BrandingDesignRequest.findByIdAndUpdate(
+    const request = await SaaSProductRequest.findByIdAndUpdate(
       id,
       { status, updatedAt: new Date() },
       { new: true, runValidators: true }
@@ -169,14 +161,14 @@ const updateBrandingDesignRequestStatus = async (req, res) => {
     if (!request) {
       return res.status(404).json({
         success: false,
-        message: 'Branding & design request not found',
+        message: 'SaaS product request not found',
         timestamp: new Date().toISOString()
       });
     }
 
     res.status(200).json({
       success: true,
-      message: 'Branding & design request status updated successfully',
+      message: 'SaaS product request status updated successfully',
       data: {
         id: request._id,
         status: request.status,
@@ -185,19 +177,19 @@ const updateBrandingDesignRequestStatus = async (req, res) => {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Error updating branding & design request status:', error);
+    console.error('Error updating SaaS product request status:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to update branding & design request status',
+      message: 'Failed to update SaaS product request status',
       timestamp: new Date().toISOString()
     });
   }
 };
 
-// Delete a branding design request
-const deleteBrandingDesignRequest = async (req, res) => {
+const deleteSaaSProductRequest = async (req, res) => {
   try {
     const { id } = req.params;
+
     if (!id.match(/^[0-9a-fA-F]{24}$/)) {
       return res.status(400).json({
         success: false,
@@ -206,35 +198,36 @@ const deleteBrandingDesignRequest = async (req, res) => {
       });
     }
 
-    const deletedRequest = await BrandingDesignRequest.findByIdAndDelete(id);
+    const deletedRequest = await SaaSProductRequest.findByIdAndDelete(id);
+
     if (!deletedRequest) {
       return res.status(404).json({
         success: false,
-        message: 'Branding design request not found',
+        message: 'SaaS product request not found',
         timestamp: new Date().toISOString()
       });
     }
 
     res.status(200).json({
       success: true,
-      message: 'Branding design request deleted successfully',
+      message: 'SaaS product request deleted successfully',
       data: { id },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Error deleting branding design request:', error);
+    console.error('Error deleting SaaS product request:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to delete branding design request',
+      message: 'Failed to delete SaaS product request',
       timestamp: new Date().toISOString()
     });
   }
 };
 
 module.exports = {
-  submitBrandingDesignRequest,
-  getAllBrandingDesignRequests,
-  getBrandingDesignRequestById,
-  updateBrandingDesignRequestStatus,
-  deleteBrandingDesignRequest // ✅ delete included
+  submitSaaSProductRequest,
+  getAllSaaSProductRequests,
+  getSaaSProductRequestById,
+  updateSaaSProductRequestStatus,
+  deleteSaaSProductRequest
 };

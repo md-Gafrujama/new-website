@@ -19,6 +19,7 @@ const ecommerceProjectRoutes = require('./routes/ecommerceProjectRoutes');
 const lmsRoutes = require('./routes/lmsRoutes');
 const healthcareRoutes = require('./routes/healthcareRoutes');
 const brandingDesignRoutes = require('./routes/brandingDesignRoutes');
+const saasProductRoutes = require('./routes/saasProductRoutes');
 
 
 const app = express();
@@ -94,6 +95,7 @@ app.use('/api/ecommerce-project-requests', ecommerceProjectRoutes);
 app.use('/api/lms-requests', lmsRoutes);
 app.use('/api/healthcare-requests', healthcareRoutes);
 app.use('/api/branding-design-requests', brandingDesignRoutes);
+app.use('/api/saas-product-requests', saasProductRoutes);
 
 
 // Root API info
@@ -114,7 +116,9 @@ app.get('/', (req, res) => {
       'Digital Marketing',
       'E-commerce Project Development',
       'Learning Management Systems (LMS)',
-      'Healthcare Solutions'
+      'Healthcare Solutions',
+      'Branding & Design',
+      'SaaS Product Development'
     ],
     features: [
       'Email-based OTP authentication',
@@ -132,7 +136,8 @@ app.get('/', (req, res) => {
       'E-commerce Project Request Form Processing',
       'LMS Request Form Processing',
       'Healthcare Request Form Processing',
-      'Branding & Design Request Form Processing'
+      'Branding & Design Request Form Processing',
+      'SaaS Product Request Form Processing'
     ]
   });
 });
@@ -175,7 +180,8 @@ app.use('*', (req, res) => {
       '/api/ecommerce-project-requests/*',
       '/api/lms-requests/*',
       '/api/healthcare-requests/*',
-      '/api/branding-design-requests/*'
+      '/api/branding-design-requests/*',
+      '/api/saas-product-requests/*'
     ]
   });
 });
