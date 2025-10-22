@@ -179,6 +179,12 @@ class AdminAPI {
     return this.makeRequest(`/api/saas-product-requests?${queryString}`);
   }
 
+  // Get Healthcare Requests
+  async getHealthcareRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/healthcare-requests?${queryString}`);
+  }
+
   // Submit Digital Marketing Request
   async submitDigitalMarketingRequest(data) {
     return this.makeRequest('/api/digital-marketing-requests', {

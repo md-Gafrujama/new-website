@@ -17,6 +17,7 @@ export default function ClientLeadsPage() {
   const [ecommerceRequests, setEcommerceRequests] = useState([]);
   const [brandingDesignRequests, setBrandingDesignRequests] = useState([]);
   const [saasProductRequests, setSaasProductRequests] = useState([]);
+  const [healthcareRequests, setHealthcareRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -42,10 +43,11 @@ export default function ClientLeadsPage() {
         adminApi.getLmsRequests({ limit: 10000 }),
         adminApi.getEcommerceRequests({ limit: 10000 }),
         adminApi.getBrandingDesignRequests({ limit: 10000 }),
-        adminApi.getSaasProductRequests({ limit: 10000 })
+        adminApi.getSaasProductRequests({ limit: 10000 }),
+        adminApi.getHealthcareRequests({ limit: 10000 })
       ]);
 
-      const [websiteRes, mobileRes, cloudRes, crmRes, hrmsRes, aiRes, digitalRes, lmsRes, ecommerceRes, brandingRes, saasRes] = results;
+      const [websiteRes, mobileRes, cloudRes, crmRes, hrmsRes, aiRes, digitalRes, lmsRes, ecommerceRes, brandingRes, saasRes, healthcareRes] = results;
 
       console.log('Website response:', websiteRes);
       console.log('Mobile response:', mobileRes);
@@ -58,6 +60,7 @@ export default function ClientLeadsPage() {
       console.log('Ecommerce response:', ecommerceRes);
       console.log('Branding Design response:', brandingRes);
       console.log('SaaS response:', saasRes);
+      console.log('Healthcare response:', healthcareRes);
 
       if (websiteRes.status === 'fulfilled' && websiteRes.value.success) {
         const requests = websiteRes.value.data?.data?.requests || [];
@@ -889,6 +892,62 @@ export default function ClientLeadsPage() {
     </div>
   );
 
+  const renderHealthcareRequests = () => (
+    <div className="space-y-4">
+      {healthcareRequests.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">
+          No healthcare requests found
+        </div>
+      ) : (
+        healthcareRequests.map((request) => (
+          <div key={request._id} className="bg-white rounded-lg shadow-md p-6 border">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <p className="text-sm text-gray-600"><strong>Name:</strong> {request.fullName}</p>
+                <p className="text-sm text-gray-600"><strong>Email:</strong> {request.email}</p>
+                <p className="text-sm text-gray-600"><strong>Phone:</strong> {request.phone}</p>
+              </div>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
+                {request.status}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <p className="text-sm text-gray-600"><strong>Clinic/Hospital Name:</strong> {request.clinicHospitalName}</p>
+                <p className="text-sm text-gray-600"><strong>Facility Type:</strong> {request.facilityType}</p>
+                <p className="text-sm text-gray-600"><strong>Specialties:</strong> {request.specialties?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Number of Doctors/Staff:</strong> {request.numberOfDoctorsStaff}</p>
+                <p className="text-sm text-gray-600"><strong>Patient Volume:</strong> {request.patientVolume}</p>
+                <p className="text-sm text-gray-600"><strong>Solution Type:</strong> {request.solutionType?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Required Features:</strong> {request.requiredFeatures?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Integration Requirements:</strong> {request.integrationRequirements?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Deployment Preference:</strong> {request.deploymentPreference}</p>
+                <p className="text-sm text-gray-600"><strong>Platform Requirements:</strong> {request.platformRequirements?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Compliance Requirements:</strong> {request.complianceRequirements?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Data Security Needs:</strong> {request.dataSecurityNeeds?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Budget Range:</strong> {request.budgetRange}</p>
+                <p className="text-sm text-gray-600"><strong>Timeline:</strong> {request.timeline}</p>
+                <p className="text-sm text-gray-600"><strong>Urgency Level:</strong> {request.urgencyLevel}</p>
+                <p className="text-sm text-gray-600"><strong>Contact Role:</strong> {request.contactRole}</p>
+                <p className="text-sm text-gray-600"><strong>Support Requirements:</strong> {request.supportRequirements?.join(', ')}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600"><strong>Submitted:</strong> {formatDate(request.submittedAt)}</p>
+                <p className="text-sm text-gray-600"><strong>Updated:</strong> {request.updatedAt ? formatDate(request.updatedAt) : 'N/A'}</p>
+              </div>
+            </div>
+            {request.additionalNotes && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Additional Notes:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.additionalNotes}</p>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+
   if (loading) {
     return (
       // <AdminLayoutWrapper>
@@ -941,6 +1000,7 @@ export default function ClientLeadsPage() {
             <option value="ecommerce">Ecommerce Requests ({ecommerceRequests.length})</option>
             <option value="branding">Branding Design ({brandingDesignRequests.length})</option>
             <option value="saas">SaaS Product ({saasProductRequests.length})</option>
+            <option value="healthcare">Healthcare Requests ({healthcareRequests.length})</option>
           </select>
         </div>
 
@@ -957,6 +1017,7 @@ export default function ClientLeadsPage() {
           {activeTab === 'ecommerce' && renderEcommerceRequests()}
           {activeTab === 'branding' && renderBrandingDesignRequests()}
           {activeTab === 'saas' && renderSaasProductRequests()}
+          {activeTab === 'healthcare' && renderHealthcareRequests()}
         </div>
       </div>
 
