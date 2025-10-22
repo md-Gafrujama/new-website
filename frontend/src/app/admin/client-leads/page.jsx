@@ -15,6 +15,8 @@ export default function ClientLeadsPage() {
   const [digitalMarketingRequests, setDigitalMarketingRequests] = useState([]);
   const [lmsRequests, setLmsRequests] = useState([]);
   const [ecommerceRequests, setEcommerceRequests] = useState([]);
+  const [brandingDesignRequests, setBrandingDesignRequests] = useState([]);
+  const [saasProductRequests, setSaasProductRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -38,10 +40,12 @@ export default function ClientLeadsPage() {
         adminApi.getAiContentRequests({ limit: 10000 }),
         adminApi.getDigitalMarketingRequests({ limit: 10000 }),
         adminApi.getLmsRequests({ limit: 10000 }),
-        adminApi.getEcommerceRequests({ limit: 10000 })
+        adminApi.getEcommerceRequests({ limit: 10000 }),
+        adminApi.getBrandingDesignRequests({ limit: 10000 }),
+        adminApi.getSaasProductRequests({ limit: 10000 })
       ]);
 
-      const [websiteRes, mobileRes, cloudRes, crmRes, hrmsRes, aiRes, digitalRes, lmsRes, ecommerceRes] = results;
+      const [websiteRes, mobileRes, cloudRes, crmRes, hrmsRes, aiRes, digitalRes, lmsRes, ecommerceRes, brandingRes, saasRes] = results;
 
       console.log('Website response:', websiteRes);
       console.log('Mobile response:', mobileRes);
@@ -52,6 +56,8 @@ export default function ClientLeadsPage() {
       console.log('Digital Marketing response:', digitalRes);
       console.log('LMS response:', lmsRes);
       console.log('Ecommerce response:', ecommerceRes);
+      console.log('Branding Design response:', brandingRes);
+      console.log('SaaS response:', saasRes);
 
       if (websiteRes.status === 'fulfilled' && websiteRes.value.success) {
         const requests = websiteRes.value.data?.data?.requests || [];
@@ -114,6 +120,20 @@ export default function ClientLeadsPage() {
         setEcommerceRequests(Array.isArray(requests) ? requests : []);
       } else {
         console.error('Failed to fetch ecommerce requests:', ecommerceRes.status === 'rejected' ? ecommerceRes.reason : ecommerceRes.value?.error);
+      }
+
+      if (brandingRes.status === 'fulfilled' && brandingRes.value.success) {
+        const requests = brandingRes.value.data?.data?.requests || [];
+        setBrandingDesignRequests(Array.isArray(requests) ? requests : []);
+      } else {
+        console.error('Failed to fetch branding design requests:', brandingRes.status === 'rejected' ? brandingRes.reason : brandingRes.value?.error);
+      }
+
+      if (saasRes.status === 'fulfilled' && saasRes.value.success) {
+        const requests = saasRes.value.data?.data?.requests || [];
+        setSaasProductRequests(Array.isArray(requests) ? requests : []);
+      } else {
+        console.error('Failed to fetch SaaS product requests:', saasRes.status === 'rejected' ? saasRes.reason : saasRes.value?.error);
       }
     } catch (err) {
       setError('Failed to fetch client leads data');
@@ -624,23 +644,6 @@ export default function ClientLeadsPage() {
             <div className="flex justify-between items-start mb-4">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">{request.fullName}</h3>
-                <p className="text-gray-600">{request.email}</p>
-                <p className="text-sm text-gray-500">{request.phone}</p>
-              </div>
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
-                {request.status}
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div>
-                <p className="text-sm text-gray-600"><strong>Contact Role:</strong> {request.contactRole}</p>
-                <p className="text-sm text-gray-600"><strong>Organization Name:</strong> {request.organizationName}</p>
-                <p className="text-sm text-gray-600"><strong>LMS Type:</strong> {request.lmsType}</p>
-                <p className="text-sm text-gray-600"><strong>Number of Users:</strong> {request.numberOfUsers}</p>
-                <p className="text-sm text-gray-600"><strong>Industry Vertical:</strong> {request.industryVertical}</p>
-                <p className="text-sm text-gray-600"><strong>Deployment Preference:</strong> {request.deploymentPreference}</p>
-                <p className="text-sm text-gray-600"><strong>Budget Range:</strong> {request.budgetRange}</p>
-                <p className="text-sm text-gray-600"><strong>Timeline:</strong> {request.timeline}</p>
                 <p className="text-sm text-gray-600"><strong>Urgency Level:</strong> {request.urgencyLevel}</p>
               </div>
               <div>
@@ -756,6 +759,136 @@ export default function ClientLeadsPage() {
     </div>
   );
 
+  const renderBrandingDesignRequests = () => (
+    <div className="space-y-4">
+      {brandingDesignRequests.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">
+          No branding design requests found
+        </div>
+      ) : (
+        brandingDesignRequests.map((request) => (
+          <div key={request._id} className="bg-white rounded-lg shadow-md p-6 border">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">{request.fullName}</h3>
+                <p className="text-gray-600">{request.email}</p>
+                <p className="text-sm text-gray-500">{request.phone}</p>
+              </div>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
+                {request.status}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <p className="text-sm text-gray-600"><strong>Brand Name:</strong> {request.brandName}</p>
+                <p className="text-sm text-gray-600"><strong>Design Type:</strong> {request.designType?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Brand Colors:</strong> {request.brandColors}</p>
+                <p className="text-sm text-gray-600"><strong>Design Style Preference:</strong> {request.designStylePreference}</p>
+                <p className="text-sm text-gray-600"><strong>Deliverables Required:</strong> {request.deliverablesRequired?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Budget:</strong> {request.budgetRange}</p>
+                <p className="text-sm text-gray-600"><strong>Timeline:</strong> {request.timeline}</p>
+                <p className="text-sm text-gray-600"><strong>Urgency Level:</strong> {request.urgencyLevel}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600"><strong>Submitted:</strong> {formatDate(request.submittedAt)}</p>
+                <p className="text-sm text-gray-600"><strong>Updated:</strong> {request.updatedAt ? formatDate(request.updatedAt) : 'N/A'}</p>
+                {request.contactRole && (
+                  <p className="text-sm text-gray-600"><strong>Contact Role:</strong> {request.contactRole}</p>
+                )}
+                {request.keyCompetitors && request.keyCompetitors.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Key Competitors:</strong> {request.keyCompetitors.join(', ')}</p>
+                )}
+              </div>
+            </div>
+            {request.targetAudience && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Target Audience:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.targetAudience}</p>
+              </div>
+            )}
+            {request.brandGuidelines && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Brand Guidelines:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.brandGuidelines}</p>
+              </div>
+            )}
+            {request.projectObjective && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Project Objective:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.projectObjective}</p>
+              </div>
+            )}
+            {request.additionalNotes && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Additional Notes:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.additionalNotes}</p>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+
+  const renderSaasProductRequests = () => (
+    <div className="space-y-4">
+      {saasProductRequests.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">
+          No SaaS product requests found
+        </div>
+      ) : (
+        saasProductRequests.map((request) => (
+          <div key={request._id} className="bg-white rounded-lg shadow-md p-6 border">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">{request.fullName}</h3>
+                <p className="text-gray-600">{request.email}</p>
+                <p className="text-sm text-gray-500">{request.phone}</p>
+              </div>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
+                {request.status}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <p className="text-sm text-gray-600"><strong>Business Name:</strong> {request.businessName}</p>
+                <p className="text-sm text-gray-600"><strong>Product Idea:</strong> {request.productIdea}</p>
+                <p className="text-sm text-gray-600"><strong>Target Audience:</strong> {request.targetAudience}</p>
+                <p className="text-sm text-gray-600"><strong>Core Features:</strong> {request.coreFeatures?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Monetization Model:</strong> {request.monetizationModel?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Preferred Tech Stack:</strong> {request.preferredTechStack}</p>
+                <p className="text-sm text-gray-600"><strong>Scalability Requirements:</strong> {request.scalabilityRequirements?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Integration Needs:</strong> {request.integrationNeeds?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Budget:</strong> {request.budgetRange}</p>
+                <p className="text-sm text-gray-600"><strong>Timeline:</strong> {request.projectTimeline}</p>
+                <p className="text-sm text-gray-600"><strong>Competitors:</strong> {request.competitors?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Unique Selling Proposition:</strong> {request.uniqueSellingProposition}</p>
+                <p className="text-sm text-gray-600"><strong>Has Existing Team:</strong> {request.hasExistingTeam ? 'Yes' : 'No'}</p>
+                <p className="text-sm text-gray-600"><strong>Priority:</strong> {request.priority}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600"><strong>Submitted:</strong> {formatDate(request.submittedAt)}</p>
+                <p className="text-sm text-gray-600"><strong>Updated:</strong> {request.updatedAt ? formatDate(request.updatedAt) : 'N/A'}</p>
+              </div>
+            </div>
+            {request.designPreferences && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Design Preferences:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.designPreferences}</p>
+              </div>
+            )}
+            {request.additionalNotes && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Additional Notes:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.additionalNotes}</p>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+
   if (loading) {
     return (
       // <AdminLayoutWrapper>
@@ -806,6 +939,8 @@ export default function ClientLeadsPage() {
             <option value="digital">Digital Marketing ({digitalMarketingRequests.length})</option>
             <option value="lms">LMS Requests ({lmsRequests.length})</option>
             <option value="ecommerce">Ecommerce Requests ({ecommerceRequests.length})</option>
+            <option value="branding">Branding Design ({brandingDesignRequests.length})</option>
+            <option value="saas">SaaS Product ({saasProductRequests.length})</option>
           </select>
         </div>
 
@@ -820,8 +955,13 @@ export default function ClientLeadsPage() {
           {activeTab === 'digital' && renderDigitalMarketingRequests()}
           {activeTab === 'lms' && renderLmsRequests()}
           {activeTab === 'ecommerce' && renderEcommerceRequests()}
+          {activeTab === 'branding' && renderBrandingDesignRequests()}
+          {activeTab === 'saas' && renderSaasProductRequests()}
         </div>
       </div>
-    
-  );
-}
+
+    );
+  }
+
+
+

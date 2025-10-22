@@ -4,7 +4,7 @@ class AdminAPI {
   // Helper method for making requests
   async makeRequest(endpoint, options = {}) {
     try {
-      const token = typeof window !== 'undefined' ? 
+      const token = typeof window !== 'undefined' ?
         localStorage.getItem(process.env.NEXT_PUBLIC_ADMIN_TOKEN_KEY || 'adminToken') : null;
 
       const config = {
@@ -171,6 +171,12 @@ class AdminAPI {
   async getEcommerceRequests(params = {}) {
     const queryString = new URLSearchParams(params).toString();
     return this.makeRequest(`/api/ecommerce-project-requests?${queryString}`);
+  }
+
+  // Get SaaS Product Requests
+  async getSaasProductRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/saas-product-requests?${queryString}`);
   }
 
   // Submit Digital Marketing Request

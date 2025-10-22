@@ -18,6 +18,7 @@ import HealthcareRequestForm from "../components/form/HealthcareRequestForm";
 import EcommerceRequestForm from "../components/form/EcommerceRequestForm";
 import LmsRequestsForm from "../components/form/LmsRequestsForm";
 import BrandingDesignForm from "../components/form/BrandingDesignForm";
+import SaasProductForm from "../components/form/SaasProductForm";
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -32,6 +33,7 @@ export default function HomePage() {
   const [isEcommerceModalOpen, setIsEcommerceModalOpen] = useState(false);
   const [isLmsModalOpen, setIsLmsModalOpen] = useState(false);
   const [isBrandingModalOpen, setIsBrandingModalOpen] = useState(false);
+  const [isSaasModalOpen, setIsSaasModalOpen] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -81,6 +83,10 @@ export default function HomePage() {
     setIsBrandingModalOpen(true);
   };
 
+  const handleSaasQuoteClick = () => {
+    setIsSaasModalOpen(true);
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -126,12 +132,16 @@ export default function HomePage() {
     setIsBrandingModalOpen(false);
   };
 
+  const handleCloseSaasModal = () => {
+    setIsSaasModalOpen(false);
+  };
+
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] overflow-x-hidden">
       <HeroSection />
       <StatsSection />
-      <ServicesSection onWebsiteQuoteClick={handleWebsiteQuoteClick} onCloudHostingQuoteClick={handleCloudQuoteClick} onMobileQuoteClick={handleMobileQuoteClick} onDigitalMarketingQuoteClick={handleDigitalMarketingQuoteClick} onBrandingQuoteClick={handleBrandingQuoteClick} />
+      <ServicesSection onWebsiteQuoteClick={handleWebsiteQuoteClick} onCloudHostingQuoteClick={handleCloudQuoteClick} onMobileQuoteClick={handleMobileQuoteClick} onDigitalMarketingQuoteClick={handleDigitalMarketingQuoteClick} onBrandingQuoteClick={handleBrandingQuoteClick} onSaasQuoteClick={handleSaasQuoteClick} />
       <SolutionsSection onAiQuoteClick={handleAiQuoteClick} onCrmQuoteClick={handleCrmQuoteClick} onHrmsQuoteClick={handleHrmsQuoteClick} onHealthcareQuoteClick={handleHealthcareQuoteClick} onEcommerceQuoteClick={handleEcommerceQuoteClick} onLmsQuoteClick={handleLmsQuoteClick} />
       <WhyChooseUsSection />
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
@@ -166,6 +176,9 @@ export default function HomePage() {
       </Modal>
       <Modal isOpen={isBrandingModalOpen} onClose={handleCloseBrandingModal}>
         <BrandingDesignForm onClose={handleCloseBrandingModal} />
+      </Modal>
+      <Modal isOpen={isSaasModalOpen} onClose={handleCloseSaasModal}>
+        <SaasProductForm onClose={handleCloseSaasModal} />
       </Modal>
     </div>
   );
