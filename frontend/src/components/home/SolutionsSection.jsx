@@ -12,7 +12,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { solutions } from "../../data/homeData";
 
-const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, onHealthcareQuoteClick }) => {
+const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, onHealthcareQuoteClick, onEcommerceQuoteClick, onLmsQuoteClick }) => {
   return (
     <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,11 +28,11 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
             </span>
           </h2>
           <p className="text-xl text-[#0A2540]/70 max-w-4xl mx-auto leading-relaxed">
-            Powerful software solutions tailored to meet your specific business needs 
+            Powerful software solutions tailored to meet your specific business needs
             and drive operational excellence across all industries.
           </p>
         </div>
-        
+
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-10">
           {solutions.map((solution, index) => (
             <div key={index} className="group h-full">
@@ -43,7 +43,7 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
                     {solution.industry}
                   </span>
                 </div>
-                
+
                 {/* Solution Image */}
                 <div className="relative mb-6 overflow-hidden rounded-2xl">
                   <Image
@@ -54,7 +54,7 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
                     className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540]/60 via-transparent to-transparent"></div>
-                  
+
                   {/* Solution Icon Overlay */}
                   <div className="absolute bottom-4 left-4">
                     <div className={`w-12 h-12 bg-gradient-to-r ${solution.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
@@ -62,16 +62,16 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="flex-grow flex flex-col">
                   <h3 className="text-2xl font-bold text-[#0A2540] mb-4 group-hover:text-[#00BFA6] transition-colors duration-300">
                     {solution.name}
                   </h3>
-                  
+
                   <p className="text-[#0A2540]/70 mb-6 leading-relaxed text-lg flex-grow">
                     {solution.description}
                   </p>
-                  
+
                   {/* Benefits List */}
                   <div className="space-y-3 mb-8">
                     {solution.benefits.map((benefit, i) => (
@@ -83,7 +83,7 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
                       </div>
                     ))}
                   </div>
-                  
+
                   {/* Action Buttons */}
                   <div className="flex flex-col gap-4 mt-auto">
                     {solution.name === "AI Blog / Content Automation Solution" ? (
@@ -122,6 +122,24 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
                         Get Free Quote
                         <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
                       </button>
+                    ) : solution.name === "E-commerce Solutions" ? (
+                      <button
+                        onClick={onEcommerceQuoteClick}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </button>
+                    ) : solution.name === "Learning Management Software (LMS)" ? (
+                      <button
+                        onClick={onLmsQuoteClick}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </button>
                     ) : (
                       <Link
                         href="/Contact-us"
@@ -132,7 +150,7 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
                         <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
                       </Link>
                     )}
-                    
+
                     <Link
                       href={solution.link}
                       className="inline-flex items-center text-[#0A2540] font-bold hover:text-[#00BFA6] transition-colors group/link text-lg"
@@ -146,7 +164,7 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
             </div>
           ))}
         </div>
-        
+
         <div className="text-center mt-16">
           <Link
             href="/Our-solutions"

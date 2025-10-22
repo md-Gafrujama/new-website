@@ -15,6 +15,9 @@ import HrmsSolutionRequestForm from "../components/form/HrmsSolutionRequestForm"
 import MobileAppRequestForm from "../components/form/MobileAppRequestForm";
 import DigitalMarketingForm from "../components/form/DigitalMarketingForm";
 import HealthcareRequestForm from "../components/form/HealthcareRequestForm";
+import EcommerceRequestForm from "../components/form/EcommerceRequestForm";
+import LmsRequestsForm from "../components/form/LmsRequestsForm";
+import BrandingDesignForm from "../components/form/BrandingDesignForm";
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -26,6 +29,9 @@ export default function HomePage() {
   const [isMobileModalOpen, setIsMobileModalOpen] = useState(false);
   const [isDigitalMarketingModalOpen, setIsDigitalMarketingModalOpen] = useState(false);
   const [isHealthcareModalOpen, setIsHealthcareModalOpen] = useState(false);
+  const [isEcommerceModalOpen, setIsEcommerceModalOpen] = useState(false);
+  const [isLmsModalOpen, setIsLmsModalOpen] = useState(false);
+  const [isBrandingModalOpen, setIsBrandingModalOpen] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -63,6 +69,18 @@ export default function HomePage() {
     setIsHealthcareModalOpen(true);
   };
 
+  const handleEcommerceQuoteClick = () => {
+    setIsEcommerceModalOpen(true);
+  };
+
+  const handleLmsQuoteClick = () => {
+    setIsLmsModalOpen(true);
+  };
+
+  const handleBrandingQuoteClick = () => {
+    setIsBrandingModalOpen(true);
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -83,7 +101,7 @@ export default function HomePage() {
     setIsHrmsModalOpen(false);
   };
 
-  
+
   const handleCloseMobileModal = () => {
     setIsMobileModalOpen(false);
   };
@@ -96,13 +114,25 @@ export default function HomePage() {
     setIsHealthcareModalOpen(false);
   };
 
+  const handleCloseEcommerceModal = () => {
+    setIsEcommerceModalOpen(false);
+  };
+
+  const handleCloseLmsModal = () => {
+    setIsLmsModalOpen(false);
+  };
+
+  const handleCloseBrandingModal = () => {
+    setIsBrandingModalOpen(false);
+  };
+
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] overflow-x-hidden">
       <HeroSection />
       <StatsSection />
-      <ServicesSection onWebsiteQuoteClick={handleWebsiteQuoteClick} onCloudHostingQuoteClick={handleCloudQuoteClick} onMobileQuoteClick={handleMobileQuoteClick} onDigitalMarketingQuoteClick={handleDigitalMarketingQuoteClick} />
-      <SolutionsSection onAiQuoteClick={handleAiQuoteClick} onCrmQuoteClick={handleCrmQuoteClick} onHrmsQuoteClick={handleHrmsQuoteClick} onHealthcareQuoteClick={handleHealthcareQuoteClick} />
+      <ServicesSection onWebsiteQuoteClick={handleWebsiteQuoteClick} onCloudHostingQuoteClick={handleCloudQuoteClick} onMobileQuoteClick={handleMobileQuoteClick} onDigitalMarketingQuoteClick={handleDigitalMarketingQuoteClick} onBrandingQuoteClick={handleBrandingQuoteClick} />
+      <SolutionsSection onAiQuoteClick={handleAiQuoteClick} onCrmQuoteClick={handleCrmQuoteClick} onHrmsQuoteClick={handleHrmsQuoteClick} onHealthcareQuoteClick={handleHealthcareQuoteClick} onEcommerceQuoteClick={handleEcommerceQuoteClick} onLmsQuoteClick={handleLmsQuoteClick} />
       <WhyChooseUsSection />
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <WebsiteRequestForm onClose={handleCloseModal} />
@@ -127,6 +157,15 @@ export default function HomePage() {
       </Modal>
       <Modal isOpen={isHealthcareModalOpen} onClose={handleCloseHealthcareModal}>
         <HealthcareRequestForm onClose={handleCloseHealthcareModal} />
+      </Modal>
+      <Modal isOpen={isEcommerceModalOpen} onClose={handleCloseEcommerceModal}>
+        <EcommerceRequestForm onClose={handleCloseEcommerceModal} />
+      </Modal>
+      <Modal isOpen={isLmsModalOpen} onClose={handleCloseLmsModal}>
+        <LmsRequestsForm onClose={handleCloseLmsModal} />
+      </Modal>
+      <Modal isOpen={isBrandingModalOpen} onClose={handleCloseBrandingModal}>
+        <BrandingDesignForm onClose={handleCloseBrandingModal} />
       </Modal>
     </div>
   );

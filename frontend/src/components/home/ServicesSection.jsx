@@ -13,7 +13,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { services } from "../../data/homeData";
 
-const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobileQuoteClick, onDigitalMarketingQuoteClick }) => {
+const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobileQuoteClick, onDigitalMarketingQuoteClick, onBrandingQuoteClick }) => {
   return (
     <section className="py-24 bg-[#F5F7FA]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,11 +29,11 @@ const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobi
             </span>
           </h2>
           <p className="text-xl text-[#0A2540]/70 max-w-4xl mx-auto leading-relaxed">
-            Comprehensive technology solutions designed to accelerate your business growth 
+            Comprehensive technology solutions designed to accelerate your business growth
             and digital transformation journey with cutting-edge innovation.
           </p>
         </div>
-        
+
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-10">
           {services.map((service, index) => (
             <div key={index} className="group h-full">
@@ -41,7 +41,7 @@ const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobi
                 {/* Gradient Overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none`}></div>
 
-                
+
                 {/* Service Icon */}
                 <div className="relative mb-6">
                   <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${service.color} rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300`}>
@@ -51,7 +51,7 @@ const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobi
                     {service.stats}
                   </div>
                 </div>
-                
+
                 {/* Service Image */}
                 <div className="relative mb-6 overflow-hidden rounded-2xl">
                   <Image
@@ -62,22 +62,22 @@ const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobi
                     className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
+
                   {/* Floating Badge */}
                   <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2">
                     <StarIcon className="w-5 h-5 text-[#00BFA6]" />
                   </div>
                 </div>
-                
+
                 <div className="flex-grow flex flex-col">
                   <h3 className="text-2xl font-bold text-[#0A2540] mb-4 group-hover:text-[#00BFA6] transition-colors duration-300">
                     {service.name}
                   </h3>
-                  
+
                   <p className="text-[#0A2540]/70 mb-6 leading-relaxed text-lg flex-grow">
                     {service.description}
                   </p>
-                  
+
                   {/* Feature List */}
                   <div className="space-y-3 mb-8">
                     {service.features.map((feature, i) => (
@@ -89,7 +89,7 @@ const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobi
                       </div>
                     ))}
                   </div>
-                  
+
                   {/* Action Buttons */}
                   <div className="flex flex-col gap-4 mt-auto">
                     {service.name === "Website Design & Development" ? (
@@ -128,6 +128,15 @@ const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobi
                         Get Free Quote
                         <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
                       </button>
+                    ) : service.name === "Branding & Creative Design" ? (
+                      <button
+                        onClick={onBrandingQuoteClick}
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
+                      >
+                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
+                        Get Free Quote
+                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      </button>
                     ) : (
                       <Link
                         href={service.quoteLink}
@@ -138,7 +147,7 @@ const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobi
                         <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
                       </Link>
                     )}
-                    
+
                     <Link
                       href={service.link}
                       className="inline-flex items-center text-[#00BFA6] font-bold hover:text-[#0A2540] transition-colors group/link text-lg"
@@ -152,7 +161,7 @@ const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobi
             </div>
           ))}
         </div>
-        
+
         <div className="text-center mt-16">
           <Link
             href="/Our-services"

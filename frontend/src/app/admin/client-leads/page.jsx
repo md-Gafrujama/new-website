@@ -13,6 +13,8 @@ export default function ClientLeadsPage() {
   const [hrmsSolutionRequests, setHrmsSolutionRequests] = useState([]);
   const [aiContentRequests, setAiContentRequests] = useState([]);
   const [digitalMarketingRequests, setDigitalMarketingRequests] = useState([]);
+  const [lmsRequests, setLmsRequests] = useState([]);
+  const [ecommerceRequests, setEcommerceRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -27,15 +29,19 @@ export default function ClientLeadsPage() {
     try {
       console.log('Fetching requests...');
 
-      const [websiteRes, mobileRes, cloudRes, crmRes, hrmsRes, aiRes, digitalRes] = await Promise.all([
+      const results = await Promise.allSettled([
         adminApi.getWebsiteRequests({ limit: 10000 }),
         adminApi.getMobileAppRequests({ limit: 10000 }),
         adminApi.getCloudHostingRequests({ limit: 10000 }),
         adminApi.getCrmSolutionRequests({ limit: 10000 }),
         adminApi.getHrmsSolutionRequests({ limit: 10000 }),
         adminApi.getAiContentRequests({ limit: 10000 }),
-        adminApi.getDigitalMarketingRequests({ limit: 10000 })
+        adminApi.getDigitalMarketingRequests({ limit: 10000 }),
+        adminApi.getLmsRequests({ limit: 10000 }),
+        adminApi.getEcommerceRequests({ limit: 10000 })
       ]);
+
+      const [websiteRes, mobileRes, cloudRes, crmRes, hrmsRes, aiRes, digitalRes, lmsRes, ecommerceRes] = results;
 
       console.log('Website response:', websiteRes);
       console.log('Mobile response:', mobileRes);
@@ -44,61 +50,70 @@ export default function ClientLeadsPage() {
       console.log('HRMS response:', hrmsRes);
       console.log('AI Content response:', aiRes);
       console.log('Digital Marketing response:', digitalRes);
+      console.log('LMS response:', lmsRes);
+      console.log('Ecommerce response:', ecommerceRes);
 
-      if (websiteRes.success) {
-        const requests = websiteRes.data?.data?.requests || [];
+      if (websiteRes.status === 'fulfilled' && websiteRes.value.success) {
+        const requests = websiteRes.value.data?.data?.requests || [];
         setWebsiteRequests(Array.isArray(requests) ? requests : []);
       } else {
-        console.error('Failed to fetch website requests:', websiteRes.error);
-        setError(`Failed to fetch website requests: ${websiteRes.error}`);
+        console.error('Failed to fetch website requests:', websiteRes.status === 'rejected' ? websiteRes.reason : websiteRes.value?.error);
       }
 
-      if (mobileRes.success) {
-        const requests = mobileRes.data?.data?.requests || [];
+      if (mobileRes.status === 'fulfilled' && mobileRes.value.success) {
+        const requests = mobileRes.value.data?.data?.requests || [];
         setMobileAppRequests(Array.isArray(requests) ? requests : []);
       } else {
-        console.error('Failed to fetch mobile app requests:', mobileRes.error);
-        setError(`Failed to fetch mobile app requests: ${mobileRes.error}`);
+        console.error('Failed to fetch mobile app requests:', mobileRes.status === 'rejected' ? mobileRes.reason : mobileRes.value?.error);
       }
 
-      if (cloudRes.success) {
-        const requests = cloudRes.data?.data?.requests || [];
+      if (cloudRes.status === 'fulfilled' && cloudRes.value.success) {
+        const requests = cloudRes.value.data?.data?.requests || [];
         setCloudHostingRequests(Array.isArray(requests) ? requests : []);
       } else {
-        console.error('Failed to fetch cloud hosting requests:', cloudRes.error);
-        setError(`Failed to fetch cloud hosting requests: ${cloudRes.error}`);
+        console.error('Failed to fetch cloud hosting requests:', cloudRes.status === 'rejected' ? cloudRes.reason : cloudRes.value?.error);
       }
 
-      if (crmRes.success) {
-        const requests = crmRes.data?.data?.requests || [];
+      if (crmRes.status === 'fulfilled' && crmRes.value.success) {
+        const requests = crmRes.value.data?.data?.requests || [];
         setCrmSolutionRequests(Array.isArray(requests) ? requests : []);
       } else {
-        console.error('Failed to fetch CRM solution requests:', crmRes.error);
-        setError(`Failed to fetch CRM solution requests: ${crmRes.error}`);
+        console.error('Failed to fetch CRM solution requests:', crmRes.status === 'rejected' ? crmRes.reason : crmRes.value?.error);
       }
 
-      if (hrmsRes.success) {
-        const requests = hrmsRes.data?.data?.requests || [];
+      if (hrmsRes.status === 'fulfilled' && hrmsRes.value.success) {
+        const requests = hrmsRes.value.data?.data?.requests || [];
         setHrmsSolutionRequests(Array.isArray(requests) ? requests : []);
       } else {
-        console.error('Failed to fetch HRMS solution requests:', hrmsRes.error);
-        setError(`Failed to fetch HRMS solution requests: ${hrmsRes.error}`);
+        console.error('Failed to fetch HRMS solution requests:', hrmsRes.status === 'rejected' ? hrmsRes.reason : hrmsRes.value?.error);
       }
 
-      if (aiRes.success) {
-        const requests = aiRes.data?.data?.requests || [];
+      if (aiRes.status === 'fulfilled' && aiRes.value.success) {
+        const requests = aiRes.value.data?.data?.requests || [];
         setAiContentRequests(Array.isArray(requests) ? requests : []);
       } else {
-        console.error('Failed to fetch AI content requests:', aiRes.error);
-        setError(`Failed to fetch AI content requests: ${aiRes.error}`);
+        console.error('Failed to fetch AI content requests:', aiRes.status === 'rejected' ? aiRes.reason : aiRes.value?.error);
       }
 
-      if (digitalRes.success) {
-        const requests = digitalRes.data?.data?.requests || [];
+      if (digitalRes.status === 'fulfilled' && digitalRes.value.success) {
+        const requests = digitalRes.value.data?.data?.requests || [];
         setDigitalMarketingRequests(Array.isArray(requests) ? requests : []);
       } else {
-        console.error('Failed to fetch digital marketing requests:', digitalRes.error);
-        setError(`Failed to fetch digital marketing requests: ${digitalRes.error}`);
+        console.error('Failed to fetch digital marketing requests:', digitalRes.status === 'rejected' ? digitalRes.reason : digitalRes.value?.error);
+      }
+
+      if (lmsRes.status === 'fulfilled' && lmsRes.value.success) {
+        const requests = lmsRes.value.data?.data?.requests || [];
+        setLmsRequests(Array.isArray(requests) ? requests : []);
+      } else {
+        console.error('Failed to fetch LMS requests:', lmsRes.status === 'rejected' ? lmsRes.reason : lmsRes.value?.error);
+      }
+
+      if (ecommerceRes.status === 'fulfilled' && ecommerceRes.value.success) {
+        const requests = ecommerceRes.value.data?.data?.requests || [];
+        setEcommerceRequests(Array.isArray(requests) ? requests : []);
+      } else {
+        console.error('Failed to fetch ecommerce requests:', ecommerceRes.status === 'rejected' ? ecommerceRes.reason : ecommerceRes.value?.error);
       }
     } catch (err) {
       setError('Failed to fetch client leads data');
@@ -597,6 +612,150 @@ export default function ClientLeadsPage() {
     </div>
   );
 
+  const renderLmsRequests = () => (
+    <div className="space-y-4">
+      {lmsRequests.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">
+          No LMS requests found
+        </div>
+      ) : (
+        lmsRequests.map((request) => (
+          <div key={request._id} className="bg-white rounded-lg shadow-md p-6 border">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">{request.fullName}</h3>
+                <p className="text-gray-600">{request.email}</p>
+                <p className="text-sm text-gray-500">{request.phone}</p>
+              </div>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
+                {request.status}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <p className="text-sm text-gray-600"><strong>Contact Role:</strong> {request.contactRole}</p>
+                <p className="text-sm text-gray-600"><strong>Organization Name:</strong> {request.organizationName}</p>
+                <p className="text-sm text-gray-600"><strong>LMS Type:</strong> {request.lmsType}</p>
+                <p className="text-sm text-gray-600"><strong>Number of Users:</strong> {request.numberOfUsers}</p>
+                <p className="text-sm text-gray-600"><strong>Industry Vertical:</strong> {request.industryVertical}</p>
+                <p className="text-sm text-gray-600"><strong>Deployment Preference:</strong> {request.deploymentPreference}</p>
+                <p className="text-sm text-gray-600"><strong>Budget Range:</strong> {request.budgetRange}</p>
+                <p className="text-sm text-gray-600"><strong>Timeline:</strong> {request.timeline}</p>
+                <p className="text-sm text-gray-600"><strong>Urgency Level:</strong> {request.urgencyLevel}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600"><strong>Submitted:</strong> {formatDate(request.submittedAt)}</p>
+                <p className="text-sm text-gray-600"><strong>Updated:</strong> {request.updatedAt ? formatDate(request.updatedAt) : 'N/A'}</p>
+                {request.requiredFeatures && request.requiredFeatures.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Required Features:</strong> {request.requiredFeatures.join(', ')}</p>
+                )}
+                {request.integrationNeeds && request.integrationNeeds.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Integration Needs:</strong> {request.integrationNeeds.join(', ')}</p>
+                )}
+                {request.brandingNeeds && request.brandingNeeds.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Branding Needs:</strong> {request.brandingNeeds.join(', ')}</p>
+                )}
+                {request.contentTypes && request.contentTypes.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Content Types:</strong> {request.contentTypes.join(', ')}</p>
+                )}
+                {request.learningModels && request.learningModels.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Learning Models:</strong> {request.learningModels.join(', ')}</p>
+                )}
+                {request.securityRequirements && request.securityRequirements.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Security Requirements:</strong> {request.securityRequirements.join(', ')}</p>
+                )}
+                {request.supportRequirements && request.supportRequirements.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Support Requirements:</strong> {request.supportRequirements.join(', ')}</p>
+                )}
+                {request.reportingNeeds && request.reportingNeeds.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Reporting Needs:</strong> {request.reportingNeeds.join(', ')}</p>
+                )}
+                {request.complianceRequirements && request.complianceRequirements.length > 0 && (
+                  <p className="text-sm text-gray-600"><strong>Compliance Requirements:</strong> {request.complianceRequirements.join(', ')}</p>
+                )}
+              </div>
+            </div>
+            {request.customizationRequirements && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Customization Requirements:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.customizationRequirements}</p>
+              </div>
+            )}
+            {request.additionalNotes && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Additional Notes:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.additionalNotes}</p>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+
+  const renderEcommerceRequests = () => (
+    <div className="space-y-4">
+      {ecommerceRequests.length === 0 ? (
+        <div className="text-center py-8 text-gray-500">
+          No ecommerce requests found
+        </div>
+      ) : (
+        ecommerceRequests.map((request) => (
+          <div key={request._id} className="bg-white rounded-lg shadow-md p-6 border">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">{request.fullName}</h3>
+                <p className="text-gray-600">{request.email}</p>
+                <p className="text-sm text-gray-500">{request.phone}</p>
+              </div>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
+                {request.status}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <p className="text-sm text-gray-600"><strong>Company Name:</strong> {request.companyName}</p>
+                <p className="text-sm text-gray-600"><strong>Project Type:</strong> {request.projectType}</p>
+                <p className="text-sm text-gray-600"><strong>Platforms Required:</strong> {request.platformsRequired?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Number of Products:</strong> {request.numberOfProducts}</p>
+                <p className="text-sm text-gray-600"><strong>Expected Monthly Users:</strong> {request.expectedMonthlyUsers}</p>
+                <p className="text-sm text-gray-600"><strong>Required Core Features:</strong> {request.requiredCoreFeatures?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>User Account Options:</strong> {request.userAccountOptions?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Payment Methods:</strong> {request.paymentMethods?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Shipping Method:</strong> {request.shippingMethod}</p>
+                <p className="text-sm text-gray-600"><strong>Tax Handling:</strong> {request.taxHandling}</p>
+                <p className="text-sm text-gray-600"><strong>Admin Panel Modules:</strong> {request.adminPanelModules?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Search & Personalization Level:</strong> {request.searchPersonalizationLevel}</p>
+                <p className="text-sm text-gray-600"><strong>Analytics Tools:</strong> {request.analyticsTools?.join(', ')}</p>
+                <p className="text-sm text-gray-600"><strong>Customization Level:</strong> {request.customizationLevel}</p>
+                <p className="text-sm text-gray-600"><strong>Hosting Preference:</strong> {request.hostingPreference}</p>
+                <p className="text-sm text-gray-600"><strong>Maintenance & Support:</strong> {request.maintenanceSupport}</p>
+                <p className="text-sm text-gray-600"><strong>Budget Range:</strong> {request.budgetRange}</p>
+                <p className="text-sm text-gray-600"><strong>Desired Timeline:</strong> {request.desiredTimeline}</p>
+              </div>
+              <div>
+                <p className="text-sm text-gray-600"><strong>Submitted:</strong> {formatDate(request.submittedAt)}</p>
+                <p className="text-sm text-gray-600"><strong>Updated:</strong> {request.updatedAt ? formatDate(request.updatedAt) : 'N/A'}</p>
+              </div>
+            </div>
+            {request.targetAudience && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Target Audience:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.targetAudience}</p>
+              </div>
+            )}
+            {request.additionalNotes && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600"><strong>Additional Notes:</strong></p>
+                <p className="text-sm text-gray-800 bg-gray-50 p-3 rounded">{request.additionalNotes}</p>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+
   if (loading) {
     return (
       // <AdminLayoutWrapper>
@@ -645,6 +804,8 @@ export default function ClientLeadsPage() {
             <option value="hrms">HRMS Solutions ({hrmsSolutionRequests.length})</option>
             <option value="ai">AI Content ({aiContentRequests.length})</option>
             <option value="digital">Digital Marketing ({digitalMarketingRequests.length})</option>
+            <option value="lms">LMS Requests ({lmsRequests.length})</option>
+            <option value="ecommerce">Ecommerce Requests ({ecommerceRequests.length})</option>
           </select>
         </div>
 
@@ -657,6 +818,8 @@ export default function ClientLeadsPage() {
           {activeTab === 'hrms' && renderHrmsSolutionRequests()}
           {activeTab === 'ai' && renderAiContentRequests()}
           {activeTab === 'digital' && renderDigitalMarketingRequests()}
+          {activeTab === 'lms' && renderLmsRequests()}
+          {activeTab === 'ecommerce' && renderEcommerceRequests()}
         </div>
       </div>
     

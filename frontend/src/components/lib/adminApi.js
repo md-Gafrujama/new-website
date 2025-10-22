@@ -155,6 +155,24 @@ class AdminAPI {
     return this.makeRequest(`/api/digital-marketing-requests?${queryString}`);
   }
 
+  // Get LMS Requests
+  async getLmsRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/lms-requests?${queryString}`);
+  }
+
+  // Get Branding Design Requests
+  async getBrandingDesignRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/branding-design-requests?${queryString}`);
+  }
+
+  // Get Ecommerce Requests
+  async getEcommerceRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/ecommerce-project-requests?${queryString}`);
+  }
+
   // Submit Digital Marketing Request
   async submitDigitalMarketingRequest(data) {
     return this.makeRequest('/api/digital-marketing-requests', {
