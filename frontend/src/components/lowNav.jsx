@@ -47,10 +47,10 @@ const services = [
     description: "Infrastructure management",
   },
   {
-    name: "Tech Consulting",
-    image: "/images/service6.jpg",
-    link: "/Services/Tech-Consulting",
-    description: "Strategic guidance",
+    name: "SaaS Product Development",
+    image: "/images/service5.jpg", // Using service5.jpg as placeholder
+    link: "/Services/SaaS-Development",
+    description: "End-to-end SaaS builds",
   },
 ];
 
@@ -81,13 +81,13 @@ const solutions = [
   },
   {
     name: "Learning Management Software (LMS)",
-    image: "/images/solution5.jpg",
+    image: "/images/solution3.jpg", // Using solution3.jpg as placeholder
     link: "/Solutions/Learning-Management-System",
     description: "Educational platforms",
   },
   {
     name: "E-commerce Solutions",
-    image: "/images/solution6.jpg",
+    image: "/images/solution4.webp", // Using solution4.webp as placeholder
     link: "/Solutions/Ecommerce-Solutions",
     description: "Online stores",
   },
@@ -178,28 +178,8 @@ export default function LowNav() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-18 lg:h-22">
-            {/* Logo Section */}
-            <Link href="/" className="flex items-center space-x-4 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-white/20 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
-                <Image
-                  src="/images/gs.png"
-                  alt="Icon"
-                  width={40}
-                  height={30}
-                  className="relative rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110"
-                />
-              </div>
-              <div className="relative">
-                <Image
-                  src="/images/gs1.png"
-                  alt="Quore Logo"
-                  width={130}
-                  height={50}
-                  className="group-hover:scale-105 transition-transform duration-300 brightness-0 invert"
-                />
-              </div>
-            </Link>
+            {/* Logo removed per request; spacer keeps layout aligned */}
+            <div className="w-32" aria-hidden="true"></div>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center space-x-8">

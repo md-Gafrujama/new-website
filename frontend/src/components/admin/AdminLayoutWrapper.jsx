@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import AdminLayout from './AdminLayout';
 import ProtectedRoute from './ProtectedRoute';
+import { DarkModeProvider } from '@/context/DarkModeContext';
 
 const AdminLayoutWrapper = ({ children }) => {
   const pathname = usePathname();
@@ -20,11 +21,13 @@ if (isPublicRoute) {
 
   // Other admin pages: protect with authentication and use admin layout
   return (
-    <ProtectedRoute>
-      <AdminLayout>
-        {children}
-      </AdminLayout>
-   </ProtectedRoute>
+    <DarkModeProvider>
+      <ProtectedRoute>
+        <AdminLayout>
+          {children}
+        </AdminLayout>
+      </ProtectedRoute>
+    </DarkModeProvider>
   );
 };
 

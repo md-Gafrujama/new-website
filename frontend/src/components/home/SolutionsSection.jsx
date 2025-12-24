@@ -2,179 +2,138 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   CheckCircleIcon,
-  ArrowRightIcon,
   ChevronRightIcon,
-  LightBulbIcon,
-  SparklesIcon,
-  CurrencyDollarIcon,
 } from "@heroicons/react/24/solid";
 import { solutions } from "../../data/homeData";
 
 const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, onHealthcareQuoteClick, onEcommerceQuoteClick, onLmsQuoteClick }) => {
   return (
-    <section className="py-24 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center px-6 py-3 rounded-full text-sm font-semibold bg-gradient-to-r from-[#0A2540]/10 to-[#00BFA6]/10 text-[#0A2540] border border-[#0A2540]/20 mb-6">
-            <LightBulbIcon className="w-5 h-5 mr-2 text-[#0A2540]" />
-            Our Solutions
-          </div>
-          <h2 className="text-5xl font-black text-[#0A2540] mb-6">
-            Innovative Business
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0A2540] to-[#00BFA6] block">
-              Solutions
-            </span>
-          </h2>
-          <p className="text-xl text-[#0A2540]/70 max-w-4xl mx-auto leading-relaxed">
-            Powerful software solutions tailored to meet your specific business needs
-            and drive operational excellence across all industries.
-          </p>
-        </div>
+    <section className="py-24 relative overflow-hidden">
+      {/* Section Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop"
+          alt="Office Background"
+          fill
+          className="object-cover opacity-10"
+        />
+        {/* Soft Gradient Overlay to blend with white/content */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-white/90" />
+      </div>
 
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          {/* Badge Removed */}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0A2540] mb-6 tracking-tight">
+            Productized solutions that scale
+          </h2>
+          <p className="text-xl text-[#0A2540]/60 max-w-3xl mx-auto leading-relaxed font-light">
+            Ready-to-launch platforms tailored to CRM, HR, healthcare, learning, commerce, and AI content workflows.
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {solutions.map((solution, index) => (
-            <div key={index} className="group h-full">
-              <div className="relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-6 border border-gray-100 hover:border-[#0A2540]/20 overflow-hidden h-full flex flex-col min-h-[700px]">
-                {/* Industry Badge */}
-                <div className="absolute top-6 right-6 z-10">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/90 backdrop-blur-sm text-[#0A2540] border border-[#0A2540]/20">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group relative h-[480px] rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/10 hover:shadow-blue-900/20 transition-all duration-500 hover:-translate-y-2"
+            >
+              {/* Card Background Image (Full Cover) */}
+              <Image
+                src={solution.image}
+                alt={solution.name}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                className="object-cover transition duration-700 group-hover:scale-110"
+              />
+
+              {/* Dark Overlay for Text Readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/70 to-transparent/30 opacity-95 transition-opacity duration-300" />
+
+              <div className="absolute inset-0 p-8 flex flex-col justify-between">
+                {/* Header: Icon & Industry Badge */}
+                <div className="flex justify-between items-start">
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${solution.color} flex items-center justify-center shadow-lg transform group-hover:-translate-y-1 transition-transform duration-300`}>
+                    <solution.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/90 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
                     {solution.industry}
                   </span>
                 </div>
 
-                {/* Solution Image */}
-                <div className="relative mb-6 overflow-hidden rounded-2xl">
-                  <Image
-                    src={solution.image}
-                    alt={solution.name}
-                    width={400}
-                    height={200}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540]/60 via-transparent to-transparent"></div>
-
-                  {/* Solution Icon Overlay */}
-                  <div className="absolute bottom-4 left-4">
-                    <div className={`w-12 h-12 bg-gradient-to-r ${solution.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                      <solution.icon className="w-6 h-6 text-white" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex-grow flex flex-col">
-                  <h3 className="text-2xl font-bold text-[#0A2540] mb-4 group-hover:text-[#00BFA6] transition-colors duration-300">
-                    {solution.name}
-                  </h3>
-
-                  <p className="text-[#0A2540]/70 mb-6 leading-relaxed text-lg flex-grow">
+                {/* Content Body */}
+                <div className="transform transition-transform duration-300 translate-y-2 group-hover:translate-y-0">
+                  <h3 className="text-2xl font-bold text-white mb-3 leading-tight tracking-tight">{solution.name}</h3>
+                  <p className="text-sm text-gray-300/90 mb-6 font-medium line-clamp-2 leading-relaxed">
                     {solution.description}
                   </p>
 
-                  {/* Benefits List */}
-                  <div className="space-y-3 mb-8">
-                    {solution.benefits.map((benefit, i) => (
-                      <div key={i} className="flex items-center text-[#0A2540]/70">
-                        <div className="w-6 h-6 bg-[#0A2540]/10 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                          <CheckCircleIcon className="w-4 h-4 text-[#0A2540]" />
-                        </div>
-                        <span className="font-medium">{benefit}</span>
+                  {/* Features List */}
+                  <div className="space-y-2 mb-6 border-b border-white/10 pb-6">
+                    {solution.benefits.slice(0, 2).map((benefit, i) => (
+                      <div key={i} className="flex items-center gap-2.5 text-xs text-blue-50/70 font-medium">
+                        <CheckCircleIcon className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                        <span>{benefit}</span>
                       </div>
                     ))}
                   </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex flex-col gap-4 mt-auto">
+                  {/* Action Buttons Row */}
+                  <div className="flex items-center gap-3">
                     {solution.name === "AI Blog / Content Automation Solution" ? (
-                      <button
-                        onClick={onAiQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onAiQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
+                        Get Quote
                       </button>
                     ) : solution.name === "CRM Solutions" ? (
-                      <button
-                        onClick={onCrmQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onCrmQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
+                        Get Quote
                       </button>
                     ) : solution.name === "HRMS Solutions" ? (
-                      <button
-                        onClick={onHrmsQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onHrmsQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
+                        Get Quote
                       </button>
                     ) : solution.name === "Healthcare & Appointment Solutions" ? (
-                      <button
-                        onClick={onHealthcareQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onHealthcareQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
+                        Get Quote
                       </button>
                     ) : solution.name === "E-commerce Solutions" ? (
-                      <button
-                        onClick={onEcommerceQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onEcommerceQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
+                        Get Quote
                       </button>
                     ) : solution.name === "Learning Management Software (LMS)" ? (
-                      <button
-                        onClick={onLmsQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onLmsQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
+                        Get Quote
                       </button>
                     ) : (
-                      <Link
-                        href="/Contact-us"
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold rounded-2xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <Link href="/Contact-us" className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
+                        Get Quote
                       </Link>
                     )}
 
-                    <Link
-                      href={solution.link}
-                      className="inline-flex items-center text-[#0A2540] font-bold hover:text-[#00BFA6] transition-colors group/link text-lg"
-                    >
-                      Explore Solution
-                      <ChevronRightIcon className="w-5 h-5 ml-2 group-hover/link:translate-x-2 transition-transform duration-300" />
+                    <Link href={solution.link} className="inline-flex justify-center items-center w-12 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/10 backdrop-blur-md">
+                      <ChevronRightIcon className="w-5 h-5" />
                     </Link>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <div className="text-center mt-16">
-          <Link
-            href="/Our-solutions"
-            className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-[#0A2540] to-[#0A2540]/80 text-white font-bold text-lg rounded-3xl hover:from-[#0A2540]/90 hover:to-[#0A2540]/70 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-3xl group"
-          >
-            <SparklesIcon className="w-6 h-6 mr-3 group-hover:animate-pulse" />
-            View All Solutions
-            <ArrowRightIcon className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform duration-300" />
-          </Link>
-        </div>
+        {/* Start Project Button Removed */}
       </div>
     </section>
   );

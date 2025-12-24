@@ -20,7 +20,14 @@ class AdminAPI {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+        const errorMessage = data.message || data.error || `HTTP error! status: ${response.status}`;
+        console.error('API Error Response:', { status: response.status, data });
+        throw new Error(errorMessage);
+      }
+
+      // Check if the response indicates success
+      if (data.success === false) {
+        throw new Error(data.message || 'Request failed');
       }
 
       return {
@@ -191,6 +198,202 @@ class AdminAPI {
       method: 'POST',
       body: JSON.stringify(data),
     });
+  }
+
+  // Update Status Methods
+  async updateWebsiteRequestStatus(id, status) {
+    return this.makeRequest(`/api/website-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateMobileAppRequestStatus(id, status) {
+    return this.makeRequest(`/api/mobile-app-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateCloudHostingRequestStatus(id, status) {
+    return this.makeRequest(`/api/cloud-hosting-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateCrmSolutionRequestStatus(id, status) {
+    return this.makeRequest(`/api/crm-solution-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateHrmsSolutionRequestStatus(id, status) {
+    return this.makeRequest(`/api/hrms-solution-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateAiContentRequestStatus(id, status) {
+    return this.makeRequest(`/api/ai-content-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateDigitalMarketingRequestStatus(id, status) {
+    return this.makeRequest(`/api/digital-marketing-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateLmsRequestStatus(id, status) {
+    return this.makeRequest(`/api/lms-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateEcommerceRequestStatus(id, status) {
+    return this.makeRequest(`/api/ecommerce-project-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateBrandingDesignRequestStatus(id, status) {
+    return this.makeRequest(`/api/branding-design-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateSaasProductRequestStatus(id, status) {
+    return this.makeRequest(`/api/saas-product-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  async updateHealthcareRequestStatus(id, status) {
+    return this.makeRequest(`/api/healthcare-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
+  // Delete Methods
+  async deleteWebsiteRequest(id) {
+    return this.makeRequest(`/api/website-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteMobileAppRequest(id) {
+    return this.makeRequest(`/api/mobile-app-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteCloudHostingRequest(id) {
+    return this.makeRequest(`/api/cloud-hosting-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteCrmSolutionRequest(id) {
+    return this.makeRequest(`/api/crm-solution-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteHrmsSolutionRequest(id) {
+    return this.makeRequest(`/api/hrms-solution-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteAiContentRequest(id) {
+    return this.makeRequest(`/api/ai-content-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteDigitalMarketingRequest(id) {
+    return this.makeRequest(`/api/digital-marketing-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteLmsRequest(id) {
+    return this.makeRequest(`/api/lms-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteEcommerceRequest(id) {
+    return this.makeRequest(`/api/ecommerce-project-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteBrandingDesignRequest(id) {
+    return this.makeRequest(`/api/branding-design-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteSaasProductRequest(id) {
+    return this.makeRequest(`/api/saas-product-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteHealthcareRequest(id) {
+    return this.makeRequest(`/api/healthcare-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Payment API Methods
+  async createPayment(paymentData) {
+    return this.makeRequest('/api/payments', {
+      method: 'POST',
+      body: JSON.stringify(paymentData),
+    });
+  }
+
+  async getAllPayments(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/payments${queryString ? `?${queryString}` : ''}`);
+  }
+
+  async getPaymentById(id) {
+    return this.makeRequest(`/api/payments/${id}`);
+  }
+
+  async updatePayment(id, paymentData) {
+    return this.makeRequest(`/api/payments/${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(paymentData),
+    });
+  }
+
+  async deletePayment(id) {
+    return this.makeRequest(`/api/payments/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async getRevenueStats() {
+    return this.makeRequest('/api/payments/stats');
+  }
+
+  async getPaymentsByProject(projectId, projectType) {
+    return this.makeRequest(`/api/payments/project?projectId=${projectId}&projectType=${projectType}`);
   }
 }
 

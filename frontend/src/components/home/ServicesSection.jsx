@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import {
   CheckCircleIcon,
   ArrowRightIcon,
   ChevronRightIcon,
-  StarIcon,
   CogIcon,
   EyeIcon,
   CurrencyDollarIcon,
@@ -15,172 +15,129 @@ import { services } from "../../data/homeData";
 
 const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobileQuoteClick, onDigitalMarketingQuoteClick, onBrandingQuoteClick, onSaasQuoteClick }) => {
   return (
-    <section className="py-24 bg-[#F5F7FA]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center px-6 py-3 rounded-full text-sm font-semibold bg-gradient-to-r from-[#00BFA6]/10 to-[#0A2540]/10 text-[#0A2540] border border-[#00BFA6]/20 mb-6">
-            <CogIcon className="w-5 h-5 mr-2 text-[#00BFA6]" />
-            Our Services
-          </div>
-          <h2 className="text-5xl font-black text-[#0A2540] mb-6">
-            Professional Services That
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00BFA6] to-[#0A2540] block">
-              Drive Success
-            </span>
+    <section className="py-24 bg-white relative overflow-hidden">
+      {/* Background decoration */}
+      {/* Section Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
+          alt="Abstract Tech Background"
+          fill
+          className="object-cover opacity-5"
+        />
+        {/* Soft Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-white/90 to-white" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16"
+        >
+          {/* Badge Removed */}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0A2540] mb-6 tracking-tight">
+            Full-service digital delivery
           </h2>
-          <p className="text-xl text-[#0A2540]/70 max-w-4xl mx-auto leading-relaxed">
-            Comprehensive technology solutions designed to accelerate your business growth
-            and digital transformation journey with cutting-edge innovation.
+          <p className="text-xl text-[#0A2540]/60 max-w-3xl mx-auto leading-relaxed font-light">
+            From strategy to launch, we design, build, and support products that keep your business moving forward.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <div key={index} className="group h-full">
-              <div className="relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-6 border border-gray-100 hover:border-[#00BFA6]/30 overflow-hidden h-full flex flex-col min-h-[700px]">
-                {/* Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none`}></div>
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="group relative h-[480px] rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/10 hover:shadow-blue-900/20 transition-all duration-500 hover:-translate-y-2"
+            >
+              {/* Card Background Image */}
+              <Image
+                src={service.image}
+                alt={service.name}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                className="object-cover transition duration-700 group-hover:scale-110"
+              />
 
+              {/* Stronger, Cleaner Dark Overlay for Text Readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/70 to-transparent/30 opacity-95 transition-opacity duration-300" />
 
-                {/* Service Icon */}
-                <div className="relative mb-6">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${service.color} rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <service.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <div className="text-sm font-semibold text-[#00BFA6] mb-2">
-                    {service.stats}
-                  </div>
-                </div>
-
-                {/* Service Image */}
-                <div className="relative mb-6 overflow-hidden rounded-2xl">
-                  <Image
-                    src={service.image}
-                    alt={service.name}
-                    width={400}
-                    height={200}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                  {/* Floating Badge */}
-                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2">
-                    <StarIcon className="w-5 h-5 text-[#00BFA6]" />
+              <div className="absolute inset-0 p-8 flex flex-col justify-between">
+                {/* Header: Icon Only */}
+                <div className="flex justify-between items-start">
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center shadow-lg transform group-hover:-translate-y-1 transition-transform duration-300`}>
+                    <service.icon className="w-7 h-7 text-white" />
                   </div>
                 </div>
 
-                <div className="flex-grow flex flex-col">
-                  <h3 className="text-2xl font-bold text-[#0A2540] mb-4 group-hover:text-[#00BFA6] transition-colors duration-300">
-                    {service.name}
-                  </h3>
-
-                  <p className="text-[#0A2540]/70 mb-6 leading-relaxed text-lg flex-grow">
+                {/* Content Body */}
+                <div className="transform transition-transform duration-300 translate-y-2 group-hover:translate-y-0">
+                  <h3 className="text-2xl font-bold text-white mb-3 leading-tight tracking-tight">{service.name}</h3>
+                  <p className="text-sm text-gray-300/90 mb-5 font-medium line-clamp-2 leading-relaxed">
                     {service.description}
                   </p>
 
-                  {/* Feature List */}
-                  <div className="space-y-3 mb-8">
-                    {service.features.map((feature, i) => (
-                      <div key={i} className="flex items-center text-[#0A2540]/70">
-                        <div className="w-6 h-6 bg-[#00BFA6]/20 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                          <CheckCircleIcon className="w-4 h-4 text-[#00BFA6]" />
-                        </div>
-                        <span className="font-medium">{feature}</span>
+                  {/* Features List */}
+                  <div className="space-y-2 mb-6 border-b border-white/10 pb-6">
+                    {service.features.slice(0, 3).map((feature, i) => (
+                      <div key={i} className="flex items-center gap-2.5 text-xs text-blue-50/70 font-medium">
+                        <CheckCircleIcon className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                        <span>{feature}</span>
                       </div>
                     ))}
                   </div>
 
-                  {/* Action Buttons */}
-                  <div className="flex flex-col gap-4 mt-auto">
+                  {/* Action Buttons Row */}
+                  <div className="flex items-center gap-3">
+                    {/* Primary White Button */}
                     {service.name === "Website Design & Development" ? (
-                      <button
-                        onClick={onWebsiteQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onWebsiteQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-gray-100 transition-colors shadow-lg shadow-black/20">
+                        <CurrencyDollarIcon className="w-4 h-4 mr-2" /> Get a Quote
                       </button>
                     ) : service.name === "Cloud, Hosting, Maintenance & Support" ? (
-                      <button
-                        onClick={onCloudHostingQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onCloudHostingQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-gray-100 transition-colors shadow-lg shadow-black/20">
+                        <CurrencyDollarIcon className="w-4 h-4 mr-2" /> Get a Quote
                       </button>
                     ) : service.name === "Mobile Application Development" ? (
-                      <button
-                        onClick={onMobileQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onMobileQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-gray-100 transition-colors shadow-lg shadow-black/20">
+                        <CurrencyDollarIcon className="w-4 h-4 mr-2" /> Get a Quote
                       </button>
                     ) : service.name === "Digital Marketing" ? (
-                      <button
-                        onClick={onDigitalMarketingQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onDigitalMarketingQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-gray-100 transition-colors shadow-lg shadow-black/20">
+                        <CurrencyDollarIcon className="w-4 h-4 mr-2" /> Get a Quote
                       </button>
                     ) : service.name === "Branding & Creative Design" ? (
-                      <button
-                        onClick={onBrandingQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onBrandingQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-gray-100 transition-colors shadow-lg shadow-black/20">
+                        <CurrencyDollarIcon className="w-4 h-4 mr-2" /> Get a Quote
                       </button>
                     ) : service.name === "SaaS Product Development" ? (
-                      <button
-                        onClick={onSaasQuoteClick}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <button onClick={onSaasQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-gray-100 transition-colors shadow-lg shadow-black/20">
+                        <CurrencyDollarIcon className="w-4 h-4 mr-2" /> Get a Quote
                       </button>
                     ) : (
-                      <Link
-                        href={service.quoteLink}
-                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold rounded-2xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/quote"
-                      >
-                        <CurrencyDollarIcon className="w-5 h-5 mr-2 group-hover/quote:animate-pulse" />
-                        Get Free Quote
-                        <ArrowRightIcon className="w-5 h-5 ml-2 group-hover/quote:translate-x-2 transition-transform duration-300" />
+                      <Link href={service.quoteLink} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-gray-100 transition-colors shadow-lg shadow-black/20">
+                        <CurrencyDollarIcon className="w-4 h-4 mr-2" /> Get a Quote
                       </Link>
                     )}
 
-                    <Link
-                      href={service.link}
-                      className="inline-flex items-center text-[#00BFA6] font-bold hover:text-[#0A2540] transition-colors group/link text-lg"
-                     >
-                      Learn More
-                      <ChevronRightIcon className="w-5 h-5 ml-2 group-hover/link:translate-x-2 transition-transform duration-300" />
+                    {/* Circle Arrow Button */}
+                    <Link href={service.link} className="inline-flex justify-center items-center w-12 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/10 backdrop-blur-md">
+                      <ChevronRightIcon className="w-5 h-5" />
                     </Link>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <div className="text-center mt-16">
-          <Link
-            href="/Our-services"
-            className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold text-lg rounded-3xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-3xl group"
-          >
-            <EyeIcon className="w-6 h-6 mr-3 group-hover:animate-pulse" />
-            View All Services
-            <ArrowRightIcon className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform duration-300" />
-          </Link>
-        </div>
+        {/* View All Button Removed */}
       </div>
     </section>
   );

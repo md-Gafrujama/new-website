@@ -1,6 +1,7 @@
 
 import './globals.css';
 import { Quicksand } from 'next/font/google';
+import Script from 'next/script';
 
 import LayoutWrapper from '@/components/LayoutWrapper';
 import { AdminAuthProvider } from '@/context/AdminAuthContext';
@@ -22,8 +23,36 @@ const quicksand = Quicksand({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={quicksand.variable}>
-      <body className="min-h-screen flex flex-col">
+    <html lang="en" className={quicksand.variable} suppressHydrationWarning>
+      <head>
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme');
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  const shouldBeDark = theme ? theme === 'dark' : prefersDark;
+                  
+                  const html = document.documentElement;
+                  if (shouldBeDark) {
+                    html.classList.add('dark');
+                    html.style.colorScheme = 'dark';
+                  } else {
+                    html.classList.remove('dark');
+                    html.style.colorScheme = 'light';
+                  }
+                } catch (e) {
+                  console.error('Theme initialization error:', e);
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen flex flex-col bg-white dark:bg-gray-950 transition-colors duration-300 overflow-x-hidden">
         <AdminAuthProvider>
           <LayoutWrapper>
             {children}

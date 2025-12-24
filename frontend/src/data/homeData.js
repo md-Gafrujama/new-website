@@ -41,7 +41,7 @@ export const heroSlides = [
     title: "Transform Your Digital Future",
     subtitle: "Today",
     description: "We craft innovative digital experiences that propel businesses forward. From cutting-edge web development to AI-powered solutions, we're your partner in digital transformation.",
-    image: "/images/service1.jpg",
+    image: "/images/hero-nano-blue.jpg",
     bgGradient: "from-blue-600/20 to-cyan-500/20",
     ctaText: "Start Your Journey",
     ctaIconType: "rocket",
@@ -50,7 +50,7 @@ export const heroSlides = [
     title: "Innovative Solutions",
     subtitle: "Endless Possibilities", 
     description: "Unlock your business potential with our comprehensive suite of technology solutions. From mobile apps to enterprise software, we deliver excellence at every step.",
-    image: "/images/service2.png",
+    image: "/images/hero-nano-purple.jpg",
     bgGradient: "from-purple-600/20 to-pink-500/20",
     ctaText: "Explore Solutions",
     ctaIconType: "sparkles",
@@ -59,7 +59,7 @@ export const heroSlides = [
     title: "Digital Excellence",
     subtitle: "Delivered",
     description: "Join 500+ successful businesses who have transformed their digital presence with our award-winning team. Experience the difference of working with industry leaders.",
-    image: "/images/service3.jpeg",
+    image: "/images/hero-nano-green.jpg",
     bgGradient: "from-emerald-600/20 to-teal-500/20",
     ctaText: "Get Started",
     ctaIconType: "fire",
@@ -69,7 +69,7 @@ export const heroSlides = [
 export const services = [
   {
     name: "Website Design & Development",
-    image: "/images/service1.jpg",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
     link: "/Services/Website-Design-Development",
     quoteLink: "/forms/website-request",
     description: "Custom web solutions that drive business growth with modern design and functionality.",
@@ -80,7 +80,7 @@ export const services = [
   },
   {
     name: "Mobile Application Development",
-    image: "/images/service2.png",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80",
     link: "/Services/Mobile-App-Development",
     quoteLink: "/forms/mobile-app-requests",
     description: "Native and cross-platform mobile apps for iOS and Android platforms.",
@@ -91,7 +91,7 @@ export const services = [
   },
   {
     name: "Digital Marketing",
-    image: "/images/service3.jpeg",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
     link: "/Services/Digital-Marketing",
     quoteLink: "/Contact-us",
     description: "Comprehensive digital marketing strategies to boost your online presence.",
@@ -103,7 +103,7 @@ export const services = [
 
   {
   name: "SaaS Product Development",
-  image: "/images/service-saas.jpg",
+  image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1200&q=80",
   link: "/Services/SaaS-Development",
   quoteLink: "/Contact-us",
   description: "We design, develop, and deploy scalable SaaS products tailored to your business model — from MVP to enterprise-ready applications.",
@@ -120,7 +120,7 @@ export const services = [
 
 {
     name: "Cloud, Hosting, Maintenance & Support",
-    image: "/images/service5.jpg",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
     link: "/Services/Cloud-Hosting-Support",
     quoteLink: "/forms/cloud-hosting-requests",
     description: "Reliable cloud infrastructure and ongoing technical support services.",
@@ -132,7 +132,7 @@ export const services = [
   
   {
     name: "Branding & Creative Design",
-    image: "/images/service4.webp",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
     link: "/Services/Branding-Creative-Design",
     quoteLink: "/Contact-us",
     description: "Create compelling brand identities that resonate with your target audience.",
@@ -148,7 +148,7 @@ export const services = [
 export const solutions = [
   {
     name: "CRM Solutions",
-    image: "/images/solution1.png",
+    image: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=1200&q=80",
     link: "/Solutions/CRM-Solutions", 
     description: "Streamline customer relationships with powerful CRM systems.",
     benefits: ["Lead Management", "Sales Automation", "Customer Analytics", "Integration"],
@@ -158,7 +158,7 @@ export const solutions = [
   },
   {
     name: "HRMS Solutions",
-    image: "/images/solution2.jpg",
+    image: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80",
     link: "/Solutions/HRMS-Solutions",
     description: "Comprehensive human resource management for modern businesses.",
     benefits: ["Employee Management", "Payroll System", "Performance Tracking", "Recruitment"],
@@ -168,7 +168,7 @@ export const solutions = [
   },
   {
     name: "AI Blog / Content Automation Solution",
-    image: "/images/solution3.jpg",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80",
     link: "/Solutions/AI-Content-Automation",
     description: "Automated content generation powered by artificial intelligence.",
     benefits: ["Content Creation", "SEO Optimization", "Publishing Automation", "Analytics"],
@@ -178,7 +178,7 @@ export const solutions = [
   },
   {
     name: "Healthcare & Appointment Solutions",
-    image: "/images/solution4.webp",
+    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80",
     link: "/Solutions/Healthcare-Appointment",
     description: "Digital healthcare solutions for medical practice management.",
     benefits: ["Appointment Booking", "Patient Records", "Telemedicine", "Billing"],
@@ -188,7 +188,7 @@ export const solutions = [
   },
   {
     name: "Learning Management Software (LMS)",
-    image: "/images/solution5.jpg",
+    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80",
     link: "/Solutions/Learning-Management-System",
     description: "Comprehensive e-learning platforms for educational institutions.",
     benefits: ["Course Management", "Student Tracking", "Assessment Tools", "Certificates"],
@@ -198,7 +198,7 @@ export const solutions = [
   },
   {
     name: "E-commerce Solutions",
-    image: "/images/solution6.jpg",
+    image: "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1200&q=80",
     link: "/Solutions/Ecommerce-Solutions",
     description: "Complete online store solutions with payment integration.",
     benefits: ["Online Store", "Payment Gateway", "Inventory Management", "Analytics"],

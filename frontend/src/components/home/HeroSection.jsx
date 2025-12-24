@@ -5,18 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   CheckCircleIcon,
-  ArrowRightIcon,
-  ChevronRightIcon,
-  ChevronLeftIcon,
   PlayIcon,
   ShieldCheckIcon,
   ClockIcon,
   RocketLaunchIcon,
   SparklesIcon,
   FireIcon,
-  BoltIcon,
   TrophyIcon,
-  UsersIcon,
+  ChevronDownIcon,
 } from "@heroicons/react/24/solid";
 import { heroSlides } from "../../data/homeData";
 
@@ -36,222 +32,213 @@ const getCtaIcon = (iconType) => {
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
   const [activeSlide, setActiveSlide] = useState(0);
   const heroRef = useRef(null);
+  const videoRef = useRef(null);
+  const backgroundVideoUrl = "/hero-bg-network.mp4";
 
   useEffect(() => {
     setIsVisible(true);
-    
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
-  // Auto-scroll hero slides
-  useEffect(() => {
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
-  const parallaxOffset = scrollY * 0.5;
+  useEffect(() => {
+    const videoEl = videoRef.current;
+    if (!videoEl) return;
 
-  const nextSlide = () => {
-    setActiveSlide((prev) => (prev + 1) % heroSlides.length);
-  };
+    const attemptPlay = () => {
+      const playPromise = videoEl.play();
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise.catch(() => {
+          videoEl.muted = true;
+          videoEl.play().catch(() => undefined);
+        });
+      }
+    };
 
-  const prevSlide = () => {
-    setActiveSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
-  };
+    attemptPlay();
+  }, []);
 
-  // Get current slide data
   const currentSlide = heroSlides[activeSlide];
   const CtaIcon = getCtaIcon(currentSlide.ctaIconType);
 
   return (
-    <section ref={heroRef} className="relative pt-32 pb-24 overflow-hidden min-h-screen flex items-center">
-      {/* Animated Background */}
-      <div className="absolute inset-0">
-        <div 
-          className="absolute inset-0 opacity-30"
-          style={{
-            transform: `translateY(${parallaxOffset}px)`,
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23${encodeURIComponent('0A2540')}' fill-opacity='0.03'%3E%3Cpolygon points='50 0 60 40 100 50 60 60 50 100 40 60 0 50 40 40'/%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        />
-        
-        {/* Dynamic Background Gradient */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${currentSlide.bgGradient} transition-all duration-1000`} />
-        
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-[#00BFA6]/20 to-[#0A2540]/20 rounded-full animate-bounce" style={{animationDelay: '0s', animationDuration: '3s'}} />
-        <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-[#0A2540]/20 to-[#00BFA6]/20 rounded-full animate-bounce" style={{animationDelay: '1s', animationDuration: '4s'}} />
-        <div className="absolute bottom-40 left-20 w-12 h-12 bg-gradient-to-r from-[#00BFA6]/30 to-[#0A2540]/30 rounded-full animate-bounce" style={{animationDelay: '2s', animationDuration: '5s'}} />
+    <section
+      ref={heroRef}
+      className="relative isolate overflow-hidden text-white"
+    >
+      {/* Background Video */}
+      <div className="absolute inset-0 z-0">
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          controls={false}
+          aria-hidden="true"
+          crossOrigin="anonymous"
+          poster="/images/slide1image.webp"
+        >
+          <source src={backgroundVideoUrl} type="video/mp4" />
+        </video>
+        {/* Strong overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#010b1a]/95 via-[#010b1a]/80 to-[#010b1a]/60" />
       </div>
 
-      {/* Hero Navigation Arrows */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 group"
-      >
-        <ChevronLeftIcon className="w-8 h-8 group-hover:scale-110 transition-transform duration-300" />
-      </button>
-
-      <button
-        onClick={nextSlide}
-        className="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white p-4 rounded-full transition-all duration-300 group"
-      >
-        <ChevronRightIcon className="w-8 h-8 group-hover:scale-110 transition-transform duration-300" />
-      </button>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Dynamic Hero Content */}
-          <div className={`transition-all duration-1500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-            <h1 className="text-5xl lg:text-7xl font-black text-[#0A2540] mb-8 leading-tight">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-24">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div
+            className={`transition-all duration-700 ${isVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-8"
+              }`}
+          >
+            {/* Main Heading */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight">
               {currentSlide.title}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00BFA6] to-[#0A2540] block animate-pulse">
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400">
                 {currentSlide.subtitle}
               </span>
             </h1>
-            
-            <p className="text-xl lg:text-2xl text-[#0A2540]/80 mb-10 leading-relaxed font-medium">
+
+            <p className="text-lg text-blue-100/90 leading-relaxed max-w-xl mb-8 font-light">
               {currentSlide.description}
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-6 mb-12">
+
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap gap-5 mb-10">
               <Link
                 href="/Contact-us"
-                className="group relative inline-flex items-center justify-center px-10 py-5 bg-gradient-to-r from-[#00BFA6] to-[#00BFA6]/80 text-white font-bold text-lg rounded-3xl hover:from-[#00BFA6]/90 hover:to-[#00BFA6]/70 transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-3xl overflow-hidden"
+                className="group relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 hover:shadow-[0_0_30px_rgba(56,189,248,0.6)] hover:-translate-y-1 overflow-hidden"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <CtaIcon className="w-6 h-6 mr-3 group-hover:animate-bounce" />
-                {currentSlide.ctaText}
-                <ArrowRightIcon className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform duration-300" />
-              </Link>
-              
-              <Link
-                href="/Our-services"
-                className="group inline-flex items-center justify-center px-10 py-5 bg-white/90 backdrop-blur-sm text-[#0A2540] font-bold text-lg rounded-3xl hover:bg-white transition-all duration-300 shadow-xl hover:shadow-2xl border border-[#0A2540]/10 hover:border-[#00BFA6]/30"
-              >
-                <PlayIcon className="w-6 h-6 mr-3 text-[#00BFA6] group-hover:animate-pulse" />
-                Watch Demo
-                <BoltIcon className="w-6 h-6 ml-3 text-[#00BFA6] group-hover:animate-spin" />
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out" />
+                <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 group-hover:animate-shine" />
+
+                <CtaIcon className="w-5 h-5 mr-2 relative z-10" />
+                <span className="relative z-10">{currentSlide.ctaText}</span>
               </Link>
             </div>
-            
-            {/* Enhanced Trust Indicators */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
+
+            {/* Features Grid */}
+            <div className="flex flex-wrap gap-4 border-t border-white/10 pt-6">
               {[
-                { icon: CheckCircleIcon, text: "Free Consultation", color: "text-green-500" },
-                { icon: ClockIcon, text: "24/7 Support", color: "text-blue-500" },
-                { icon: ShieldCheckIcon, text: "Guaranteed Results", color: "text-purple-500" },
+                { icon: CheckCircleIcon, text: "Strategy to Launch" },
+                { icon: ClockIcon, text: "Agile Delivery" },
+                { icon: TrophyIcon, text: "Outcome Driven" },
               ].map((item, index) => (
-                <div key={index} className="flex items-center space-x-3 p-4 bg-white/60 backdrop-blur-sm rounded-2xl border border-white/50">
-                  <item.icon className={`w-6 h-6 ${item.color}`} />
-                  <span className="font-semibold text-[#0A2540]">{item.text}</span>
+                <div key={index} className="flex items-center gap-2">
+                  <div className="p-1.5 rounded-lg bg-white/5 border border-white/10 backdrop-blur-sm">
+                    <item.icon className="w-4 h-4 text-cyan-400" />
+                  </div>
+                  <span className="font-medium text-blue-50/90 text-sm">
+                    {item.text}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
-          
-          {/* Dynamic Hero Visual */}
-          <div className={`relative transition-all duration-1500 delay-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
-            <div className="relative">
-              {/* Animated Rings */}
-              <div className="absolute inset-0 animate-spin" style={{animationDuration: '20s'}}>
-                <div className="w-full h-full border-4 border-dashed border-[#00BFA6]/30 rounded-full"></div>
+
+          {/* Enquiry Form Card */}
+          <div className="relative mt-12 lg:mt-0 max-w-lg mx-auto w-full">
+            {/* Glow effect behind */}
+            <div className="absolute -inset-0.5 bg-gradient-to-br from-cyan-500/30 to-blue-600/30 rounded-3xl blur-xl opacity-70"></div>
+
+            <div className="relative bg-[#0B1120]/80 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden">
+              {/* Decorative top gradient line */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-50"></div>
+
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-black text-white tracking-widest mb-2 font-sans">ENQUIRY NOW</h3>
+                <p className="text-blue-200 font-medium text-lg">Transform Your Business</p>
+                <p className="text-blue-400/60 text-sm mt-1">Get a Custom Quote Today</p>
               </div>
-              <div className="absolute inset-4 animate-spin" style={{animationDuration: '15s', animationDirection: 'reverse'}}>
-                <div className="w-full h-full border-4 border-dashed border-[#0A2540]/20 rounded-full"></div>
-              </div>
-              
-              {/* Main Image Container with Dynamic Image */}
-              <div className="relative bg-gradient-to-r from-white via-white to-white/90 rounded-3xl p-8 shadow-2xl backdrop-blur-sm border border-white/50">
-                <div className="relative overflow-hidden rounded-2xl">
-                  <Image
-                    src={currentSlide.image}
-                    alt="Dynamic Solutions"
-                    width={700}
-                    height={500}
-                    className="w-full h-auto transform hover:scale-105 transition-transform duration-700"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#00BFA6]/20 via-transparent to-[#0A2540]/20 opacity-0 hover:opacity-100 transition-opacity duration-500"></div>
+
+              <form className="space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-blue-300 uppercase tracking-wider ml-1">Name</label>
+                    <input
+                      type="text"
+                      placeholder="Your full name"
+                      className="w-full bg-[#1e293b]/50 border border-blue-500/20 rounded-xl px-4 py-3 text-white placeholder-blue-400/30 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm hover:border-blue-500/40"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-blue-300 uppercase tracking-wider ml-1">Phone</label>
+                    <input
+                      type="tel"
+                      placeholder="Your phone number"
+                      className="w-full bg-[#1e293b]/50 border border-blue-500/20 rounded-xl px-4 py-3 text-white placeholder-blue-400/30 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm hover:border-blue-500/40"
+                    />
+                  </div>
                 </div>
-                
-                {/* Floating Stats Cards */}
-                <div className="absolute -top-6 -right-6 bg-white rounded-2xl p-4 shadow-xl border border-gray-100 animate-float">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-gradient-to-r from-[#00BFA6] to-[#0A2540] rounded-xl flex items-center justify-center">
-                      <TrophyIcon className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-[#0A2540]">500+</div>
-                      <div className="text-sm text-[#0A2540]/70">Projects</div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-blue-300 uppercase tracking-wider ml-1">Email</label>
+                    <input
+                      type="email"
+                      placeholder="your.email@example.com"
+                      className="w-full bg-[#1e293b]/50 border border-blue-500/20 rounded-xl px-4 py-3 text-white placeholder-blue-400/30 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm hover:border-blue-500/40"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-blue-300 uppercase tracking-wider ml-1">Inquiry Type</label>
+                    <div className="relative">
+                      <select className="w-full bg-[#1e293b]/50 border border-blue-500/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm appearance-none cursor-pointer hover:border-blue-500/40">
+                        <option className="bg-[#0f172a]">Select inquiry type</option>
+                        <option className="bg-[#0f172a]">Web Development</option>
+                        <option className="bg-[#0f172a]">Mobile App</option>
+                        <option className="bg-[#0f172a]">Digital Marketing</option>
+                        <option className="bg-[#0f172a]">Other</option>
+                      </select>
+                      <ChevronDownIcon className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 pointer-events-none" />
                     </div>
                   </div>
                 </div>
-                
-                <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl border border-gray-100 animate-float" style={{animationDelay: '1s'}}>
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-gradient-to-r from-[#0A2540] to-[#00BFA6] rounded-xl flex items-center justify-center">
-                      <UsersIcon className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-[#0A2540]">200+</div>
-                      <div className="text-sm text-[#0A2540]/70">Clients</div>
-                    </div>
-                  </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-blue-300 uppercase tracking-wider ml-1">Message</label>
+                  <textarea
+                    rows="3"
+                    placeholder="Tell us about your project..."
+                    className="w-full bg-[#1e293b]/50 border border-blue-500/20 rounded-xl px-4 py-3 text-white placeholder-blue-400/30 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm resize-none hover:border-blue-500/40"
+                  ></textarea>
                 </div>
-              </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/30 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-blue-500/50 mt-4 text-base tracking-wide"
+                >
+                  Send Message
+                </button>
+              </form>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Hero Slide Indicators */}
-      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
-        {heroSlides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setActiveSlide(index)}
-            className={`w-4 h-4 rounded-full transition-all duration-300 ${
-              index === activeSlide 
-                ? 'bg-[#00BFA6] scale-125' 
-                : 'bg-white/50 hover:bg-white/80'
-            }`}
-          />
-        ))}
-      </div>
-      
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-8 h-12 border-2 border-[#0A2540]/30 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-[#00BFA6] rounded-full mt-2 animate-pulse"></div>
+        {/* Slide Indicators */}
+        <div className="flex justify-center gap-3 mt-16 lg:mt-20">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveSlide(index)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${index === activeSlide
+                ? "w-12 bg-gradient-to-r from-blue-400 to-cyan-400"
+                : "w-3 bg-white/20 hover:bg-white/40"
+                }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
-
-      {/* Custom CSS for animations */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-        
-        .animate-float:nth-child(2) {
-          animation-delay: 1s;
-        }
-      `}</style>
     </section>
   );
 };

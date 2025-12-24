@@ -1,28 +1,101 @@
 @import "tailwindcss";
 
+@theme {
+  --animate-shine: shine 1.5s infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes shine {
+    0% { left: -100%; }
+    100% { left: 200%; }
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-
 html, body {
   overflow-x: hidden;
 }
 
+/* Dark mode support - Force dark mode styles */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background: #0a0a0a !important;
+  color: #ededed !important;
+}
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Quicksand', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Ensure dark mode applies to all admin pages */
+html.dark .bg-white {
+  background-color: #111827 !important;
+}
+
+html.dark .bg-gray-50 {
+  background-color: #030712 !important;
+}
+
+html.dark .text-gray-900 {
+  color: #f9fafb !important;
+}
+
+html.dark .text-gray-800 {
+  color: #f3f4f6 !important;
+}
+
+html.dark .text-gray-700 {
+  color: #e5e7eb !important;
+}
+
+html.dark .border-gray-200 {
+  border-color: #374151 !important;
+}
+
+html.dark .border-gray-300 {
+  border-color: #4b5563 !important;
+}
+
+/* Enhanced card layering for dark mode - 2 layer cards */
+html.dark .rounded-2xl.bg-white,
+html.dark .rounded-xl.bg-white {
+  background-color: #1f2937 !important; /* First layer - card background */
+  border-color: #374151 !important; /* Second layer - border */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+}
+
+html.dark .bg-gray-100 {
+  background-color: #1f2937 !important;
+}
+
+html.dark .text-gray-600 {
+  color: #d1d5db !important;
+}
+
+html.dark .text-gray-500 {
+  color: #9ca3af !important;
+}
+
+html.dark .border-gray-400 {
+  border-color: #6b7280 !important;
 }
 
 @media (max-width: 900px) {
@@ -34,5 +107,26 @@ body {
     width: 100% !important;
     max-width: 350px !important;
     height: auto !important;
+  }
+}
+
+/* Bar Chart Animations */
+@keyframes fillUp {
+  from {
+    height: 0%;
+  }
+  to {
+    height: 100%;
+  }
+}
+
+@keyframes barGrow {
+  from {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: bottom;
   }
 }
