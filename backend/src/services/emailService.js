@@ -9,13 +9,17 @@ class EmailService {
   async initializeTransporter() {
     try {
       const config = this.getEmailConfig();
+      const emailUser = process.env.EMAIL_USER?.trim() || 'not set';
+      const passwordLength = process.env.EMAIL_PASSWORD?.trim().length || 0;
+      
       console.log('📧 Email configuration:', {
         service: process.env.EMAIL_SERVICE,
         host: config.host,
         port: config.port,
         secure: config.secure,
-        user: process.env.EMAIL_USER ? process.env.EMAIL_USER.substring(0, 10) + '***' : 'not set',
-        passwordLength: process.env.EMAIL_PASSWORD ? process.env.EMAIL_PASSWORD.length : 0
+        user: emailUser ? emailUser.substring(0, 10) + '***' : 'not set',
+        passwordLength: passwordLength,
+        passwordFormatValid: passwordLength === 16 && /^[a-z]{16}$/.test(process.env.EMAIL_PASSWORD?.trim() || '')
       });
       
       this.transporter = nodemailer.createTransport(config);
@@ -25,16 +29,47 @@ class EmailService {
       }
     } catch (error) {
       console.error('❌ Email service initialization failed:', error.message);
+      if (error.message.includes('EMAIL_USER') || error.message.includes('EMAIL_PASSWORD')) {
+        console.error('💡 Please check your .env file and ensure both EMAIL_USER and EMAIL_PASSWORD are set correctly');
+      }
     }
   }
 
   getEmailConfig() {
+    // Clean and validate email credentials
+    const emailUser = process.env.EMAIL_USER?.trim();
+    let emailPassword = process.env.EMAIL_PASSWORD?.trim();
+    
+    // Remove any quotes that might be around the password
+    if (emailPassword) {
+      emailPassword = emailPassword.replace(/^["']|["']$/g, '');
+    }
+    
+    // Validate credentials
+    if (!emailUser) {
+      throw new Error('EMAIL_USER is not set in environment variables');
+    }
+    
+    if (!emailPassword) {
+      throw new Error('EMAIL_PASSWORD is not set in environment variables');
+    }
+    
+    // Log password info for debugging (without exposing the actual password)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🔍 Email Config Debug:');
+      console.log(`   - User: ${emailUser}`);
+      console.log(`   - Password length: ${emailPassword.length}`);
+      console.log(`   - Password has spaces: ${emailPassword.includes(' ')}`);
+      console.log(`   - Password starts/ends with quotes: ${/^["']|["']$/.test(process.env.EMAIL_PASSWORD || '')}`);
+      console.log(`   - Password format (16 lowercase): ${/^[a-z]{16}$/.test(emailPassword)}`);
+    }
+    
     // Gmail specific configuration
     const config = {
       service: 'gmail', // Use Gmail service
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
+        user: emailUser,
+        pass: emailPassword
       },
       tls: {
         rejectUnauthorized: false
@@ -64,12 +99,45 @@ class EmailService {
     } catch (error) {
       console.error('❌ Email connection test failed:', error.message);
       
-      if (error.code === 'EAUTH') {
-        console.error('🔑 Gmail Authentication Issue:');
-        console.error('   - Email User:', process.env.EMAIL_USER);
-        console.error('   - Password Length:', process.env.EMAIL_PASSWORD ? process.env.EMAIL_PASSWORD.length : 0);
-        console.error('   - Expected Password Length: 16 characters');
-        console.error('   - Make sure 2FA is enabled and you are using App Password');
+      if (error.code === 'EAUTH' || error.message.includes('Username and Password not accepted') || error.message.includes('535-5.7.8')) {
+        console.error('\n🔑 Gmail Authentication Failed:');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.error('📧 Current Configuration:');
+        console.error(`   - Email: ${process.env.EMAIL_USER || 'NOT SET'}`);
+        console.error(`   - Password Length: ${process.env.EMAIL_PASSWORD ? process.env.EMAIL_PASSWORD.length : 0} characters`);
+        console.error(`   - Expected: 16 characters (Gmail App Password)`);
+        console.error('');
+        console.error('📋 Steps to Fix Gmail Authentication:');
+        console.error('');
+        console.error('1. ✅ Enable 2-Step Verification on Gmail:');
+        console.error('   → Go to: https://myaccount.google.com/security');
+        console.error('   → Click "2-Step Verification"');
+        console.error('   → Follow the setup process');
+        console.error('');
+        console.error('2. ✅ Generate App Password:');
+        console.error('   → Go to: https://myaccount.google.com/apppasswords');
+        console.error('   → Or: Google Account → Security → 2-Step Verification → App passwords');
+        console.error('   → Select "Mail" as app and "Other" as device');
+        console.error('   → Enter a name (e.g., "Node.js App")');
+        console.error('   → Click "Generate"');
+        console.error('   → Copy the 16-character password (no spaces)');
+        console.error('');
+        console.error('3. ✅ Update .env File:');
+        console.error('   → Open: new-website/backend/.env');
+        console.error(`   → Set: EMAIL_PASSWORD=your_16_character_app_password`);
+        console.error('   → Make sure there are NO spaces or quotes');
+        console.error('   → Save the file');
+        console.error('');
+        console.error('4. ✅ Restart Server:');
+        console.error('   → Stop the server (Ctrl+C)');
+        console.error('   → Start again with: nodemon');
+        console.error('');
+        console.error('⚠️  Important Notes:');
+        console.error('   - Do NOT use your regular Gmail password');
+        console.error('   - App Passwords are 16 characters (no spaces)');
+        console.error('   - Each App Password can only be viewed once');
+        console.error('   - If you lose it, generate a new one');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       }
       
       return { success: false, error: error.message };
@@ -120,12 +188,35 @@ class EmailService {
       
       let errorMessage = 'Failed to send OTP email';
       
-      if (error.code === 'EAUTH') {
+      if (error.code === 'EAUTH' || error.message.includes('Username and Password not accepted') || error.message.includes('535-5.7.8')) {
         errorMessage = 'Gmail authentication failed. Please verify your App Password.';
-        console.error('🔑 Authentication Details:');
-        console.error('   - User:', process.env.EMAIL_USER);
-        console.error('   - Password format correct:', /^[a-z]{16}$/.test(process.env.EMAIL_PASSWORD));
-        console.error('   - Password length:', process.env.EMAIL_PASSWORD?.length);
+        const emailUser = process.env.EMAIL_USER?.trim() || 'NOT SET';
+        const emailPassword = process.env.EMAIL_PASSWORD?.trim() || '';
+        
+        console.error('\n🔑 Authentication Error Details:');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.error(`   - Email User: ${emailUser}`);
+        console.error(`   - Password Length: ${emailPassword.length} characters`);
+        console.error(`   - Expected: 16 characters (Gmail App Password)`);
+        console.error(`   - Password Format Valid: ${/^[a-z]{16}$/.test(emailPassword) ? '✅ Yes' : '❌ No (should be 16 lowercase letters)'}`);
+        console.error(`   - Has Spaces: ${emailPassword.includes(' ') ? '❌ Yes (remove spaces)' : '✅ No'}`);
+        console.error(`   - Has Quotes: ${/^["']|["']$/.test(process.env.EMAIL_PASSWORD || '') ? '❌ Yes (remove quotes)' : '✅ No'}`);
+        console.error('');
+        console.error('🔍 Common Issues:');
+        console.error('   1. ❌ App Password is incorrect or expired');
+        console.error('   2. ❌ 2-Step Verification is not enabled');
+        console.error('   3. ❌ App Password was revoked or regenerated');
+        console.error('   4. ❌ Using regular Gmail password instead of App Password');
+        console.error('   5. ❌ Password has hidden characters or spaces');
+        console.error('');
+        console.error('📋 Solution Steps:');
+        console.error('   1. Go to: https://myaccount.google.com/apppasswords');
+        console.error('   2. Generate a NEW App Password (old ones may be invalid)');
+        console.error('   3. Copy the 16-character password (no spaces)');
+        console.error('   4. Update .env file: EMAIL_PASSWORD=your_new_password');
+        console.error('   5. Make sure there are NO spaces, quotes, or special characters');
+        console.error('   6. Restart the server');
+        console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       }
       
       throw new Error(errorMessage);

@@ -58,14 +58,79 @@ class AuthController {
       await newOTP.save();
 
       // Send OTP via email
-      const emailResult = await emailService.sendOTPEmail(
-        email, 
-        otpCode, 
-        'login'
-      );
+      let emailResult;
+      try {
+        emailResult = await emailService.sendOTPEmail(
+          email, 
+          otpCode, 
+          'login'
+        );
 
-      if (!emailResult.success) {
-        throw new Error('Failed to send OTP email');
+        if (!emailResult.success) {
+          throw new Error('Failed to send OTP email');
+        }
+      } catch (emailError) {
+        console.error('Email sending error in sendOTP:', emailError);
+        console.error('Full error details:', {
+          message: emailError.message,
+          code: emailError.code,
+          response: emailError.response,
+          stack: process.env.NODE_ENV === 'development' ? emailError.stack : undefined
+        });
+        
+        // Check if it's an authentication error
+        const isAuthError = emailError.code === 'EAUTH' || 
+                           emailError.message.includes('Username and Password not accepted') ||
+                           emailError.message.includes('535-5.7.8');
+        
+        // DEVELOPMENT MODE: If email fails, log OTP to console for testing
+        if (process.env.NODE_ENV === 'development' && process.env.ALLOW_CONSOLE_OTP === 'true') {
+          console.log('\n⚠️  DEVELOPMENT MODE: Email sending failed, but OTP is logged below for testing');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log(`📧 Email: ${email}`);
+          console.log(`🔐 OTP Code: ${otpCode}`);
+          console.log(`⏰ Expires in: ${process.env.OTP_EXPIRY_MINUTES || 5} minutes`);
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('💡 To use this OTP, enter it in the login form');
+          console.log('💡 To fix email: Generate new App Password and update EMAIL_PASSWORD in .env\n');
+          
+          // Return success with OTP in response (development only)
+          return res.status(200).json({
+            success: true,
+            message: 'OTP generated (email failed, but OTP logged to console for testing)',
+            data: {
+              email: email.toLowerCase(),
+              expiresIn: process.env.OTP_EXPIRY_MINUTES || 5,
+              otp: otpCode, // Include OTP in response for development
+              warning: 'Email sending failed. OTP is shown here for testing only.',
+              emailError: emailError.message,
+              hint: 'Check backend console for OTP code. Fix Gmail configuration to enable email delivery.'
+            }
+          });
+        }
+        
+        return res.status(500).json({
+          success: false,
+          message: isAuthError 
+            ? 'Gmail authentication failed. Please check your App Password in .env file.'
+            : 'Failed to send OTP email. Please check email service configuration.',
+          error: process.env.NODE_ENV === 'development' ? emailError.message : undefined,
+          errorCode: process.env.NODE_ENV === 'development' ? emailError.code : undefined,
+          hint: isAuthError
+            ? 'Generate a new Gmail App Password at https://myaccount.google.com/apppasswords and update EMAIL_PASSWORD in .env'
+            : 'Check EMAIL_USER and EMAIL_PASSWORD in .env file. Run "node test-email.js" to test configuration.',
+          developmentTip: process.env.NODE_ENV === 'development' 
+            ? 'Add ALLOW_CONSOLE_OTP=true to .env to log OTP to console when email fails'
+            : undefined,
+          troubleshooting: process.env.NODE_ENV === 'development' ? {
+            step1: 'Go to https://myaccount.google.com/apppasswords',
+            step2: 'Generate a new App Password (16 characters)',
+            step3: 'Update backend/.env: EMAIL_PASSWORD=your_new_password',
+            step4: 'Restart backend server',
+            step5: 'Test with: node test-email.js',
+            step6: 'OR add ALLOW_CONSOLE_OTP=true to .env for console OTP logging'
+          } : undefined
+        });
       }
 
       res.status(200).json({
