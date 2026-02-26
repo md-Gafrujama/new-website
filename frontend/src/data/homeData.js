@@ -19,7 +19,6 @@ import {
   ShoppingCartIcon,
   UserGroupIcon,
   BuildingOfficeIcon,
-  SparklesIcon,
   EyeIcon,
   CogIcon,
   BoltIcon,
@@ -34,6 +33,7 @@ import {
   ChatBubbleLeftRightIcon,
   ChevronDownIcon,
   BeakerIcon,
+  FilmIcon,
 } from "@heroicons/react/24/solid";
 
 export const heroSlides = [
@@ -117,32 +117,28 @@ export const services = [
   color: "from-indigo-500 to-purple-500",
   stats: "50+ SaaS Platforms Delivered",
 },
-
-{
-    name: "Cloud, Hosting, Maintenance & Support",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
-    link: "/Services/Cloud-Hosting-Support",
-    quoteLink: "/forms/cloud-hosting-requests",
-    description: "Reliable cloud infrastructure and ongoing technical support services.",
-    features: ["Cloud Migration", "24/7 Support", "Server Management", "Security"],
-    icon: CloudIcon,
-    color: "from-indigo-500 to-blue-500",
-    stats: "99.9% Uptime",
-  },
-  
   {
     name: "Branding & Creative Design",
     image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
     link: "/Services/Branding-Creative-Design",
     quoteLink: "/Contact-us",
     description: "Create compelling brand identities that resonate with your target audience.",
-    features: ["Logo Design", "Brand Identity", "Marketing Materials", "Brand Guidelines"],
+    features: ["Logo Design", "Brand Identity", "Marketing Materials", "Brand Guidelines", "Figma & Design Tools"],
     icon: PaintBrushIcon,
     color: "from-green-500 to-teal-500",
     stats: "250+ Brands Created",
   },
-  
-
+  {
+    name: "Video Editing & 3D Animation",
+    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=1200&q=80",
+    link: "/Services/Video-Editing-3D-Animation",
+    quoteLink: "/forms/video-editing-requests",
+    description: "Professional video editing and 3D animation for ads, explainers, and content.",
+    features: ["Video Editing", "3D Animation", "Motion Graphics", "Post-Production"],
+    icon: FilmIcon,
+    color: "from-violet-500 to-fuchsia-500",
+    stats: "500+ Projects",
+  },
 ];
 
 export const solutions = [
@@ -165,16 +161,6 @@ export const solutions = [
     icon: BuildingOfficeIcon,
     color: "from-blue-500 to-indigo-500",
     industry: "Human Resources",
-  },
-  {
-    name: "AI Blog / Content Automation Solution",
-    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80",
-    link: "/Solutions/AI-Content-Automation",
-    description: "Automated content generation powered by artificial intelligence.",
-    benefits: ["Content Creation", "SEO Optimization", "Publishing Automation", "Analytics"],
-    icon: SparklesIcon,
-    color: "from-purple-500 to-violet-500",
-    industry: "Content & Marketing",
   },
   {
     name: "Healthcare & Appointment Solutions",
@@ -206,6 +192,16 @@ export const solutions = [
     color: "from-orange-500 to-yellow-500",
     industry: "Retail & Commerce",
   },
+  {
+    name: "Cloud, Hosting, Maintenance & Support",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+    link: "/Solutions/Cloud-Hosting-Support",
+    description: "Reliable cloud infrastructure and ongoing technical support.",
+    benefits: ["Cloud Migration", "24/7 Support", "Server Management", "Security"],
+    icon: CloudIcon,
+    color: "from-indigo-500 to-blue-500",
+    industry: "Infrastructure",
+  }
 ];
 
 export const stats = [

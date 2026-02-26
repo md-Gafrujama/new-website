@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { solutions } from "../../data/homeData";
 
-const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, onHealthcareQuoteClick, onEcommerceQuoteClick, onLmsQuoteClick }) => {
+const SolutionsSection = ({ onCrmQuoteClick, onHrmsQuoteClick, onHealthcareQuoteClick, onEcommerceQuoteClick, onLmsQuoteClick, onCloudHostingQuoteClick }) => {
   return (
     <section className="py-24 relative overflow-hidden">
       {/* Section Background Image */}
@@ -93,11 +93,7 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
 
                   {/* Action Buttons Row */}
                   <div className="flex items-center gap-3">
-                    {solution.name === "AI Blog / Content Automation Solution" ? (
-                      <button onClick={onAiQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
-                        Get Quote
-                      </button>
-                    ) : solution.name === "CRM Solutions" ? (
+                    {solution.name === "CRM Solutions" ? (
                       <button onClick={onCrmQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
                         Get Quote
                       </button>
@@ -115,6 +111,10 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
                       </button>
                     ) : solution.name === "Learning Management Software (LMS)" ? (
                       <button onClick={onLmsQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
+                        Get Quote
+                      </button>
+                    ) : solution.name === "Cloud, Hosting, Maintenance & Support" ? (
+                      <button onClick={onCloudHostingQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-blue-50 transition-colors shadow-lg shadow-black/20">
                         Get Quote
                       </button>
                     ) : (

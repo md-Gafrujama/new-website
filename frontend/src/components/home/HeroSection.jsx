@@ -35,7 +35,7 @@ const HeroSection = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const heroRef = useRef(null);
   const videoRef = useRef(null);
-  const backgroundVideoUrl = "/hero-bg-network.mp4";
+  const backgroundVideoUrl = "/hero-bg.mp4";
 
   useEffect(() => {
     setIsVisible(true);

@@ -17,14 +17,14 @@ import {
   DevicePhoneMobileIcon,
   MegaphoneIcon,
   PaintBrushIcon,
-  CloudIcon,
   LightBulbIcon,
+  FilmIcon,
   UserGroupIcon,
   BuildingOfficeIcon,
-  SparklesIcon,
+  CloudIcon,
   HeartIcon,
   AcademicCapIcon,
-  ShoppingCartIcon
+  ShoppingCartIcon,
 } from "@heroicons/react/24/solid";
 
 export default function Footer() {
@@ -201,6 +201,15 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
+                  href="/Services/SaaS-Development" 
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
+                >
+                  <LightBulbIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
+                  <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">SaaS Product Development</span>
+                </Link>
+              </li>
+              <li>
+                <Link 
                   href="/Services/Branding-Creative-Design" 
                   className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
@@ -210,20 +219,11 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="/Services/Cloud-Hosting-Support" 
+                  href="/Services/Video-Editing-3D-Animation" 
                   className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <CloudIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
-                  <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Cloud & Support</span>
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/Services/SaaS-Development" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
-                >
-                  <LightBulbIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
-                  <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">SaaS Product Development</span>
+                  <FilmIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
+                  <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Video Editing & 3D Animation</span>
                 </Link>
               </li>
             </ul>
@@ -258,15 +258,6 @@ export default function Footer() {
               </li>
               <li>
                 <Link 
-                  href="/Solutions/AI-Content-Automation" 
-                  className="group flex items-start gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
-                >
-                  <SparklesIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0 mt-0.5" />
-                  <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold leading-tight">AI Content Automation</span>
-                </Link>
-              </li>
-              <li>
-                <Link 
                   href="/Solutions/Healthcare-Appointment" 
                   className="group flex items-start gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
@@ -290,6 +281,15 @@ export default function Footer() {
                 >
                   <ShoppingCartIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">E-commerce Solutions</span>
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="/Solutions/Cloud-Hosting-Support" 
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
+                >
+                  <CloudIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
+                  <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Cloud, Hosting & Support</span>
                 </Link>
               </li>
             </ul>

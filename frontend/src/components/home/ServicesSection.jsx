@@ -13,7 +13,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { services } from "../../data/homeData";
 
-const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobileQuoteClick, onDigitalMarketingQuoteClick, onBrandingQuoteClick, onSaasQuoteClick }) => {
+const ServicesSection = ({ onWebsiteQuoteClick, onVideoEditingQuoteClick, onMobileQuoteClick, onDigitalMarketingQuoteClick, onBrandingQuoteClick, onSaasQuoteClick }) => {
   return (
     <section className="py-24 bg-white relative overflow-hidden">
       {/* Background decoration */}
@@ -100,8 +100,8 @@ const ServicesSection = ({ onWebsiteQuoteClick, onCloudHostingQuoteClick, onMobi
                       <button onClick={onWebsiteQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-gray-100 transition-colors shadow-lg shadow-black/20">
                         <CurrencyDollarIcon className="w-4 h-4 mr-2" /> Get a Quote
                       </button>
-                    ) : service.name === "Cloud, Hosting, Maintenance & Support" ? (
-                      <button onClick={onCloudHostingQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-gray-100 transition-colors shadow-lg shadow-black/20">
+                    ) : service.name === "Video Editing & 3D Animation" ? (
+                      <button onClick={onVideoEditingQuoteClick} className="flex-1 inline-flex justify-center items-center px-4 py-3 rounded-full bg-white text-[#0A2540] text-sm font-bold hover:bg-gray-100 transition-colors shadow-lg shadow-black/20">
                         <CurrencyDollarIcon className="w-4 h-4 mr-2" /> Get a Quote
                       </button>
                     ) : service.name === "Mobile Application Development" ? (

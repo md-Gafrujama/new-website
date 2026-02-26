@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   ChevronDownIcon,
+  ChevronRightIcon,
   Bars3Icon,
   XMarkIcon,
   PhoneIcon,
@@ -15,6 +16,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { FaLinkedinIn, FaInstagram, FaFacebookF } from "react-icons/fa";
+import Modal from "./Modal";
 
 const services = [
   {
@@ -36,22 +38,22 @@ const services = [
     description: "Growth strategies",
   },
   {
+    name: "SaaS Product Development",
+    image: "/images/service5.jpg",
+    link: "/Services/SaaS-Development",
+    description: "End-to-end SaaS builds",
+  },
+  {
     name: "Branding & Creative Design",
     image: "/images/service4.webp",
     link: "/Services/Branding-Creative-Design",
     description: "Visual identity",
   },
   {
-    name: "Cloud, Hosting, Maintenance & Support",
+    name: "Video Editing & 3D Animation",
     image: "/images/service5.jpg",
-    link: "/Services/Cloud-Hosting-Support",
-    description: "Infrastructure management",
-  },
-  {
-    name: "SaaS Product Development",
-    image: "/images/service5.jpg", // Using service5.jpg as placeholder
-    link: "/Services/SaaS-Development",
-    description: "End-to-end SaaS builds",
+    link: "/Services/Video-Editing-3D-Animation",
+    description: "Video editing & 3D animation",
   },
 ];
 
@@ -69,12 +71,6 @@ const solutions = [
     description: "Human resources",
   },
   {
-    name: "AI Blog / Content Automation Solution",
-    image: "/images/solution3.jpg",
-    link: "/Solutions/AI-Content-Automation",
-    description: "Automated content",
-  },
-  {
     name: "Healthcare & Appointment Solutions",
     image: "/images/solution4.webp",
     link: "/Solutions/Healthcare-Appointment",
@@ -88,9 +84,15 @@ const solutions = [
   },
   {
     name: "E-commerce Solutions",
-    image: "/images/solution4.webp", // Using solution4.webp as placeholder
+    image: "/images/solution4.webp",
     link: "/Solutions/Ecommerce-Solutions",
     description: "Online stores",
+  },
+  {
+    name: "Cloud, Hosting, Maintenance & Support",
+    image: "/images/service5.jpg",
+    link: "/Solutions/Cloud-Hosting-Support",
+    description: "Infrastructure & support",
   },
 ];
 
@@ -101,7 +103,6 @@ const allContent = [
   { name: "Home", link: "/", type: "page", description: "Homepage" },
   { name: "About Us", link: "/About-us", type: "page", description: "About our company" },
   { name: "Contact Us", link: "/Contact-us", type: "page", description: "Get in touch" },
-  { name: "Tech Blogs", link: "https://final-ai-blogs-qsug.vercel.app/", type: "blog", description: "Latest tech insights" },
 ];
 
 export default function LowNav() {
@@ -112,6 +113,7 @@ export default function LowNav() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [showTechBlogsComingSoon, setShowTechBlogsComingSoon] = useState(false);
   const router = useRouter();
 
   // Handle scroll effect
@@ -224,44 +226,33 @@ export default function LowNav() {
                   <ChevronDownIcon className="w-4 h-4 ml-2 group-hover:rotate-180 transition-transform duration-400 text-gray-600" />
                 </Link>
 
-                {/* Enhanced Dropdown Menu - center open, smooth */}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 pt-2 opacity-0 invisible scale-95 translate-y-[-6px] group-hover:opacity-100 group-hover:visible group-hover:scale-100 group-hover:translate-y-0 transition-all duration-300 ease-out origin-top">
-                  <div className="bg-white rounded-3xl shadow-2xl border border-[#0A2540]/10 p-8 w-[950px] max-w-6xl">
-                    <div className="mb-6">
-                      <h3 className="text-[#0A2540] font-bold text-lg mb-2 flex items-center">
-                        <SparklesIcon className="w-5 h-5 mr-2 text-[#0A2540]" />
-                        Our Services
-                      </h3>
-                      <p className="text-[#0A2540]/70 text-sm">Comprehensive solutions for your business needs</p>
-                    </div>
-                    <div className="grid grid-cols-3 gap-6">
-                      {services.map((item, idx) => (
+                {/* Dropdown - full-width bridge so hover never breaks when moving from nav to dropdown; no gap under navbar */}
+                <div className="fixed left-0 right-0 top-0 w-full opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 z-50 pt-20 lg:pt-24">
+                  <div className="flex justify-center px-4">
+                    <div className="w-[880px] max-w-full bg-white rounded-lg shadow-lg border border-gray-100 px-5 py-4 scale-[0.98] group-hover:scale-100 transition-[transform] duration-300 ease-out origin-top">
+                      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
+                        <SparklesIcon className="w-4 h-4 text-[#0A2540]" />
+                        <h3 className="text-[#0A2540] font-semibold text-sm">Our Services</h3>
+                      </div>
+                      <div className="grid grid-cols-2 gap-px bg-gray-100">
+                        {services.map((item, idx) => (
                         <Link
                           key={idx}
                           href={item.link}
-                          className="group/item block"
+                          className="group/item group flex items-center gap-3 px-3 py-2.5 bg-white opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 hover:bg-gray-50/90 transition-[opacity,transform,background-color] duration-300 ease-out"
+                          style={{ transitionDelay: `${idx * 45}ms` }}
                         >
-                          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-[#0A2540]/5 hover:to-[#0A2540]/10 transition-all duration-400 transform hover:scale-105 hover:shadow-xl border border-[#0A2540]/10 hover:border-[#0A2540]/30">
-                            <div
-                              className="h-36 bg-cover bg-center relative"
-                              style={{
-                                backgroundImage: `url(${item.image})`,
-                              }}
-                            >
-                              <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540]/90 via-[#0A2540]/30 to-transparent"></div>
-                              <div className="absolute top-3 right-3">
-                                <div className="w-8 h-8 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center">
-                                  <StarIcon className="w-4 h-4 text-white" />
-                                </div>
-                              </div>
-                              <div className="absolute bottom-4 left-4 right-4">
-                                <h4 className="text-white font-semibold text-sm mb-1">{item.name}</h4>
-                                <p className="text-white/80 text-xs">{item.description}</p>
-                              </div>
-                            </div>
+                          <div className="shrink-0 w-12 h-12 rounded-md overflow-hidden bg-gray-100">
+                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                           </div>
+                          <div className="min-w-0 flex-1">
+                            <h4 className="text-[#0A2540] font-semibold text-sm truncate group-hover:text-[#00ffce] transition-colors">{item.name}</h4>
+                            <p className="text-gray-500 text-xs mt-0.5 truncate">{item.description}</p>
+                          </div>
+                          <ChevronRightIcon className="w-3.5 h-3.5 shrink-0 text-gray-400 group-hover:text-[#00ffce] transition-colors" />
                         </Link>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -277,55 +268,47 @@ export default function LowNav() {
                   <ChevronDownIcon className="w-4 h-4 ml-2 group-hover:rotate-180 transition-transform duration-400 text-gray-600" />
                 </Link>
 
-                {/* Enhanced Dropdown Menu - center open, smooth */}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 pt-2 opacity-0 invisible scale-95 translate-y-[-6px] group-hover:opacity-100 group-hover:visible group-hover:scale-100 group-hover:translate-y-0 transition-all duration-300 ease-out origin-top">
-                  <div className="bg-white rounded-3xl shadow-2xl border border-[#0A2540]/10 p-8 w-[950px] max-w-6xl">
-                    <div className="mb-6">
-                      <h3 className="text-[#0A2540] font-bold text-lg mb-2 flex items-center">
-                        <SparklesIcon className="w-5 h-5 mr-2 text-[#0A2540]" />
-                        Our Solutions
-                      </h3>
-                      <p className="text-[#0A2540]/70 text-sm">Innovative technology solutions for modern businesses</p>
-                    </div>
-                    <div className="grid grid-cols-3 gap-6">
-                      {solutions.map((item, idx) => (
-                        <Link
-                          key={idx}
-                          href={item.link}
-                          className="group/item block"
-                        >
-                          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50 to-white hover:from-[#0A2540]/5 hover:to-[#0A2540]/10 transition-all duration-400 transform hover:scale-105 hover:shadow-xl border border-[#0A2540]/10 hover:border-[#0A2540]/30">
-                            <div
-                              className="h-36 bg-cover bg-center relative"
-                              style={{ backgroundImage: `url(${item.image})` }}
-                            >
-                              <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540]/90 via-[#0A2540]/30 to-transparent"></div>
-                              <div className="absolute top-3 right-3">
-                                <div className="w-8 h-8 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center">
-                                  <StarIcon className="w-4 h-4 text-white" />
-                                </div>
-                              </div>
-                              <div className="absolute bottom-4 left-4 right-4">
-                                <h4 className="text-white font-semibold text-sm mb-1">{item.name}</h4>
-                                <p className="text-white/80 text-xs">{item.description}</p>
-                              </div>
+                {/* Dropdown - full-width bridge so hover never breaks when moving from nav to dropdown; no gap under navbar */}
+                <div className="fixed left-0 right-0 top-0 w-full opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 z-50 pt-20 lg:pt-24">
+                  <div className="flex justify-center px-4">
+                    <div className="w-[880px] max-w-full bg-white rounded-lg shadow-lg border border-gray-100 px-5 py-4 scale-[0.98] group-hover:scale-100 transition-[transform] duration-300 ease-out origin-top">
+                      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
+                        <SparklesIcon className="w-4 h-4 text-[#0A2540]" />
+                        <h3 className="text-[#0A2540] font-semibold text-sm">Our Solutions</h3>
+                      </div>
+                      <div className="grid grid-cols-2 gap-px bg-gray-100">
+                        {solutions.map((item, idx) => (
+                          <Link
+                            key={idx}
+                            href={item.link}
+                            className="group/item group flex items-center gap-3 px-3 py-2.5 bg-white opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 hover:bg-gray-50/90 transition-[opacity,transform,background-color] duration-300 ease-out"
+                            style={{ transitionDelay: `${idx * 45}ms` }}
+                          >
+                            <div className="shrink-0 w-12 h-12 rounded-md overflow-hidden bg-gray-100">
+                              <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                             </div>
-                          </div>
-                        </Link>
-                      ))}
+                            <div className="min-w-0 flex-1">
+                              <h4 className="text-[#0A2540] font-semibold text-sm truncate group-hover:text-[#00ffce] transition-colors">{item.name}</h4>
+                              <p className="text-gray-500 text-xs mt-0.5 truncate">{item.description}</p>
+                            </div>
+                            <ChevronRightIcon className="w-3.5 h-3.5 shrink-0 text-gray-400 group-hover:text-[#00ffce] transition-colors" />
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Tech Blogs */}
-              <Link
-                href="https://final-ai-blogs-qsug.vercel.app/"
+              {/* Tech Blogs - Coming Soon */}
+              <button
+                type="button"
+                onClick={() => setShowTechBlogsComingSoon(true)}
                 className="relative text-gray-800 hover:text-[#0A2540] font-semibold text-sm tracking-wide transition-all duration-300 group py-2 whitespace-nowrap"
               >
                 TECH BLOGS
                 <span className="absolute bottom-0 left-0 w-0 h-1 bg-[#0A2540] group-hover:w-full transition-all duration-400 rounded-full"></span>
-              </Link>
+              </button>
 
               {/* Contact */}
               <Link
@@ -558,13 +541,16 @@ export default function LowNav() {
                 </div>
               </div>
 
-              <Link
-                href="https://final-ai-blogs-qsug.vercel.app/"
-                className="block px-6 py-4 text-gray-800 hover:text-[#0A2540] hover:bg-white rounded-xl font-bold transition-all duration-300 border border-transparent hover:border-gray-200 whitespace-nowrap"
-                onClick={() => setMobileMenuOpen(false)}
+              <button
+                type="button"
+                onClick={() => {
+                  setShowTechBlogsComingSoon(true);
+                  setMobileMenuOpen(false);
+                }}
+                className="block w-full text-left px-6 py-4 text-gray-800 hover:text-[#0A2540] hover:bg-white rounded-xl font-bold transition-all duration-300 border border-transparent hover:border-gray-200 whitespace-nowrap"
               >
                 TECH BLOGS
-              </Link>
+              </button>
 
               <Link
                 href="/Contact-us"
@@ -588,6 +574,20 @@ export default function LowNav() {
           </div>
         </div>
       </nav>
+
+      <Modal isOpen={showTechBlogsComingSoon} onClose={() => setShowTechBlogsComingSoon(false)}>
+        <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
+          <p className="text-2xl font-bold text-[#0A2540] mb-2">Coming Soon</p>
+          <p className="text-gray-600">Tech Blogs section is under construction. Stay tuned!</p>
+          <button
+            type="button"
+            onClick={() => setShowTechBlogsComingSoon(false)}
+            className="mt-6 px-6 py-2.5 bg-[#0A2540] text-white font-semibold rounded-xl hover:bg-[#0A2540]/90 transition-colors"
+          >
+            OK
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }

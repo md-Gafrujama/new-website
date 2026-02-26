@@ -10,7 +10,6 @@ import SolutionsSection from "../components/home/SolutionsSection";
 import WhyChooseUsSection from "../components/home/WhyChooseUsSection";
 import Modal from "../components/Modal";
 import WebsiteRequestForm from "../components/form/WebsiteRequestForm";
-import AiContentRequestForm from "../components/form/AiContentRequestForm";
 import CloudHostingRequestForm from "../components/form/CloudHostingRequestForm";
 import CrmSolutionRequestForm from "../components/form/CrmSolutionRequestForm";
 import HrmsSolutionRequestForm from "../components/form/HrmsSolutionRequestForm";
@@ -21,11 +20,11 @@ import EcommerceRequestForm from "../components/form/EcommerceRequestForm";
 import LmsRequestsForm from "../components/form/LmsRequestsForm";
 import BrandingDesignForm from "../components/form/BrandingDesignForm";
 import SaasProductForm from "../components/form/SaasProductForm";
+import VideoEditingRequestForm from "../components/form/VideoEditingRequestForm";
 
 export default function HomePage() {
   const [isVisible, setIsVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [isCloudModalOpen, setIsCloudModalOpen] = useState(false);
   const [isCrmModalOpen, setIsCrmModalOpen] = useState(false);
   const [isHrmsModalOpen, setIsHrmsModalOpen] = useState(false);
@@ -36,6 +35,7 @@ export default function HomePage() {
   const [isLmsModalOpen, setIsLmsModalOpen] = useState(false);
   const [isBrandingModalOpen, setIsBrandingModalOpen] = useState(false);
   const [isSaasModalOpen, setIsSaasModalOpen] = useState(false);
+  const [isVideoEditingModalOpen, setIsVideoEditingModalOpen] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -43,10 +43,6 @@ export default function HomePage() {
 
   const handleWebsiteQuoteClick = () => {
     setIsModalOpen(true);
-  };
-
-  const handleAiQuoteClick = () => {
-    setIsAiModalOpen(true);
   };
 
   const handleCloudQuoteClick = () => {
@@ -89,12 +85,12 @@ export default function HomePage() {
     setIsSaasModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleVideoEditingQuoteClick = () => {
+    setIsVideoEditingModalOpen(true);
   };
 
-  const handleCloseAiModal = () => {
-    setIsAiModalOpen(false);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   const handleCloseCloudModal = () => {
@@ -138,6 +134,10 @@ export default function HomePage() {
     setIsSaasModalOpen(false);
   };
 
+  const handleCloseVideoEditingModal = () => {
+    setIsVideoEditingModalOpen(false);
+  };
+
 
   return (
     <div className="min-h-screen bg-[#F5F7FA] overflow-x-hidden">
@@ -145,14 +145,11 @@ export default function HomePage() {
       <AboutSection />
       <AiTechStackSection />
 
-      <ServicesSection onWebsiteQuoteClick={handleWebsiteQuoteClick} onCloudHostingQuoteClick={handleCloudQuoteClick} onMobileQuoteClick={handleMobileQuoteClick} onDigitalMarketingQuoteClick={handleDigitalMarketingQuoteClick} onBrandingQuoteClick={handleBrandingQuoteClick} onSaasQuoteClick={handleSaasQuoteClick} />
-      <SolutionsSection onAiQuoteClick={handleAiQuoteClick} onCrmQuoteClick={handleCrmQuoteClick} onHrmsQuoteClick={handleHrmsQuoteClick} onHealthcareQuoteClick={handleHealthcareQuoteClick} onEcommerceQuoteClick={handleEcommerceQuoteClick} onLmsQuoteClick={handleLmsQuoteClick} />
+      <ServicesSection onWebsiteQuoteClick={handleWebsiteQuoteClick} onVideoEditingQuoteClick={handleVideoEditingQuoteClick} onMobileQuoteClick={handleMobileQuoteClick} onDigitalMarketingQuoteClick={handleDigitalMarketingQuoteClick} onBrandingQuoteClick={handleBrandingQuoteClick} onSaasQuoteClick={handleSaasQuoteClick} />
+      <SolutionsSection onCrmQuoteClick={handleCrmQuoteClick} onHrmsQuoteClick={handleHrmsQuoteClick} onHealthcareQuoteClick={handleHealthcareQuoteClick} onEcommerceQuoteClick={handleEcommerceQuoteClick} onLmsQuoteClick={handleLmsQuoteClick} onCloudHostingQuoteClick={handleCloudQuoteClick} />
       <WhyChooseUsSection />
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <WebsiteRequestForm onClose={handleCloseModal} />
-      </Modal>
-      <Modal isOpen={isAiModalOpen} onClose={handleCloseAiModal}>
-        <AiContentRequestForm onClose={handleCloseAiModal} />
       </Modal>
       <Modal isOpen={isCloudModalOpen} onClose={handleCloseCloudModal}>
         <CloudHostingRequestForm onClose={handleCloseCloudModal} />
@@ -183,6 +180,9 @@ export default function HomePage() {
       </Modal>
       <Modal isOpen={isSaasModalOpen} onClose={handleCloseSaasModal}>
         <SaasProductForm onClose={handleCloseSaasModal} />
+      </Modal>
+      <Modal isOpen={isVideoEditingModalOpen} onClose={handleCloseVideoEditingModal}>
+        <VideoEditingRequestForm onClose={handleCloseVideoEditingModal} />
       </Modal>
     </div>
   );

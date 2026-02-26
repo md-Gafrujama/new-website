@@ -20,6 +20,7 @@ const lmsRoutes = require('./routes/lmsRoutes');
 const healthcareRoutes = require('./routes/healthcareRoutes');
 const brandingDesignRoutes = require('./routes/brandingDesignRoutes');
 const saasProductRoutes = require('./routes/saasProductRoutes');
+const videoEditingRoutes = require('./routes/videoEditingRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 
 
@@ -97,6 +98,7 @@ app.use('/api/lms-requests', lmsRoutes);
 app.use('/api/healthcare-requests', healthcareRoutes);
 app.use('/api/branding-design-requests', brandingDesignRoutes);
 app.use('/api/saas-product-requests', saasProductRoutes);
+app.use('/api/video-editing-requests', videoEditingRoutes);
 app.use('/api/payments', paymentRoutes);
 
 

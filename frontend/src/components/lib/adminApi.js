@@ -212,6 +212,12 @@ class AdminAPI {
     return this.makeRequest(`/api/healthcare-requests?${queryString}`);
   }
 
+  // Get Video Editing Requests
+  async getVideoEditingRequests(params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    return this.makeRequest(`/api/video-editing-requests?${queryString}`);
+  }
+
   // Submit Digital Marketing Request
   async submitDigitalMarketingRequest(data) {
     return this.makeRequest('/api/digital-marketing-requests', {
@@ -305,6 +311,13 @@ class AdminAPI {
     });
   }
 
+  async updateVideoEditingRequestStatus(id, status) {
+    return this.makeRequest(`/api/video-editing-requests/${id}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+  }
+
   // Delete Methods
   async deleteWebsiteRequest(id) {
     return this.makeRequest(`/api/website-requests/${id}`, {
@@ -320,6 +333,12 @@ class AdminAPI {
 
   async deleteCloudHostingRequest(id) {
     return this.makeRequest(`/api/cloud-hosting-requests/${id}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async deleteVideoEditingRequest(id) {
+    return this.makeRequest(`/api/video-editing-requests/${id}`, {
       method: 'DELETE',
     });
   }

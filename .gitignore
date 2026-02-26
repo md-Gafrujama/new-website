@@ -1,2 +1,5 @@
 frontend/public/*.mp4
-frontend/public/*.mp4
+
+# Windows reserved name - avoid "invalid path nul" Git error
+nul
+NUL
