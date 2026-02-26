@@ -103,12 +103,12 @@ const HeroSection = () => {
             {/* Main Heading */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight">
               {currentSlide.title}
-              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400">
+              <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-[#00e4fc] via-[#00ffce] to-[#00e4fc]">
                 {currentSlide.subtitle}
               </span>
             </h1>
 
-            <p className="text-lg text-blue-100/90 leading-relaxed max-w-xl mb-8 font-light">
+            <p className="text-lg text-white/90 leading-relaxed max-w-xl mb-8 font-light">
               {currentSlide.description}
             </p>
 
@@ -116,9 +116,9 @@ const HeroSection = () => {
             <div className="flex flex-wrap gap-5 mb-10">
               <Link
                 href="/Contact-us"
-                className="group relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 hover:shadow-[0_0_30px_rgba(56,189,248,0.6)] hover:-translate-y-1 overflow-hidden"
+                className="group relative inline-flex items-center justify-center px-8 py-3 text-base font-bold text-white transition-all duration-200 bg-gradient-to-r from-[#00e4fc] to-[#00ffce] rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#00e4fc] hover:shadow-[0_0_30px_rgba(0,255,206,0.5)] hover:-translate-y-1 overflow-hidden"
               >
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-cyan-400 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out" />
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#00ffce] to-[#00e4fc] opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out" />
                 <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 group-hover:animate-shine" />
 
                 <CtaIcon className="w-5 h-5 mr-2 relative z-10" />
@@ -135,9 +135,9 @@ const HeroSection = () => {
               ].map((item, index) => (
                 <div key={index} className="flex items-center gap-2">
                   <div className="p-1.5 rounded-lg bg-white/5 border border-white/10 backdrop-blur-sm">
-                    <item.icon className="w-4 h-4 text-cyan-400" />
+                    <item.icon className="w-4 h-4 text-[#00ffce]" />
                   </div>
-                  <span className="font-medium text-blue-50/90 text-sm">
+                  <span className="font-medium text-white/90 text-sm">
                     {item.text}
                   </span>
                 </div>
@@ -148,74 +148,74 @@ const HeroSection = () => {
           {/* Enquiry Form Card */}
           <div className="relative mt-12 lg:mt-0 max-w-lg mx-auto w-full">
             {/* Glow effect behind */}
-            <div className="absolute -inset-0.5 bg-gradient-to-br from-cyan-500/30 to-blue-600/30 rounded-3xl blur-xl opacity-70"></div>
+            <div className="absolute -inset-0.5 bg-gradient-to-br from-[#00e4fc]/30 to-[#00ffce]/30 rounded-3xl blur-xl opacity-70"></div>
 
             <div className="relative bg-[#0B1120]/80 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden">
               {/* Decorative top gradient line */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-50"></div>
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#00ffce] to-transparent opacity-60"></div>
 
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-black text-white tracking-widest mb-2 font-sans">ENQUIRY NOW</h3>
-                <p className="text-blue-200 font-medium text-lg">Transform Your Business</p>
-                <p className="text-blue-400/60 text-sm mt-1">Get a Custom Quote Today</p>
+                <p className="text-white font-medium text-lg">Transform Your Business</p>
+                <p className="text-white/70 text-sm mt-1">Get a Custom Quote Today</p>
               </div>
 
               <form className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-blue-300 uppercase tracking-wider ml-1">Name</label>
+                    <label className="text-xs font-semibold text-white/90 uppercase tracking-wider ml-1">Name</label>
                     <input
                       type="text"
                       placeholder="Your full name"
-                      className="w-full bg-[#1e293b]/50 border border-blue-500/20 rounded-xl px-4 py-3 text-white placeholder-blue-400/30 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm hover:border-blue-500/40"
+                      className="w-full bg-[#1e293b]/50 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00ffce]/60 focus:ring-1 focus:ring-[#00ffce]/50 transition-all text-sm hover:border-[#00e4fc]/40"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-blue-300 uppercase tracking-wider ml-1">Phone</label>
+                    <label className="text-xs font-semibold text-white/90 uppercase tracking-wider ml-1">Phone</label>
                     <input
                       type="tel"
                       placeholder="Your phone number"
-                      className="w-full bg-[#1e293b]/50 border border-blue-500/20 rounded-xl px-4 py-3 text-white placeholder-blue-400/30 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm hover:border-blue-500/40"
+                      className="w-full bg-[#1e293b]/50 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00ffce]/60 focus:ring-1 focus:ring-[#00ffce]/50 transition-all text-sm hover:border-[#00e4fc]/40"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-blue-300 uppercase tracking-wider ml-1">Email</label>
+                    <label className="text-xs font-semibold text-white/90 uppercase tracking-wider ml-1">Email</label>
                     <input
                       type="email"
                       placeholder="your.email@example.com"
-                      className="w-full bg-[#1e293b]/50 border border-blue-500/20 rounded-xl px-4 py-3 text-white placeholder-blue-400/30 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm hover:border-blue-500/40"
+                      className="w-full bg-[#1e293b]/50 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00ffce]/60 focus:ring-1 focus:ring-[#00ffce]/50 transition-all text-sm hover:border-[#00e4fc]/40"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-blue-300 uppercase tracking-wider ml-1">Inquiry Type</label>
+                    <label className="text-xs font-semibold text-white/90 uppercase tracking-wider ml-1">Inquiry Type</label>
                     <div className="relative">
-                      <select className="w-full bg-[#1e293b]/50 border border-blue-500/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm appearance-none cursor-pointer hover:border-blue-500/40">
+                      <select className="w-full bg-[#1e293b]/50 border border-white/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#00ffce]/60 focus:ring-1 focus:ring-[#00ffce]/50 transition-all text-sm appearance-none cursor-pointer hover:border-[#00e4fc]/40">
                         <option className="bg-[#0f172a]">Select inquiry type</option>
                         <option className="bg-[#0f172a]">Web Development</option>
                         <option className="bg-[#0f172a]">Mobile App</option>
                         <option className="bg-[#0f172a]">Digital Marketing</option>
                         <option className="bg-[#0f172a]">Other</option>
                       </select>
-                      <ChevronDownIcon className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-400 pointer-events-none" />
+                      <ChevronDownIcon className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#00ffce] pointer-events-none" />
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-blue-300 uppercase tracking-wider ml-1">Message</label>
+                  <label className="text-xs font-semibold text-white/90 uppercase tracking-wider ml-1">Message</label>
                   <textarea
                     rows="3"
                     placeholder="Tell us about your project..."
-                    className="w-full bg-[#1e293b]/50 border border-blue-500/20 rounded-xl px-4 py-3 text-white placeholder-blue-400/30 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/50 transition-all text-sm resize-none hover:border-blue-500/40"
+                    className="w-full bg-[#1e293b]/50 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:border-[#00ffce]/60 focus:ring-1 focus:ring-[#00ffce]/50 transition-all text-sm resize-none hover:border-[#00e4fc]/40"
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-500/30 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-blue-500/50 mt-4 text-base tracking-wide"
+                  className="w-full bg-gradient-to-r from-[#00e4fc] to-[#00ffce] hover:from-[#00d4e8] hover:to-[#00e8c0] text-white font-bold py-4 rounded-xl shadow-lg shadow-[#00ffce]/30 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-[#00ffce]/40 mt-4 text-base tracking-wide"
                 >
                   Send Message
                 </button>
@@ -231,7 +231,7 @@ const HeroSection = () => {
               key={index}
               onClick={() => setActiveSlide(index)}
               className={`h-1.5 rounded-full transition-all duration-300 ${index === activeSlide
-                ? "w-12 bg-gradient-to-r from-blue-400 to-cyan-400"
+                ? "w-12 bg-gradient-to-r from-[#00e4fc] to-[#00ffce]"
                 : "w-3 bg-white/20 hover:bg-white/40"
                 }`}
               aria-label={`Go to slide ${index + 1}`}

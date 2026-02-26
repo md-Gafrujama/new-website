@@ -174,12 +174,12 @@ const AiTechStackSection = () => {
           <div className="grid md:grid-cols-2 gap-x-12 gap-y-12 mb-12">
             {aiToolsData.map((group, idx) => (
               <div key={idx} className="bg-white">
-                <h3 className="text-xl font-bold text-gray-900 mb-8">{group.category}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-8 border-l-4 border-[#00ffce] pl-4">{group.category}</h3>
                 <div className="space-y-6">
                   {group.items.map((tool, i) => (
                     <div key={i} className="flex items-start gap-4">
                       {/* Icon Box */}
-                      <div className="shrink-0 w-12 h-12 rounded-lg flex items-center justify-center bg-white border border-gray-100 overflow-hidden">
+                      <div className="shrink-0 w-12 h-12 rounded-lg flex items-center justify-center bg-white border border-[#00e4fc]/30 overflow-hidden">
                         {typeof tool.icon === "string" ? (
                           <img src={tool.icon} alt={tool.name} className="w-full h-full object-cover" />
                         ) : (
@@ -194,15 +194,15 @@ const AiTechStackSection = () => {
                         </span>
 
                         <div className="flex items-center gap-4 w-full">
-                          <div className="h-[3px] flex-1 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="h-[3px] flex-1 bg-[#00e4fc]/20 rounded-full overflow-hidden">
                             <motion.div
                               initial={{ width: 0 }}
                               whileInView={{ width: `${tool.progress}%` }}
                               transition={{ duration: 1, delay: 0.2 }}
-                              className="h-full bg-black rounded-full"
+                              className="h-full rounded-full bg-gradient-to-r from-[#00e4fc] to-[#00ffce]"
                             />
                           </div>
-                          <span className="text-sm font-bold text-gray-600 min-w-[32px] text-right">
+                          <span className="text-sm font-bold text-[#00ffce] min-w-[32px] text-right">
                             {tool.progress}%
                           </span>
                         </div>
@@ -218,7 +218,7 @@ const AiTechStackSection = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-[#f97316] hover:bg-[#ea580c] text-white font-bold py-4 px-10 rounded-sm flex items-center gap-3 transition-all uppercase tracking-wider text-sm shadow-xl shadow-orange-500/20"
+              className="bg-gradient-to-r from-[#00e4fc] to-[#00ffce] hover:from-[#00d4e8] hover:to-[#00e8c0] text-white font-bold py-4 px-10 rounded-sm flex items-center gap-3 transition-all uppercase tracking-wider text-sm shadow-xl shadow-[#00ffce]/20"
             >
               Start Your 15 Day Launch
               <ArrowRight className="w-5 h-5" />
@@ -249,7 +249,7 @@ const AiTechStackSection = () => {
                     setActiveSubCategory(techStackSubCategories[cat][0]);
                   }
                 }}
-                className={`text-lg font-semibold pb-4 relative transition-colors ${activeCategory === cat ? "text-gray-900 border-b-2 border-[#f97316]" : "text-gray-500 hover:text-gray-700"
+                className={`text-lg font-semibold pb-4 relative transition-colors ${activeCategory === cat ? "text-gray-900 border-b-2 border-[#00ffce]" : "text-gray-500 hover:text-gray-700"
                   }`}
               >
                 {cat}
@@ -266,7 +266,7 @@ const AiTechStackSection = () => {
                   key={sub}
                   onClick={() => setActiveSubCategory(sub)}
                   className={`text-left px-2 py-4 font-bold text-lg transition-all border-b border-gray-100 flex items-center justify-between group ${activeSubCategory === sub
-                    ? "text-[#f97316]"
+                    ? "text-[#00ffce]"
                     : "text-gray-500 hover:text-gray-900"
                     }`}
                 >
@@ -296,7 +296,7 @@ const AiTechStackSection = () => {
           </div>
 
           <div className="flex justify-center mt-16">
-            <button className="bg-[#f97316] hover:bg-[#ea580c] text-white font-bold py-4 px-12 rounded-sm flex items-center gap-2 transition-all uppercase tracking-widest text-sm shadow-xl shadow-orange-500/20">
+            <button className="bg-gradient-to-r from-[#00e4fc] to-[#00ffce] hover:from-[#00d4e8] hover:to-[#00e8c0] text-white font-bold py-4 px-12 rounded-sm flex items-center gap-2 transition-all uppercase tracking-widest text-sm shadow-xl shadow-[#00ffce]/20">
               Explore More
               <ArrowRight className="w-5 h-5" />
             </button>

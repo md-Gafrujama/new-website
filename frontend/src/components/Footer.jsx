@@ -52,15 +52,15 @@ export default function Footer() {
           {/* Column 1 - About Quore B2B */}
           <div className="flex flex-col space-y-6">
             <div>
-              <div className="flex items-center gap-3 mb-3 logo-container">
-                <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center shrink-0 logo-icon hover:bg-white/20 transition-all duration-300">
-                  <FaRocket className="text-white logo-rocket" size={20} />
+              <div className="flex items-center gap-3 mb-3 logo-container group">
+                <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center shrink-0 logo-icon hover:bg-[#00e4fc]/20 transition-all duration-300 group-hover:text-[#00ffce]">
+                  <FaRocket className="text-white group-hover:text-[#00ffce] logo-rocket transition-colors" size={20} />
                 </div>
                 <h3 className="font-bold text-2xl text-white whitespace-nowrap logo-text">
                   Quore B2B
                 </h3>
               </div>
-              <div className="w-20 h-0.5 bg-white/20 rounded-full mb-6 logo-underline"></div>
+              <div className="w-20 h-0.5 bg-gradient-to-r from-[#00e4fc] to-[#00ffce] rounded-full mb-6 logo-underline"></div>
             </div>
             
             <div className="flex-grow">
@@ -118,45 +118,45 @@ export default function Footer() {
               <li>
                 <Link 
                   href="/" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <FaArrowRight className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-150 shrink-0" size={12} />
+                  <FaArrowRight className="text-white/40 group-hover:text-[#00ffce] group-hover:translate-x-1 transition-all duration-150 shrink-0" size={12} />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Home</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/About-us" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <FaArrowRight className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-150 shrink-0" size={12} />
+                  <FaArrowRight className="text-white/40 group-hover:text-[#00ffce] group-hover:translate-x-1 transition-all duration-150 shrink-0" size={12} />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">About Us</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Our-services" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <FaArrowRight className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-150 shrink-0" size={12} />
+                  <FaArrowRight className="text-white/40 group-hover:text-[#00ffce] group-hover:translate-x-1 transition-all duration-150 shrink-0" size={12} />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Our Services</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Our-solutions" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <FaArrowRight className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-150 shrink-0" size={12} />
+                  <FaArrowRight className="text-white/40 group-hover:text-[#00ffce] group-hover:translate-x-1 transition-all duration-150 shrink-0" size={12} />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Our Solutions</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Contact-us" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <FaArrowRight className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-150 shrink-0" size={12} />
+                  <FaArrowRight className="text-white/40 group-hover:text-[#00ffce] group-hover:translate-x-1 transition-all duration-150 shrink-0" size={12} />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Contact Us</span>
                 </Link>
               </li>
@@ -175,54 +175,54 @@ export default function Footer() {
               <li>
                 <Link 
                   href="/Services/Website-Design-Development" 
-                  className="group flex items-start gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-start gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <ComputerDesktopIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0 mt-0.5" />
+                  <ComputerDesktopIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0 mt-0.5" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold leading-tight">Website Design & Development</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Services/Mobile-App-Development" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <DevicePhoneMobileIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0" />
+                  <DevicePhoneMobileIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Mobile App Development</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Services/Digital-Marketing" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <MegaphoneIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0" />
+                  <MegaphoneIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Digital Marketing</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Services/Branding-Creative-Design" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <PaintBrushIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0" />
+                  <PaintBrushIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Branding & Design</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Services/Cloud-Hosting-Support" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <CloudIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0" />
+                  <CloudIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">Cloud & Support</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Services/SaaS-Development" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <LightBulbIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0" />
+                  <LightBulbIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">SaaS Product Development</span>
                 </Link>
               </li>
@@ -241,54 +241,54 @@ export default function Footer() {
               <li>
                 <Link 
                   href="/Solutions/CRM-Solutions" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <UserGroupIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0" />
+                  <UserGroupIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">CRM Solutions</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Solutions/HRMS-Solutions" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <BuildingOfficeIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0" />
+                  <BuildingOfficeIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">HRMS Solutions</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Solutions/AI-Content-Automation" 
-                  className="group flex items-start gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-start gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <SparklesIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0 mt-0.5" />
+                  <SparklesIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0 mt-0.5" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold leading-tight">AI Content Automation</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Solutions/Healthcare-Appointment" 
-                  className="group flex items-start gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-start gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <HeartIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0 mt-0.5" />
+                  <HeartIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0 mt-0.5" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold leading-tight">Healthcare Solutions</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Solutions/Learning-Management-System" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <AcademicCapIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0" />
+                  <AcademicCapIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">LMS Solutions</span>
                 </Link>
               </li>
               <li>
                 <Link 
                   href="/Solutions/Ecommerce-Solutions" 
-                  className="group flex items-center gap-2 text-white/70 hover:text-white transition-all duration-150"
+                  className="group flex items-center gap-2 text-white/70 hover:text-[#00ffce] transition-all duration-150"
                 >
-                  <ShoppingCartIcon className="w-4 h-4 text-white/60 group-hover:text-white transition-all duration-150 shrink-0" />
+                  <ShoppingCartIcon className="w-4 h-4 text-white/60 group-hover:text-[#00ffce] transition-all duration-150 shrink-0" />
                   <span className="group-hover:translate-x-1 transition-transform duration-150 font-semibold">E-commerce Solutions</span>
                 </Link>
               </li>

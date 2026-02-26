@@ -49,7 +49,7 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative h-[480px] rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/10 hover:shadow-blue-900/20 transition-all duration-500 hover:-translate-y-2"
+              className="group relative h-[480px] rounded-3xl overflow-hidden shadow-2xl shadow-[#00e4fc]/10 hover:shadow-[#00ffce]/20 transition-all duration-500 hover:-translate-y-2"
             >
               {/* Card Background Image (Full Cover) */}
               <Image
@@ -84,8 +84,8 @@ const SolutionsSection = ({ onAiQuoteClick, onCrmQuoteClick, onHrmsQuoteClick, o
                   {/* Features List */}
                   <div className="space-y-2 mb-6 border-b border-white/10 pb-6">
                     {solution.benefits.slice(0, 2).map((benefit, i) => (
-                      <div key={i} className="flex items-center gap-2.5 text-xs text-blue-50/70 font-medium">
-                        <CheckCircleIcon className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                      <div key={i} className="flex items-center gap-2.5 text-xs text-white/80 font-medium">
+                        <CheckCircleIcon className="w-4 h-4 text-[#00ffce] flex-shrink-0" />
                         <span>{benefit}</span>
                       </div>
                     ))}

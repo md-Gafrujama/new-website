@@ -28,8 +28,8 @@ const AboutSection = () => {
     <section className="relative pt-24 pb-64 bg-[#0B1120]">
       {/* Background Gradients Container - Overflow Hidden to contain blurs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[400px] bg-cyan-500/10 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#00e4fc]/20 rounded-full blur-[120px] mix-blend-screen" />
+        <div className="absolute bottom-0 right-0 w-[600px] h-[400px] bg-[#00ffce]/10 rounded-full blur-[100px]" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -51,7 +51,7 @@ const AboutSection = () => {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-6xl font-bold mb-6 tracking-tight leading-[1.1]"
           >
-            <span className="text-[#f97316]">AI-Driven Development</span> <span className="text-white">Excellence</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00e4fc] to-[#00ffce]">AI-Driven Development</span> <span className="text-white">Excellence</span>
           </motion.h2>
 
           <motion.p
@@ -68,7 +68,7 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3 }}
-            className="bg-[#f97316] hover:bg-[#ea580c] text-white text-sm font-bold py-4 px-8 rounded-sm flex items-center gap-2 transition-all uppercase tracking-wider shadow-lg shadow-orange-500/10"
+            className="bg-gradient-to-r from-[#00e4fc] to-[#00ffce] hover:from-[#00d4e8] hover:to-[#00e8c0] text-white text-sm font-bold py-4 px-8 rounded-sm flex items-center gap-2 transition-all uppercase tracking-wider shadow-lg shadow-[#00ffce]/20"
           >
             Build Your Own Team
             <ArrowRight className="w-5 h-5" />
