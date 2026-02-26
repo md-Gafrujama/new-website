@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import HeroSection from "../components/home/HeroSection";
+import AboutSection from "../components/home/AboutSection";
+import AiTechStackSection from "../components/home/AiTechStackSection";
 
 import ServicesSection from "../components/home/ServicesSection";
 import SolutionsSection from "../components/home/SolutionsSection";
@@ -140,6 +142,8 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#F5F7FA] overflow-x-hidden">
       <HeroSection />
+      <AboutSection />
+      <AiTechStackSection />
 
       <ServicesSection onWebsiteQuoteClick={handleWebsiteQuoteClick} onCloudHostingQuoteClick={handleCloudQuoteClick} onMobileQuoteClick={handleMobileQuoteClick} onDigitalMarketingQuoteClick={handleDigitalMarketingQuoteClick} onBrandingQuoteClick={handleBrandingQuoteClick} onSaasQuoteClick={handleSaasQuoteClick} />
       <SolutionsSection onAiQuoteClick={handleAiQuoteClick} onCrmQuoteClick={handleCrmQuoteClick} onHrmsQuoteClick={handleHrmsQuoteClick} onHealthcareQuoteClick={handleHealthcareQuoteClick} onEcommerceQuoteClick={handleEcommerceQuoteClick} onLmsQuoteClick={handleLmsQuoteClick} />

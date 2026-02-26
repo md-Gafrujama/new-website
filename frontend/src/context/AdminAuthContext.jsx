@@ -54,23 +54,16 @@ export const AdminAuthProvider = ({ children }) => {
   const login = async (email, otp) => {
     try {
       const result = await adminAPI.verifyOTP(email, otp);
-      
-      if (result.success) {
+      if (result.success && result.data?.data) {
         const { token, admin: adminData } = result.data.data;
-        
-        // Save auth data
         adminAuth.saveAuthData(token, adminData);
-        
-        // Update state
         setIsAuthenticated(true);
         setAdmin(adminData);
-        
-        return { success: true, message: result.data.message };
+        return { success: true, message: result.data?.message || 'Login successful' };
       }
-      
-      return { success: false, error: result.error };
+      return { success: false, error: result.error || 'Invalid OTP. Please try again.' };
     } catch (error) {
-      return { success: false, error: error.message };
+      return { success: false, error: error?.message || 'Verification failed. Please try again.' };
     }
   };
 

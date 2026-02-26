@@ -17,29 +17,49 @@ class AdminAPI {
       };
 
       const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-      const data = await response.json();
-
-      if (!response.ok) {
-        const errorMessage = data.message || data.error || `HTTP error! status: ${response.status}`;
-        console.error('API Error Response:', { status: response.status, data });
-        throw new Error(errorMessage);
+      let data = null;
+      const text = await response.text();
+      try {
+        data = text ? JSON.parse(text) : {};
+      } catch {
+        data = {};
       }
 
-      // Check if the response indicates success
-      if (data.success === false) {
-        throw new Error(data.message || 'Request failed');
+      if (!response.ok) {
+        const errorMessage =
+          (data && (data.message || data.error)) ||
+          response.statusText ||
+          `Request failed (${response.status})`;
+        const safeMessage = String(errorMessage).trim() || 'Something went wrong. Please try again.';
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`API ${response.status} ${endpoint}:`, safeMessage, data?.message ? '' : '(no server message)');
+        }
+        throw new Error(safeMessage);
+      }
+
+      if (data && data.success === false) {
+        const msg = data.message || data.error || 'Request failed';
+        throw new Error(typeof msg === 'string' ? msg : 'Request failed');
       }
 
       return {
         success: true,
-        data,
+        data: data || {},
         status: response.status,
       };
     } catch (error) {
-      console.error('API Request Error:', error);
+      let message =
+        (error && typeof error.message === 'string' && error.message.trim()) ||
+        'Network or server error. Please try again.';
+      if (message === 'Failed to fetch' || error?.message === 'Failed to fetch') {
+        message = 'Backend server is not running. Start it from the backend folder (e.g. npm run dev or nodemon).';
+      }
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('API Request Error:', message);
+      }
       return {
         success: false,
-        error: error.message,
+        error: message,
         status: error.status || 500,
       };
     }

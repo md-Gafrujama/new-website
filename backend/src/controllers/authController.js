@@ -19,10 +19,20 @@ class AuthController {
       }
 
       const { email } = req.body;
+      const normalizedEmail = email.toLowerCase().trim();
+
+      // Restrict admin access to allowed email only (if ALLOWED_ADMIN_EMAIL is set)
+      const allowedEmail = process.env.ALLOWED_ADMIN_EMAIL?.trim().toLowerCase();
+      if (allowedEmail && normalizedEmail !== allowedEmail) {
+        return res.status(403).json({
+          success: false,
+          message: 'Access denied. This email is not authorized for admin login.'
+        });
+      }
 
       // Check if admin exists
       const admin = await Admin.findOne({ 
-        email: email.toLowerCase(), 
+        email: normalizedEmail, 
         isActive: true 
       });
       
@@ -42,14 +52,14 @@ class AuthController {
       }
 
       // Delete any existing OTP for this email
-      await OTP.deleteMany({ email: email.toLowerCase() });
+      await OTP.deleteMany({ email: normalizedEmail });
 
       // Generate new OTP
       const otpCode = OTP.generateSecureOTP();
       
       // Save OTP to database
       const newOTP = new OTP({
-        email: email.toLowerCase(),
+        email: normalizedEmail,
         otp: otpCode,
         purpose: 'login',
         ipAddress: req.ip,
@@ -135,12 +145,13 @@ class AuthController {
 
       res.status(200).json({
         success: true,
-        message: 'OTP sent successfully to your email',
+        message: 'OTP sent to your email. Check inbox and spam folder.',
         data: {
           email: email.toLowerCase(),
-          expiresIn: process.env.OTP_EXPIRY_MINUTES || 5,
+          expiresIn: parseInt(process.env.OTP_EXPIRY_MINUTES, 10) || 5,
           messageId: emailResult.messageId,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          deliveredByEmail: true
         }
       });
 
@@ -403,19 +414,21 @@ class AuthController {
   async logout(req, res) {
     try {
       // In production, you might want to blacklist the token
-      // For now, just send success response
-      res.status(200).json({
+      // For now, just send success response (only once)
+      if (res.headersSent) return;
+      return res.status(200).json({
         success: true,
         message: 'Logout successful',
         timestamp: new Date().toISOString()
       });
-
     } catch (error) {
       console.error('Logout error:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Logout failed'
-      });
+      if (!res.headersSent) {
+        res.status(500).json({
+          success: false,
+          message: 'Logout failed'
+        });
+      }
     }
   }
 

@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 const authController = require('../controllers/authController');
 const authMiddleware = require('../middleware/auth');
 const rateLimit = require('express-rate-limit');
+const connectDB = require('../config/database');
 
 const router = express.Router();
 
@@ -96,6 +97,19 @@ const toggle2FAValidation = [
     .withMessage('Enabled must be a boolean value')
 ];
 
+// Dev-only: ensure default admin exists (from .env ADMIN_EMAIL) without restarting server
+router.get('/seed-default-admin', async (req, res) => {
+  if (process.env.NODE_ENV !== 'development') {
+    return res.status(404).json({ success: false, message: 'Not found' });
+  }
+  try {
+    await connectDB.createDefaultAdmin();
+    res.json({ success: true, message: 'Default admin ensured. Try logging in with ADMIN_EMAIL and ADMIN_PASSWORD from .env' });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // Public routes - RATE LIMITING DISABLED FOR TESTING
 router.post('/send-otp', sendOTPValidation, authController.sendOTP);
 router.post('/verify-otp', verifyOTPValidation, authController.verifyOTPAndLogin);
@@ -124,16 +138,11 @@ if (process.env.NODE_ENV === 'development') {
   router.get('/test-email', async (req, res) => {
     try {
       const emailService = require('../services/emailService');
-      
-      // Test configuration first
-      const configTest = await emailService.testEmailConfiguration();
+      const configTest = await emailService.testConnection();
       if (!configTest.success) {
-        return res.status(500).json(configTest);
+        return res.status(500).json({ success: false, message: 'Connection failed', ...configTest });
       }
-
-      // Send test email
       const testResult = await emailService.sendTestEmail();
-      
       res.json({
         success: true,
         message: 'Email test completed successfully',

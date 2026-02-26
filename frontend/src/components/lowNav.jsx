@@ -14,6 +14,7 @@ import {
 } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
+import { FaLinkedinIn, FaInstagram, FaFacebookF } from "react-icons/fa";
 
 const services = [
   {
@@ -170,49 +171,61 @@ export default function LowNav() {
     <div className="fixed top-0 left-0 right-0 z-50">
       {/* MAIN NAVIGATION BAR */}
       <nav
-        className={`bg-[#0A2540] transition-all duration-500 ${
+        className={`bg-white transition-all duration-500 ${
           scrolled
-            ? "shadow-2xl border-b border-[#0A2540]/20"
-            : "shadow-xl"
+            ? "shadow-lg border-b border-gray-200"
+            : "shadow-sm border-b border-gray-100"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-18 lg:h-22">
-            {/* Logo removed per request; spacer keeps layout aligned */}
-            <div className="w-32" aria-hidden="true"></div>
+        <div className="w-full max-w-6xl mx-auto pl-0 pr-4 sm:pr-5 lg:pr-6 overflow-visible">
+          <div className="flex items-center justify-between gap-3 h-20 lg:h-24 min-w-0">
+            {/* Logo - more length, shifted further left */}
+            <Link
+              href="/"
+              className="flex-shrink-0 flex items-center py-1 -ml-6 sm:-ml-8 lg:-ml-10 transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[#0A2540]/20 focus:ring-offset-2 rounded-lg max-w-[260px] sm:max-w-[300px] lg:max-w-[360px]"
+            >
+              <Image
+                src="/images/qlab.png"
+                alt="QuoreLab Logo"
+                width={420}
+                height={120}
+                className="h-[4.25rem] sm:h-[4.75rem] lg:h-[5.25rem] w-auto object-contain object-left"
+                priority
+              />
+            </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center space-x-8">
+            {/* Desktop Navigation - clear gap so HOME never overlaps logo */}
+            <div className="hidden lg:flex items-center space-x-8 min-w-0 flex-1 justify-end ml-8 lg:ml-12">
               {/* Home */}
               <Link
                 href="/"
-                className="relative text-white hover:text-white/80 font-bold text-sm tracking-wide transition-all duration-300 group py-2"
+                className="relative text-gray-800 hover:text-[#0A2540] font-semibold text-sm tracking-wide transition-all duration-300 group py-2"
               >
                 HOME
-                <span className="absolute bottom-0 left-0 w-0 h-1 bg-white group-hover:w-full transition-all duration-400 rounded-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-[#0A2540] group-hover:w-full transition-all duration-400 rounded-full"></span>
               </Link>
 
               {/* About */}
               <Link
                 href="/About-us"
-                className="relative text-white hover:text-white/80 font-bold text-sm tracking-wide transition-all duration-300 group py-2"
+                className="relative text-gray-800 hover:text-[#0A2540] font-semibold text-sm tracking-wide transition-all duration-300 group py-2"
               >
                 ABOUT
-                <span className="absolute bottom-0 left-0 w-0 h-1 bg-white group-hover:w-full transition-all duration-400 rounded-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-[#0A2540] group-hover:w-full transition-all duration-400 rounded-full"></span>
               </Link>
 
               {/* Services Dropdown */}
               <div className="relative group">
                 <Link
                   href="/Our-services"
-                  className="flex items-center text-white hover:text-white/80 font-bold text-sm tracking-wide transition-all duration-300 py-2"
+                  className="flex items-center text-gray-800 hover:text-[#0A2540] font-semibold text-sm tracking-wide transition-all duration-300 py-2"
                 >
                   SERVICES
-                  <ChevronDownIcon className="w-4 h-4 ml-2 group-hover:rotate-180 transition-transform duration-400 text-white/80" />
+                  <ChevronDownIcon className="w-4 h-4 ml-2 group-hover:rotate-180 transition-transform duration-400 text-gray-600" />
                 </Link>
 
-                {/* Enhanced Dropdown Menu */}
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-400">
+                {/* Enhanced Dropdown Menu - center open, smooth */}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 pt-2 opacity-0 invisible scale-95 translate-y-[-6px] group-hover:opacity-100 group-hover:visible group-hover:scale-100 group-hover:translate-y-0 transition-all duration-300 ease-out origin-top">
                   <div className="bg-white rounded-3xl shadow-2xl border border-[#0A2540]/10 p-8 w-[950px] max-w-6xl">
                     <div className="mb-6">
                       <h3 className="text-[#0A2540] font-bold text-lg mb-2 flex items-center">
@@ -258,14 +271,14 @@ export default function LowNav() {
               <div className="relative group">
                 <Link
                   href="/Our-solutions"
-                  className="flex items-center text-white hover:text-white/80 font-bold text-sm tracking-wide transition-all duration-300 py-2"
+                  className="flex items-center text-gray-800 hover:text-[#0A2540] font-semibold text-sm tracking-wide transition-all duration-300 py-2"
                 >
                   SOLUTIONS
-                  <ChevronDownIcon className="w-4 h-4 ml-2 group-hover:rotate-180 transition-transform duration-400 text-white/80" />
+                  <ChevronDownIcon className="w-4 h-4 ml-2 group-hover:rotate-180 transition-transform duration-400 text-gray-600" />
                 </Link>
 
-                {/* Enhanced Dropdown Menu */}
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-400">
+                {/* Enhanced Dropdown Menu - center open, smooth */}
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 pt-2 opacity-0 invisible scale-95 translate-y-[-6px] group-hover:opacity-100 group-hover:visible group-hover:scale-100 group-hover:translate-y-0 transition-all duration-300 ease-out origin-top">
                   <div className="bg-white rounded-3xl shadow-2xl border border-[#0A2540]/10 p-8 w-[950px] max-w-6xl">
                     <div className="mb-6">
                       <h3 className="text-[#0A2540] font-bold text-lg mb-2 flex items-center">
@@ -308,23 +321,51 @@ export default function LowNav() {
               {/* Tech Blogs */}
               <Link
                 href="https://final-ai-blogs-qsug.vercel.app/"
-                className="relative text-white hover:text-white/80 font-bold text-sm tracking-wide transition-all duration-300 group py-2"
+                className="relative text-gray-800 hover:text-[#0A2540] font-semibold text-sm tracking-wide transition-all duration-300 group py-2 whitespace-nowrap"
               >
                 TECH BLOGS
-                <span className="absolute bottom-0 left-0 w-0 h-1 bg-white group-hover:w-full transition-all duration-400 rounded-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-[#0A2540] group-hover:w-full transition-all duration-400 rounded-full"></span>
               </Link>
 
               {/* Contact */}
               <Link
                 href="/Contact-us"
-                className="relative text-white hover:text-white/80 font-bold text-sm tracking-wide transition-all duration-300 group py-2"
+                className="relative text-gray-800 hover:text-[#0A2540] font-semibold text-sm tracking-wide transition-all duration-300 group py-2"
               >
                 CONTACT
-                <span className="absolute bottom-0 left-0 w-0 h-1 bg-white group-hover:w-full transition-all duration-400 rounded-full"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-[#0A2540] group-hover:w-full transition-all duration-400 rounded-full"></span>
               </Link>
 
-              {/* Search Bar */}
-              <div className="relative search-container">
+              {/* Social Icons - proper brand icons + official colors */}
+              <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
+                <a
+                  href="#"
+                  aria-label="LinkedIn"
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-white shadow-md hover:shadow-lg hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0A66C2]/60 transition-all duration-300 ease-out"
+                  style={{ backgroundColor: "#0A66C2" }}
+                >
+                  <FaLinkedinIn className="w-4 h-4" />
+                </a>
+                <a
+                  href="#"
+                  aria-label="Instagram"
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-white shadow-md hover:shadow-lg hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#DD2A7B]/50 transition-all duration-300 ease-out"
+                  style={{ background: "linear-gradient(135deg, #F58529 0%, #DD2A7B 100%)" }}
+                >
+                  <FaInstagram className="w-4 h-4" />
+                </a>
+                <a
+                  href="#"
+                  aria-label="Facebook"
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-white shadow-md hover:shadow-lg hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1877F2]/60 transition-all duration-300 ease-out"
+                  style={{ backgroundColor: "#1877F2" }}
+                >
+                  <FaFacebookF className="w-4 h-4" />
+                </a>
+              </div>
+
+              {/* Search Bar - right shift so nav links (HOME) have room */}
+              <div className="relative search-container flex-shrink-0 ml-4 lg:ml-6">
                 <form onSubmit={handleSearchSubmit} className="relative">
                   <div className="relative">
                     <input
@@ -332,9 +373,9 @@ export default function LowNav() {
                       value={searchQuery}
                       onChange={(e) => handleSearch(e.target.value)}
                       placeholder="Search services, solutions..."
-                      className="w-64 px-4 py-2 pl-10 pr-4 bg-white/10 backdrop-blur-sm border border-white/30 rounded-2xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-300"
+                      className="w-44 sm:w-52 lg:w-48 px-3 py-2 pl-9 pr-3 text-sm bg-gray-100 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0A2540]/20 focus:border-[#0A2540]/40 transition-all duration-300"
                     />
-                    <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/60" />
+                    <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
                   </div>
                 </form>
 
@@ -375,12 +416,12 @@ export default function LowNav() {
             {/* Enhanced Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-3 rounded-2xl hover:bg-white/20 transition-all duration-300 border border-white/30"
+              className="lg:hidden p-3 rounded-2xl hover:bg-gray-100 transition-all duration-300 border border-gray-200"
             >
               {mobileMenuOpen ? (
-                <XMarkIcon className="h-6 w-6 text-white" />
+                <XMarkIcon className="h-6 w-6 text-gray-800" />
               ) : (
-                <Bars3Icon className="h-6 w-6 text-white" />
+                <Bars3Icon className="h-6 w-6 text-gray-800" />
               )}
             </button>
           </div>
@@ -391,7 +432,7 @@ export default function LowNav() {
               mobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
             }`}
           >
-            <div className="py-6 space-y-3 border-t border-white/20 mt-4 bg-[#0A2540] rounded-2xl mx-2 px-4">
+            <div className="py-6 space-y-3 border-t border-gray-200 mt-4 bg-gray-50 rounded-2xl mx-2 px-4">
               {/* Mobile Search Bar */}
               <div className="px-2 mb-4 search-container">
                 <form onSubmit={handleSearchSubmit} className="relative">
@@ -401,15 +442,15 @@ export default function LowNav() {
                       value={searchQuery}
                       onChange={(e) => handleSearch(e.target.value)}
                       placeholder="Search services, solutions..."
-                      className="w-full px-4 py-3 pl-10 pr-4 bg-white/10 backdrop-blur-sm border border-white/30 rounded-2xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all duration-300"
+                      className="w-full px-4 py-3 pl-10 pr-4 bg-white border border-gray-200 rounded-2xl text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0A2540]/20 focus:border-[#0A2540]/40 transition-all duration-300"
                     />
-                    <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/60" />
+                    <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
                   </div>
                 </form>
 
                 {/* Mobile Search Results */}
                 {showSearchResults && searchResults.length > 0 && (
-                  <div className="mt-2 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20 overflow-hidden">
+                  <div className="mt-2 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-lg">
                     <div className="max-h-60 overflow-y-auto">
                       {searchResults.slice(0, 5).map((result, idx) => (
                         <div
@@ -418,10 +459,10 @@ export default function LowNav() {
                             handleSearchResultClick(result.link);
                             setMobileMenuOpen(false);
                           }}
-                          className="px-4 py-3 hover:bg-white/10 cursor-pointer border-b border-white/10 last:border-b-0 transition-colors duration-200"
+                          className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0 transition-colors duration-200"
                         >
-                          <h4 className="text-white font-semibold text-sm">{result.name}</h4>
-                          <p className="text-white/60 text-xs">{result.description}</p>
+                          <h4 className="text-gray-800 font-semibold text-sm">{result.name}</h4>
+                          <p className="text-gray-500 text-xs">{result.description}</p>
                         </div>
                       ))}
                     </div>
@@ -431,7 +472,7 @@ export default function LowNav() {
 
               <Link
                 href="/"
-                className="block px-6 py-4 text-white hover:text-white/80 hover:bg-white/10 rounded-xl font-bold transition-all duration-300 border border-transparent hover:border-white/20"
+                className="block px-6 py-4 text-gray-800 hover:text-[#0A2540] hover:bg-white rounded-xl font-bold transition-all duration-300 border border-transparent hover:border-gray-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 HOME
@@ -439,7 +480,7 @@ export default function LowNav() {
 
               <Link
                 href="/About-us"
-                className="block px-6 py-4 text-white hover:text-white/80 hover:bg-white/10 rounded-xl font-bold transition-all duration-300 border border-transparent hover:border-white/20"
+                className="block px-6 py-4 text-gray-800 hover:text-[#0A2540] hover:bg-white rounded-xl font-bold transition-all duration-300 border border-transparent hover:border-gray-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 ABOUT
@@ -448,12 +489,12 @@ export default function LowNav() {
               {/* Enhanced Mobile Services */}
               <div className="space-y-2">
                 <div
-                  className="flex items-center justify-between px-6 py-4 text-white hover:text-white/80 hover:bg-white/10 rounded-xl font-bold cursor-pointer transition-all duration-300 border border-transparent hover:border-white/20"
+                  className="flex items-center justify-between px-6 py-4 text-gray-800 hover:text-[#0A2540] hover:bg-white rounded-xl font-bold cursor-pointer transition-all duration-300 border border-transparent hover:border-gray-200"
                   onClick={() => setMobileServiceOpen(!mobileServiceOpen)}
                 >
                   <span>SERVICES</span>
                   <ChevronDownIcon
-                    className={`w-5 h-5 transition-transform duration-300 text-white/80 ${
+                    className={`w-5 h-5 transition-transform duration-300 text-gray-600 ${
                       mobileServiceOpen ? "rotate-180" : ""
                     }`}
                   />
@@ -466,12 +507,12 @@ export default function LowNav() {
                       : "max-h-0 opacity-0"
                   }`}
                 >
-                  <div className="ml-6 space-y-2 border-l-2 border-white/30 pl-6 py-2">
+                  <div className="ml-6 space-y-2 border-l-2 border-gray-200 pl-6 py-2">
                     {services.map((service, i) => (
                       <Link
                         key={i}
                         href={service.link}
-                        className="block py-3 px-4 text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300"
+                        className="block py-3 px-4 text-sm text-gray-600 hover:text-[#0A2540] hover:bg-white rounded-lg transition-all duration-300"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {service.name}
@@ -484,12 +525,12 @@ export default function LowNav() {
               {/* Enhanced Mobile Solutions */}
               <div className="space-y-2">
                 <div
-                  className="flex items-center justify-between px-6 py-4 text-white hover:text-white/80 hover:bg-white/10 rounded-xl font-bold cursor-pointer transition-all duration-300 border border-transparent hover:border-white/20"
+                  className="flex items-center justify-between px-6 py-4 text-gray-800 hover:text-[#0A2540] hover:bg-white rounded-xl font-bold cursor-pointer transition-all duration-300 border border-transparent hover:border-gray-200"
                   onClick={() => setMobileSolutionOpen(!mobileSolutionOpen)}
                 >
                   <span>SOLUTIONS</span>
                   <ChevronDownIcon
-                    className={`w-5 h-5 transition-transform duration-300 text-white/80 ${
+                    className={`w-5 h-5 transition-transform duration-300 text-gray-600 ${
                       mobileSolutionOpen ? "rotate-180" : ""
                     }`}
                   />
@@ -502,12 +543,12 @@ export default function LowNav() {
                       : "max-h-0 opacity-0"
                   }`}
                 >
-                  <div className="ml-6 space-y-2 border-l-2 border-white/30 pl-6 py-2">
+                  <div className="ml-6 space-y-2 border-l-2 border-gray-200 pl-6 py-2">
                     {solutions.map((solution, i) => (
                       <Link
                         key={i}
                         href={solution.link}
-                        className="block py-3 px-4 text-sm text-white/80 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-300"
+                        className="block py-3 px-4 text-sm text-gray-600 hover:text-[#0A2540] hover:bg-white rounded-lg transition-all duration-300"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {solution.name}
@@ -519,7 +560,7 @@ export default function LowNav() {
 
               <Link
                 href="https://final-ai-blogs-qsug.vercel.app/"
-                className="block px-6 py-4 text-white hover:text-white/80 hover:bg-white/10 rounded-xl font-bold transition-all duration-300 border border-transparent hover:border-white/20"
+                className="block px-6 py-4 text-gray-800 hover:text-[#0A2540] hover:bg-white rounded-xl font-bold transition-all duration-300 border border-transparent hover:border-gray-200 whitespace-nowrap"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 TECH BLOGS
@@ -527,7 +568,7 @@ export default function LowNav() {
 
               <Link
                 href="/Contact-us"
-                className="block px-6 py-4 text-white hover:text-white/80 hover:bg-white/10 rounded-xl font-bold transition-all duration-300 border border-transparent hover:border-white/20"
+                className="block px-6 py-4 text-gray-800 hover:text-[#0A2540] hover:bg-white rounded-xl font-bold transition-all duration-300 border border-transparent hover:border-gray-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 CONTACT
@@ -537,7 +578,7 @@ export default function LowNav() {
               <div className="px-2 pt-4">
                 <Link
                   href="/Contact-us"
-                  className="block w-full text-center bg-white text-[#0A2540] px-8 py-4 rounded-2xl font-semibold hover:bg-white/90 transition-all duration-400 shadow-xl hover:shadow-2xl transform hover:scale-105"
+                  className="block w-full text-center bg-[#0A2540] text-white px-8 py-4 rounded-2xl font-semibold hover:bg-[#0A2540]/90 transition-all duration-400 shadow-xl hover:shadow-2xl transform hover:scale-[1.02]"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Get Started

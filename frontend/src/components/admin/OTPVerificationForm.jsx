@@ -13,18 +13,24 @@ const OTPVerificationForm = () => {
   const [message, setMessage] = useState('');
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [canResend, setCanResend] = useState(false);
+  const [devOtp, setDevOtp] = useState(''); // OTP from dev fallback when email failed
+  const [loginSuccess, setLoginSuccess] = useState(false); // prevent showing error after success
+  const submittingRef = useRef(false); // prevent double submit
   const inputRefs = useRef([]);
   const router = useRouter();
   const { login } = useAdminAuth();
 
   useEffect(() => {
-    // Get email from session storage
     const storedEmail = sessionStorage.getItem('adminEmail');
     if (!storedEmail) {
       router.push('/admin/login');
       return;
     }
     setEmail(storedEmail);
+    const storedOtp = sessionStorage.getItem('adminOTP');
+    if (storedOtp && storedOtp.length === 6) {
+      setDevOtp(storedOtp);
+    }
   }, [router]);
 
   useEffect(() => {
@@ -49,9 +55,10 @@ const OTPVerificationForm = () => {
       inputRefs.current[index + 1]?.focus();
     }
 
-    // Auto-submit when all fields are filled
+    // Auto-submit when all 6 digits are filled (small delay to avoid double-fire)
     if (newOtp.every(digit => digit) && newOtp.join('').length === 6) {
-      handleSubmit(newOtp.join(''));
+      const code = newOtp.join('');
+      setTimeout(() => handleSubmit(code), 50);
     }
   };
 
@@ -62,42 +69,41 @@ const OTPVerificationForm = () => {
   };
 
   const handleSubmit = async (otpValue = null) => {
-    const otpCode = otpValue || otp.join('');
-    
+    const otpCode = (otpValue || otp.join('')).trim();
     if (otpCode.length !== 6) {
       setError('Please enter complete OTP');
       return;
     }
-
+    if (submittingRef.current || loading) return;
+    submittingRef.current = true;
     setError('');
     setMessage('');
     setLoading(true);
 
     try {
       const result = await login(email, otpCode);
-      
       if (result.success) {
-        setMessage('Login successful! Welcome Admin!');
-        
-        // Clear session storage
+        setLoginSuccess(true);
+        setMessage('Login successful! Redirecting...');
         sessionStorage.removeItem('adminEmail');
-        
-        // Redirect to dashboard after showing success message
-        setTimeout(() => {
-          router.push('/admin/dashboard');
-        }, 2000);
-      } else {
+        sessionStorage.removeItem('adminOTP');
+        setTimeout(() => router.push('/admin/dashboard'), 1200);
+        return;
+      }
+      if (!loginSuccess) {
         setError(result.error || 'Invalid OTP. Please try again.');
-        // Clear OTP on error
         setOtp(['', '', '', '', '', '']);
         inputRefs.current[0]?.focus();
       }
     } catch (error) {
-      setError('Verification failed. Please try again.');
-      setOtp(['', '', '', '', '', '']);
-      inputRefs.current[0]?.focus();
+      if (!loginSuccess) {
+        setError(error?.message || 'Verification failed. Please try again.');
+        setOtp(['', '', '', '', '', '']);
+        inputRefs.current[0]?.focus();
+      }
     } finally {
       setLoading(false);
+      submittingRef.current = false;
     }
   };
 
@@ -173,16 +179,34 @@ const OTPVerificationForm = () => {
             </p>
           </div>
 
-          {/* Messages */}
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-800 text-sm">{error}</p>
+          {/* Dev: show OTP when email failed and backend returned it */}
+          {devOtp && (
+            <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+              <p className="text-amber-800 text-sm font-medium">Email was not sent. Use this OTP:</p>
+              <p className="text-xl font-mono font-bold text-amber-900 mt-1 tracking-widest">{devOtp}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  const digits = devOtp.split('');
+                  setOtp(digits);
+                  setTimeout(() => inputRefs.current[5]?.focus(), 0);
+                }}
+                className="mt-2 text-sm text-amber-700 underline"
+              >
+                Fill OTP automatically
+              </button>
             </div>
           )}
 
+          {/* Messages - show success only when done; never show error after success */}
           {message && (
-            <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg transition-opacity duration-200">
               <p className="text-green-800 text-sm font-medium">{message}</p>
+            </div>
+          )}
+          {error && !loginSuccess && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-800 text-sm">{error}</p>
             </div>
           )}
 

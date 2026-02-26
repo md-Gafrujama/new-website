@@ -21,14 +21,19 @@ const LoginForm = () => {
       const result = await adminAPI.sendOTP(email);
       
       if (result.success) {
-        // Store email for OTP verification
         sessionStorage.setItem('adminEmail', email);
-        setMessage(result.data.message);
-        
-        // Redirect to OTP verification page
+        // When email failed but backend returned OTP for dev (ALLOW_CONSOLE_OTP)
+        if (result.data?.otp) {
+          sessionStorage.setItem('adminOTP', result.data.otp);
+          setMessage(result.data.warning
+            ? `Email could not be sent. Your OTP: ${result.data.otp} — Enter this on the next page.`
+            : result.data.message || 'Check your email for the OTP.');
+        } else {
+          setMessage(result.data?.message || 'OTP sent to your email.');
+        }
         setTimeout(() => {
           router.push('/admin/verify-otp');
-        }, 1500);
+        }, result.data?.otp ? 8000 : 1500); // Longer delay when showing OTP so user can note it
       } else {
         setError(result.error || 'Failed to send OTP');
       }

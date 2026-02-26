@@ -140,17 +140,21 @@ const connectDB = async (retries = 3, delay = 5000) => {
         attempt--; // Retry on same attempt
         continue;
       } else if ((error.message.includes('getaddrinfo ENOTFOUND') || error.message.includes('ENOTFOUND')) && useDirectConnection) {
-        // All direct connection attempts failed with DNS errors - cluster is likely paused
-        console.error('⏸️  CLUSTER LIKELY PAUSED - All DNS resolutions failed:');
-        console.error('   🔴 This usually means your MongoDB Atlas cluster is PAUSED');
-        console.error('   📋 Steps to fix:');
-        console.error('      1. Go to https://cloud.mongodb.com');
-        console.error('      2. Navigate to your cluster (Database → Clusters)');
-        console.error('      3. Look for a "Resume" button if cluster shows "Paused"');
-        console.error('      4. Click "Resume" to wake up your cluster');
-        console.error('      5. Wait 1-2 minutes for the cluster to fully start');
-        console.error('   💡 Free tier clusters auto-pause after 1 week of inactivity');
-        console.error('   🔗 Direct link: https://cloud.mongodb.com/v2#/clusters');
+        // All direct connection attempts failed with DNS errors
+        console.error('🔍 DNS RESOLUTION FAILED - Cannot resolve MongoDB Atlas hostnames:');
+        console.error('   This can be: (A) Cluster paused, or (B) Network/DNS blocking *.mongodb.net');
+        console.error('');
+        console.error('   📋 Fix A – Resume cluster (free tier auto-pauses):');
+        console.error('      1. Go to https://cloud.mongodb.com/v2#/clusters');
+        console.error('      2. If cluster shows "Paused", click "Resume"');
+        console.error('      3. Wait 1–2 minutes, then restart your server');
+        console.error('');
+        console.error('   📋 Fix B – Fix DNS / network:');
+        console.error('      1. Try Google DNS: Windows → Network → Adapter → IPv4 → DNS 8.8.8.8, 8.8.4.4');
+        console.error('      2. Or Cloudflare DNS: 1.1.1.1, 1.0.0.1');
+        console.error('      3. Disable VPN/proxy if you use one (they often block Atlas)');
+        console.error('      4. Try another network (e.g. phone hotspot) to confirm');
+        console.error('   🔗 Atlas clusters: https://cloud.mongodb.com/v2#/clusters');
       } else if (error.message.includes('whitelist') || error.message.includes('IP') || (error.message.includes('Could not connect') && error.message.includes('whitelist'))) {
         console.error('🚫 IP Whitelist / Network Access Error:');
         console.error('   ⚠️  Your IP address is NOT whitelisted in MongoDB Atlas');
@@ -197,9 +201,10 @@ const connectDB = async (retries = 3, delay = 5000) => {
         console.error('   → Ensure username and password are correct');
         console.error('   → Get fresh connection string from Atlas if needed');
         console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        console.error('\n💡 Most likely issue: Cluster is PAUSED (Step 1)');
-        console.error('   When all DNS lookups fail (ENOTFOUND), the cluster is usually paused');
-        console.error('   Resume the cluster first, then check IP whitelist if still failing');
+        console.error('\n💡 ENOTFOUND = DNS cannot resolve Atlas hostnames. Try in order:');
+        console.error('   1. Resume cluster at https://cloud.mongodb.com/v2#/clusters (free tier pauses after inactivity)');
+        console.error('   2. Switch DNS to 8.8.8.8 / 1.1.1.1; disable VPN/proxy');
+        console.error('   3. Add your IP to Atlas Network Access whitelist');
         process.exit(1);
       }
       
@@ -212,30 +217,26 @@ const connectDB = async (retries = 3, delay = 5000) => {
 
 const createDefaultAdmin = async () => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return; // 1 = connected; skip if connecting/disconnecting
+    }
     const Admin = require('../models/Admin');
-    const bcrypt = require('bcryptjs');
+    const adminEmail = (process.env.ADMIN_EMAIL || '').trim().toLowerCase();
+    if (!adminEmail) return;
 
-    const existingAdmin = await Admin.findOne({ 
-      email: process.env.ADMIN_EMAIL 
-    });
-    
+    const existingAdmin = await Admin.findOne({ email: adminEmail });
     if (!existingAdmin) {
-      const hashedPassword = await bcrypt.hash(
-        process.env.ADMIN_PASSWORD || 'Admin@123', 
-        parseInt(process.env.BCRYPT_ROUNDS) || 12
-      );
-      
+      // Use plain password so Admin model pre('save') hashes it once
       const defaultAdmin = new Admin({
-        email: process.env.ADMIN_EMAIL,
-        password: hashedPassword,
+        email: adminEmail,
+        password: process.env.ADMIN_PASSWORD || 'Admin@123',
         role: 'admin',
         isActive: true,
         createdAt: new Date()
       });
-
       await defaultAdmin.save();
       console.log('👤 Default admin created successfully');
-      console.log(`📧 Email: ${process.env.ADMIN_EMAIL}`);
+      console.log(`📧 Email: ${adminEmail}`);
     } else {
       console.log('👤 Default admin already exists');
     }
@@ -267,4 +268,5 @@ process.on('SIGINT', async () => {
   }
 });
 
+connectDB.createDefaultAdmin = createDefaultAdmin;
 module.exports = connectDB;

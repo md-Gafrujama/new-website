@@ -19,7 +19,7 @@ class EmailService {
         secure: config.secure,
         user: emailUser ? emailUser.substring(0, 10) + '***' : 'not set',
         passwordLength: passwordLength,
-        passwordFormatValid: passwordLength === 16 && /^[a-z]{16}$/.test(process.env.EMAIL_PASSWORD?.trim() || '')
+        passwordFormatValid: passwordLength === 16 && /^[a-z0-9]{16}$/.test((process.env.EMAIL_PASSWORD?.trim() || '').replace(/\s/g, ''))
       });
       
       this.transporter = nodemailer.createTransport(config);
@@ -61,25 +61,28 @@ class EmailService {
       console.log(`   - Password length: ${emailPassword.length}`);
       console.log(`   - Password has spaces: ${emailPassword.includes(' ')}`);
       console.log(`   - Password starts/ends with quotes: ${/^["']|["']$/.test(process.env.EMAIL_PASSWORD || '')}`);
-      console.log(`   - Password format (16 lowercase): ${/^[a-z]{16}$/.test(emailPassword)}`);
+      console.log(`   - Password format (16 chars, no spaces): ${/^[a-z0-9]{16}$/.test(emailPassword)}`);
     }
     
-    // Gmail specific configuration
+    // Gmail: use port 587 with STARTTLS (recommended). App Password required (2FA).
     const config = {
-      service: 'gmail', // Use Gmail service
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      requireTLS: true,
       auth: {
         user: emailUser,
         pass: emailPassword
       },
       tls: {
-        rejectUnauthorized: false
+        rejectUnauthorized: true,
+        minVersion: 'TLSv1.2'
       }
     };
 
-    // Add debug logging for development
     if (process.env.NODE_ENV === 'development') {
-      config.debug = true;
       config.logger = true;
+      config.debug = true;
     }
 
     return config;
@@ -145,18 +148,13 @@ class EmailService {
   }
 
   async sendOTPEmail(email, otp, purpose = 'login') {
-    try {
-      console.log(`📧 Attempting to send OTP email to: ${email}`);
-      
+    const sendOnce = async () => {
       if (!this.transporter) {
-        console.log('🔄 Reinitializing transporter...');
         await this.initializeTransporter();
       }
-
       if (!this.transporter) {
         throw new Error('Email transporter initialization failed');
       }
-
       const mailOptions = {
         from: {
           name: process.env.EMAIL_FROM_NAME || 'Admin System',
@@ -167,15 +165,23 @@ class EmailService {
         html: this.getOTPTemplate(otp, purpose),
         text: this.getOTPTextContent(otp, purpose)
       };
+      return this.transporter.sendMail(mailOptions);
+    };
 
-      console.log('📤 Mail options:', {
-        from: mailOptions.from,
-        to: mailOptions.to,
-        subject: mailOptions.subject
-      });
+    try {
+      console.log(`📧 Sending OTP email to: ${email}`);
+      
+      let result;
+      try {
+        result = await sendOnce();
+      } catch (firstError) {
+        console.warn('⚠️ First send failed, retrying once...', firstError.message);
+        this.transporter = null;
+        result = await sendOnce();
+      }
 
-      const result = await this.transporter.sendMail(mailOptions);
-      console.log('✅ OTP email sent successfully:', result.messageId);
+      console.log('✅ OTP email sent successfully. MessageId:', result.messageId);
+      console.log('📬 Check inbox (and spam/junk) for:', email);
       
       return {
         success: true,
@@ -198,7 +204,7 @@ class EmailService {
         console.error(`   - Email User: ${emailUser}`);
         console.error(`   - Password Length: ${emailPassword.length} characters`);
         console.error(`   - Expected: 16 characters (Gmail App Password)`);
-        console.error(`   - Password Format Valid: ${/^[a-z]{16}$/.test(emailPassword) ? '✅ Yes' : '❌ No (should be 16 lowercase letters)'}`);
+        console.error(`   - Password Format Valid: ${/^[a-z0-9]{16}$/.test(emailPassword) ? '✅ Yes' : '❌ No (should be 16-character App Password, no spaces)'}`);
         console.error(`   - Has Spaces: ${emailPassword.includes(' ') ? '❌ Yes (remove spaces)' : '✅ No'}`);
         console.error(`   - Has Quotes: ${/^["']|["']$/.test(process.env.EMAIL_PASSWORD || '') ? '❌ Yes (remove quotes)' : '✅ No'}`);
         console.error('');
